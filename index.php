@@ -135,7 +135,7 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
                         <li><a href="registro.php" ...>Registro / Iniciar Sesión</a></li> <!-- Apunta a registro.php -->
                     <?php else: ?>
                         <li class="text-gray-700 dark:text-gray-300">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></li>
-                        <li><a href="backend/logout.php" ...>Cerrar Sesión</a></li> <!-- Apunta a logout.php -->
+                        <li><a href="mediagenda-backend/logout.php" ...>Cerrar Sesión</a></li> <!-- Apunta a logout.php -->
                     <?php endif; ?>
 
 
