@@ -230,7 +230,7 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         <div class="relative container mx-auto">
             <h2 class="text-3xl font-semibold mb-4 text-center text-white dark:text-white">Nuestros Doctores</h2>
-            <p class="text-gray-600 mb-12 text-center text-white dark:text-gray-300">Conozca a nuestros doctores.</p>
+            <p class="mb-12 text-center text-white dark:text-gray-300">Conozca a nuestros doctores.</p>
             <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-lg text-center">
                     <h3 class="text-xl font-semibold dark:text-white">Dr. Juan Pérez</h3>
@@ -256,7 +256,7 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
         <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         <div class="relative container mx-auto">
             <h2 class="text-3xl font-semibold mb-4 text-center text-white dark:text-white">Testimonios de Usuarios</h2>
-            <p class="text-gray-600 mb-12 text-center text-white dark:text-gray-300">Escucha lo que nuestros usuarios dicen sobre
+            <p class="mb-12 text-center text-white dark:text-gray-300">Escucha lo que nuestros usuarios dicen sobre
                 MediAgenda.</p>
             <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-lg">
