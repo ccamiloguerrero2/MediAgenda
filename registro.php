@@ -83,7 +83,7 @@ $idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es nece
                         <!-- Mostrar nombre y botón de cerrar sesión si está logueado -->
                         <li class="text-gray-700 dark:text-gray-300">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></li>
                         <li>
-                            <a href="mediagenda-backend/logout.php"
+                            <a href="backend/logout.php"
                                 class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md transition duration-200 text-sm">
                                 Cerrar Sesión
                             </a>
@@ -121,7 +121,7 @@ $idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es nece
                 <button data-target="register-doctor" class="tab-button block w-full text-left px-6 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-700">Registro Médico</button>
             <?php else: ?>
                 <span class="block px-6 py-2 text-gray-500 dark:text-gray-400">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></span>
-                <a href="mediagenda-backend/logout.php" class="block px-6 py-2 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-gray-700">Cerrar Sesión</a>
+                <a href="backend/logout.php" class="block px-6 py-2 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-gray-700">Cerrar Sesión</a>
                 <!-- Opcional: Enlace al panel correspondiente -->
                 <?php
                 $panelLink = 'index.php'; // Default fallback
@@ -161,7 +161,7 @@ $idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es nece
                         <a href="<?php echo $panelLink; ?>" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-md transition duration-200">
                             Ir a mi Panel
                         </a>
-                        <a href="mediagenda-backend/logout.php" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-5 rounded-md transition duration-200">
+                        <a href="backend/logout.php" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-5 rounded-md transition duration-200">
                             Cerrar Sesión
                         </a>
                     </div>
