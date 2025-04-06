@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediAgenda - Noticias y Blog</title>
+
+    <!-- Enlaces a Tailwind CSS y bibliotecas de íconos -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="dist/output.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="font-sans antialiased transition-colors duration-300 dark:bg-gray-900 dark:text-white">
+
+    <!-- Header con logo y navegación -->
+    <header class="bg-white bg-opacity-80 shadow-md sticky top-0 z-50 dark:bg-gray-800">
+        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+            <div class="flex items-center gap-2">
+                <a href="/index.php">
+                    <img src="logo.png" alt="MediAgenda Logo" class="w-10 h-10">
+                </a>
+                <span class="text-xl font-bold text-blue-600 dark:text-blue-300">MediAgenda - Noticias y Blog</span>
+            </div>
+            <nav>
+                <!-- Navegación entre secciones de noticias y blog -->
+                <ul id="nav-links" class="hidden lg:flex gap-6">
+                    <li><a href="#news" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Noticias</a></li>
+                    <li><a href="#blog" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Blog de Salud</a></li>
+                </ul>
+            </nav>
+            <!-- Botón para cambiar a modo oscuro -->
+            <button id="dark-mode-toggle" class="text-blue-600">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto py-10 px-6">
+
+        <!-- Sección de Noticias -->
+        <section id="news" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Noticias sobre Salud y Servicios Médicos</h2>
+            <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
+                <!-- Actualizaciones sobre servicios -->
+                <h3 class="text-lg font-semibold mb-2">Actualizaciones sobre Servicios Ofrecidos</h3>
+                <article class="mt-4">
+                    <h4 class="text-xl font-bold dark:text-white">Nuevo Servicio de Telemedicina</h4>
+                    <p class="text-gray-600 dark:text-gray-300">A partir del próximo mes, MediAgenda ofrecerá servicios de telemedicina para todos nuestros pacientes, permitiendo consultas desde la comodidad de su hogar.</p>
+                </article>
+                <article class="mt-4">
+                    <h4 class="text-xl font-bold dark:text-white">Ampliación de Servicios de Urgencias</h4>
+                    <p class="text-gray-600 dark:text-gray-300">Nos complace anunciar la ampliación de nuestro departamento de urgencias, con nuevos equipos y personal especializado para mejorar la atención a nuestros pacientes.</p>
+                </article>
+            </div>
+
+            <!-- Noticias sobre doctores y especialidades -->
+            <div class="mt-6 bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
+                <h3 class="text-lg font-semibold mb-2">Nuevas Especialidades y Doctores</h3>
+                <article class="mt-4">
+                    <h4 class="text-xl font-bold dark:text-white">Incorporación de la Dra. Ana Gómez - Dermatología</h4>
+                    <p class="text-gray-600 dark:text-gray-300">Damos la bienvenida a la Dra. Ana Gómez, especialista en dermatología con más de 10 años de experiencia, quien comenzará a atender pacientes a partir del 15 de noviembre.</p>
+                </article>
+                <article class="mt-4">
+                    <h4 class="text-xl font-bold dark:text-white">Nueva Especialidad: Endocrinología</h4>
+                    <p class="text-gray-600 dark:text-gray-300">Nos complace anunciar la incorporación de la especialidad de endocrinología a nuestro equipo médico. El Dr. Juan Pérez, especialista en este campo, estará disponible para consultas desde diciembre.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Sección de Blog -->
+        <section id="blog">
+            <h2 class="text-2xl font-bold mb-4">Blog de Consejos de Salud</h2>
+            <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
+                <!-- Artículos sobre salud y bienestar -->
+                <h3 class="text-lg font-semibold mb-2">Artículos sobre Salud y Bienestar</h3>
+                <article class="mt-4">
+                    <h4 class="text-xl font-bold dark:text-white">Cómo Mantener un Corazón Saludable</h4>
+                    <p class="text-gray-600 dark:text-gray-300">En este artículo te ofrecemos algunos consejos sencillos para mantener tu corazón saludable, incluyendo recomendaciones de alimentación y ejercicio físico.</p>
+                </article>
+                <article class="mt-4">
+                    <h4 class="text-xl font-bold dark:text-white">La Importancia de las Revisiones Médicas Regulares</h4>
+                    <p class="text-gray-600 dark:text-gray-300">Las revisiones médicas periódicas pueden prevenir enfermedades graves. Descubre por qué es importante programar consultas regulares con tu médico de confianza.</p>
+                </article>
+            </div>
+
+            <!-- Consejos para pacientes -->
+            <div class="mt-6 bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
+                <h3 class="text-lg font-semibold mb-2">Consejos para Pacientes sobre Cómo Preparar Citas Médicas</h3>
+                <article class="mt-4">
+                    <h4 class="text-xl font-bold dark:text-white">Qué Llevar a tu Cita Médica</h4>
+                    <p class="text-gray-600 dark:text-gray-300">Prepárate para tu próxima cita médica con estos simples consejos. Asegúrate de llevar tus documentos médicos y un listado de síntomas para aprovechar al máximo tu consulta.</p>
+                </article>
+                <article class="mt-4">
+                    <h4 class="text-xl font-bold dark:text-white">Cómo Aprovechar Mejor el Tiempo con tu Doctor</h4>
+                    <p class="text-gray-600 dark:text-gray-300">Durante una consulta médica, es importante ser claro y específico con tus preguntas. Aquí te mostramos cómo puedes comunicarte mejor con tu médico para obtener un diagnóstico acertado.</p>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-800 py-6 mt-10">
+        <div class="container mx-auto text-center text-gray-600 dark:text-gray-300">
+            MediAgenda - Todos los derechos reservados 2024.
+        </div>
+    </footer>
+
+    <!-- Enlace al archivo JavaScript -->
+    <script src="scripts.js"></script>
+</body>
+
+</html>

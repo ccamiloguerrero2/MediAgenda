@@ -1,0 +1,8 @@
+node_modules/
+xampp/
+webalizer/
+*.log
+*.txt
+.env
+*.lock
+.DS_Store

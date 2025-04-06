@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediAgenda - Políticas y Legalidad</title>
+
+    <!-- Enlaces a Tailwind CSS y bibliotecas de íconos -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="dist/output.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body class="font-sans antialiased transition-colors duration-300 dark:bg-gray-900 dark:text-white">
+
+    <!-- Header con logo y navegación -->
+    <header class="bg-white bg-opacity-80 shadow-md sticky top-0 z-50 dark:bg-gray-800">
+        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+            <div class="flex items-center gap-2">
+                <a href="/index.php">
+                    <img src="logo.png" alt="MediAgenda Logo" class="w-10 h-10">
+                </a>
+                <span class="text-xl font-bold text-blue-600 dark:text-blue-300">MediAgenda - Políticas y Legalidad</span>
+            </div>
+            <nav>
+                <!-- Navegación entre secciones de política y legalidad -->
+                <ul id="nav-links" class="hidden lg:flex gap-6">
+                    <li><a href="#privacy-policy" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Política de Privacidad</a></li>
+                    <li><a href="#terms" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Términos y Condiciones</a></li>
+                    <li><a href="#consent" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Consentimientos Médicos</a></li>
+                </ul>
+            </nav>
+            <!-- Botón para cambiar a modo oscuro -->
+            <button id="dark-mode-toggle" class="text-blue-600">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto py-10 px-6">
+
+        <!-- Sección de Política de Privacidad -->
+        <section id="privacy-policy" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Política de Privacidad</h2>
+            <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
+                <!-- Explicación de recopilación y uso de información -->
+                <p class="text-gray-600 dark:text-gray-300 mb-4">En MediAgenda, valoramos su privacidad. Esta política de privacidad explica cómo recopilamos, usamos y protegemos su información personal.</p>
+                <h3 class="text-lg font-semibold mb-2">Recopilación de Información</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Recopilamos información personal que usted nos proporciona voluntariamente, incluyendo su nombre, dirección de correo electrónico, número de teléfono y otra información relevante para su atención médica.</p>
+                <h3 class="text-lg font-semibold mb-2">Uso de la Información</h3>
+                <p class="text-gray-600 dark:text-gray-300">Usamos su información para agendar citas, enviarle recordatorios y mejorar su experiencia en MediAgenda.</p>
+            </div>
+        </section>
+
+        <!-- Sección de Términos y Condiciones -->
+        <section id="terms" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Términos y Condiciones</h2>
+            <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
+                <!-- Explicación del uso del servicio y responsabilidades -->
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Estos términos y condiciones establecen las normas para el uso del servicio MediAgenda. Al utilizar nuestra plataforma, usted acepta estos términos.</p>
+                <h3 class="text-lg font-semibold mb-2">Uso del Servicio</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Usted se compromete a utilizar nuestro servicio solo con fines legales y a no infringir los derechos de otros usuarios o terceros.</p>
+                <h3 class="text-lg font-semibold mb-2">Responsabilidades</h3>
+                <p class="text-gray-600 dark:text-gray-300">MediAgenda no será responsable por problemas que surjan del uso inapropiado de la plataforma o la falta de disponibilidad del servicio en ciertos momentos.</p>
+            </div>
+        </section>
+
+        <!-- Sección de Consentimientos Médicos -->
+        <section id="consent">
+            <h2 class="text-2xl font-bold mb-4">Gestión de Consentimientos Médicos Electrónicos</h2>
+            <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
+                <!-- Información sobre firma electrónica y protección de datos -->
+                <p class="text-gray-600 dark:text-gray-300 mb-4">MediAgenda le permite firmar electrónicamente consentimientos médicos para facilitar su atención médica y agilizar procesos administrativos.</p>
+                <h3 class="text-lg font-semibold mb-2">Proceso de Firma Electrónica</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">Antes de cada consulta o procedimiento, se le solicitará que firme electrónicamente un consentimiento médico que autorice al personal médico a realizar el tratamiento necesario.</p>
+                <h3 class="text-lg font-semibold mb-2">Protección de Datos</h3>
+                <p class="text-gray-600 dark:text-gray-300">Su firma y toda la información relacionada con los consentimientos médicos están protegidas de acuerdo con nuestra política de privacidad y las leyes de protección de datos aplicables.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-gray-800 py-6 mt-10">
+        <div class="container mx-auto text-center text-gray-600 dark:text-gray-300">
+            MediAgenda - Todos los derechos reservados 2024.
+        </div>
+    </footer>
+
+ <!-- Área para mostrar notificaciones -->
+ <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
+
+ <!-- Enlace al archivo JavaScript -->
+ <script src="scripts.js"></script>
+
+</body>
+</html>
