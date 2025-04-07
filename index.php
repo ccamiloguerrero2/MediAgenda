@@ -21,7 +21,7 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
     <style>
         /* Estilos para el efecto Parallax en distintas secciones */
         .parallax {
-            background-image: url('/img/Fondoini1');
+            background-image: url('/img/Fondoini1.jpeg');
             height: 100vh;
             background-attachment: fixed;
             background-position: center;
