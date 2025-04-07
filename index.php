@@ -21,7 +21,7 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
     <style>
         /* Estilos para el efecto Parallax en distintas secciones */
         .parallax {
-            background-image: url('Fondoini1.jpeg');
+            background-image: url('/img/Fondoini1');
             height: 100vh;
             background-attachment: fixed;
             background-position: center;
@@ -31,7 +31,7 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
         }
 
         .parallax-doctors {
-            background-image: url('Fondoini2.jpeg');
+            background-image: url('/img/Fondoini2.jpeg');
             height: 100vh;
             background-attachment: fixed;
             background-position: center;
@@ -41,7 +41,7 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
         }
 
         .parallax-testimonials {
-            background-image: url('Fondoini3.png');
+            background-image: url('/img/Fondoini3.png');
             height: 100vh;
             background-attachment: fixed;
             background-position: center;
