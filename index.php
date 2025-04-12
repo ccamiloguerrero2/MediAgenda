@@ -97,20 +97,11 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
                     </li>
 
                     <!-- Submenú Noticias y Blog -->
-                    <li class="relative group">
-                        <a href="#"
-                            class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">
-                            Noticias y Blog
+                    <li>
+                        <a href="blog.html"
+                           class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">
+                           Blog
                         </a>
-                        <ul
-                            class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg mt-2 transition-all duration-700 ease-in-out">
-                            <li><a href="blog.html"
-                                    class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Blog
-                                    de Salud</a></li>
-                            <li><a href="noticias.html"
-                                    class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Noticias</a>
-                            </li>
-                        </ul>
                     </li>
 
                     <!-- Submenú Ayuda -->
