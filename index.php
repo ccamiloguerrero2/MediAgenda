@@ -66,7 +66,7 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
                 <span class="text-xl font-bold text-blue-600 dark:text-blue-300">MediAgenda</span>
             </div>
 
-            <!-- Menú de navegación con submenús -->
+            <!-- Menú de navegación de ESCRITORIO con submenús -->
             <nav>
                 <ul id="nav-links" class="hidden lg:flex gap-6 items-center">
                     <li><a href="index.php"
@@ -132,12 +132,11 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
 
                     <!-- Condicionalmente mostrar "Registro / Iniciar Sesión" o "Cerrar Sesión" -->
                     <?php if (!$loggedIn): ?>
-                        <li><a href="registro.php" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Registro / Iniciar Sesión</a></li> <!-- Apunta a registro.php -->
+                        <li><a href="registro.php" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Registro / Iniciar Sesión</a></li>
                     <?php else: ?>
                         <li class="text-gray-700 dark:text-gray-300 px-4 py-2">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></li>
-                        <li><a href="mediagenda-backend/logout.php" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Cerrar Sesión</a></li> <!-- Apunta a logout.php -->
+                        <li><a href="mediagenda-backend/logout.php" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Cerrar Sesión</a></li>
                     <?php endif; ?>
-
 
                     <!-- Botón de agendar cita -->
                     <li><a href="#agenda"
@@ -146,17 +145,41 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
                 </ul>
             </nav>
 
-            <!-- Botón de modo oscuro y menú hamburguesa -->
-            <button id="dark-mode-toggle" class="cta-button text-blue-600">
-                <i class="fas fa-moon text-2xl"></i>
-            </button>
-            <div class="hamburger-menu lg:hidden flex flex-col gap-1 cursor-pointer" id="hamburger-menu">
-                <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
-                <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
-                <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
+            <!-- Contenedor para botones derechos (modo oscuro y hamburguesa) -->
+            <div class="flex items-center gap-4">
+                 <button id="dark-mode-toggle" class="cta-button text-blue-600">
+                    <i class="fas fa-moon text-2xl"></i>
+                 </button>
+                 <div class="hamburger-menu lg:hidden flex flex-col gap-1 cursor-pointer" id="hamburger-menu">
+                    <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
+                    <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
+                    <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
+                 </div>
             </div>
+
         </div>
     </header>
+
+     <!-- Contenedor del MENÚ MÓVIL -->
+     <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-gray-800 shadow-lg py-4">
+         <ul class="flex flex-col items-center gap-4">
+             <li><a href="index.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Inicio</a></li>
+             <li><a href="perfil-usuario.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Pacientes</a></li>
+             <li><a href="perfil-doctores.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Doctores</a></li>
+             <li><a href="blog.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Blog</a></li>
+             <li><a href="contacto.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Contacto</a></li>
+             <li><a href="#agenda" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Agendar Cita</a></li>
+
+             <hr class="w-1/2 border-gray-300 dark:border-gray-600 my-2">
+
+             <?php if (!$loggedIn): ?>
+                 <li><a href="registro.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Registro / Iniciar Sesión</a></li>
+             <?php else: ?>
+                 <li class="text-gray-700 dark:text-gray-300 px-4 py-2">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></li>
+                 <li><a href="mediagenda-backend/logout.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Cerrar Sesión</a></li>
+             <?php endif; ?>
+         </ul>
+     </div>
 
     <!-- Sección Hero con efecto Parallax -->
     <section class="parallax">
@@ -301,18 +324,8 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
     <!-- Enlace al archivo de JavaScript para manejar las interacciones -->
     <script src="scripts.js"></script>
 
-
-
-    <!-- Footer (si tienes uno) -->
-    <footer class="...">
-        <!-- ... contenido del footer ... -->
-    </footer>
-
- <!-- Área para mostrar notificaciones -->
- <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
-
-<!-- Enlace al archivo JavaScript -->
-<script src="scripts.js"></script>
+    <!-- Área para mostrar notificaciones -->
+    <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
 
 </body>
 </html>
