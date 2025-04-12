@@ -92,7 +92,7 @@ $idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es nece
                         <!-- Mostrar botones/enlaces de Login/Registro si no está logueado -->
                         <!-- Usamos botones que activan las tabs vía JS -->
                         <li><button data-target="login" class="tab-button text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition font-medium">Iniciar Sesión</button></li>
-                        <li><button data-target="register-patient" class="tab-button bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 text-sm">Registrarse</button></li>
+                        <li><button data-target="register-patient" class="tab-button bg-blue-600 hover:bg-blue-700 text-white dark:text-white font-semibold py-2 px-4 rounded-md transition duration-200 text-sm">Registrarse</button></li>
                     <?php endif; ?>
                 </ul>
 
