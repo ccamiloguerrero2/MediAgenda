@@ -1,24 +1,27 @@
 // --- MediAgenda scripts.js (v3 - Con Historial, Pacientes Hoy, Notas Doctor) ---
 
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('[MediAgenda] Scripts inicializados (scripts.js).');
-
-    // ========================================================================
-    // == 1. CONFIGURACIÓN GLOBAL Y VARIABLES ===============================
-    // ========================================================================
-
-    const backendUrl = 'mediagenda-backend/';
-    const body = document.body;
-    let notificationArea = document.getElementById('notification-area');
-    let selectedCitaIdForNotes = null; // Panel Médico
-
-    // ========================================================================
-    // == 2. FUNCIONES AUXILIARES (HELPERS) ==================================
-    // ========================================================================
+// ========================================================================
+// == 1. CONFIGURACIÓN GLOBAL Y FUNCIONES AUXILIARES GLOBALES ============
+// ========================================================================
+const backendUrl = 'mediagenda-backend/';
+let notificationArea = null; // Inicializar como null, buscarla en DOMContentLoaded o en showNotification
 
 // --- Función para Mostrar Notificaciones ---
 function showNotification(message, type = 'info') {
-    if (!notificationArea) { console.error("Área de notificación no encontrada."); alert(message); return; }
+    // Buscar el área cada vez o si es null, asegurando que exista cuando se llame
+    if (!notificationArea) {
+        notificationArea = document.getElementById('notification-area');
+    }
+    // Si aún no existe y el body sí, crearla (opcional, pero puede ser útil si se llama muy temprano)
+    if (!notificationArea && document.body) {
+         console.warn("[showNotification] Área de notificación no encontrada, intentando crearla.");
+         notificationArea = document.createElement('div'); notificationArea.id = 'notification-area';
+         notificationArea.className = 'fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm';
+         document.body.appendChild(notificationArea);
+    }
+    // Si sigue sin existir (p.ej. body no listo), mostrar alerta como fallback
+    if (!notificationArea) { console.error("Área de notificación no encontrada y no se pudo crear."); alert(message); return; }
+
     const notification = document.createElement('div'); notification.textContent = message;
     let baseClasses = 'px-4 py-3 rounded-md shadow-lg text-sm font-medium animate-fade-in'; let typeClasses = '';
     switch (type) {
@@ -34,57 +37,95 @@ function showNotification(message, type = 'info') {
 // --- Función Auxiliar para Fetch ---
 async function fetchData(url, options = {}) {
     try {
+        // backendUrl ahora es global
         const response = await fetch(backendUrl + url, options);
         if (!response.ok) { let eD = { m: `HTTP ${response.status}`, c: response.status }; try { const eJ = await response.json(); eD.m = eJ.message||eD.m; } catch (e) {} const err = new Error(eD.m); err.code = eD.c; console.error(`[Fetch] Error ${err.code||''}: ${err.message} en ${url}`); throw err; }
         if (response.status === 204) return null; return await response.json();
     } catch (error) {
+        // showNotification ahora es global
         if (!error.code && !(error instanceof SyntaxError)) { console.error('[Fetch] Error Red:', error); showNotification('Error comunicación.', 'error'); throw new Error('Error comunicación.'); }
         else if (error instanceof SyntaxError) { console.error('[Fetch] JSON inválido:', error); showNotification('Respuesta inválida.', 'error'); throw new Error('Respuesta inválida.'); }
         else { showNotification(`Error: ${error.message || '?'}`, 'error'); throw error; }
     }
 }
 
-// --- Helper para Manejo de Formularios ---
-function handleFormSubmit(formSelector, phpScript, successCallback) {
-    const form = document.querySelector(formSelector); if (!form) return;
-    // console.log(`[Form] Listener para ${formSelector}`); // Log reducido
-    const btn = form.querySelector('button[type="submit"]'); const btnTxt = btn ? btn.textContent : 'Enviar';
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault(); console.log(`%c[Submit] ${formSelector} -> ${phpScript}`, 'color:orange;');
-        const fd = new FormData(form); setLoadingState(form, true, 'Enviando...');
-        try {
-            const data = await fetchData(phpScript, { method: 'POST', body: fd }); console.log(`[Submit] Resp ${phpScript}:`, data);
-            if (data?.success) { if (successCallback) successCallback(data, form); else showNotification(data.message || "Éxito.", 'success'); }
-            else if (data) { showNotification(data.message || "Error.", 'error'); }
-        } catch (err) { console.error(`[Submit] Catch ${formSelector}:`, err); }
-        finally { setLoadingState(form, false, btnTxt); }
-    });
-}
+// --- Helper para Rellenar Formularios ---
+function populateForm(form, data) { if (!form || !data) return; for (const k in data) { const f = form.querySelector(`[name="${k}"]`); if (f) f.value = data[k] ?? ''; } }
 
-    // --- Helpers UI ---
-    function populateForm(form, data) { if (!form || !data) return; for (const k in data) { const f = form.querySelector(`[name="${k}"]`); if (f) f.value = data[k] ?? ''; } }
-    function setLoadingState(form, isLoading, loadingText = 'Cargando...') { if (!form) return; const b = form.querySelector('button[type="submit"]'); if (!b) return; if (isLoading) { b.dataset.originalText = b.textContent; b.disabled = true; b.textContent = loadingText; } else { b.disabled = false; b.textContent = b.dataset.originalText || 'Enviar'; } }
-    function formatTime(t) { if (!t) return 'N/A'; try { return new Date(`1970-01-01T${t}`).toLocaleTimeString([], { hour:'2-digit',minute:'2-digit',hour12:true }); } catch(e){ return t; } }
-    function formatDate(d) { if (!d) return 'N/A'; try { return new Date(d+'T00:00:00').toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}); } catch(e){ return d; } }
-    function getEstadoClass(st) { const c = {'Programada':'bg-blue-100 ...','Confirmada':'bg-green-100 ...','Cancelada Paciente':'bg-red-100 ...','Cancelada Doctor':'bg-red-100 ...','Completada':'bg-gray-100 ...','No Asistió':'bg-yellow-100 ...'}; return c[st] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'; } // Clases abreviadas para brevedad
+// --- Helper para Estado de Carga de Botones ---
+function setLoadingState(form, isLoading, loadingText = 'Cargando...') { if (!form) return; const b = form.querySelector('button[type="submit"]'); if (!b) return; if (isLoading) { b.dataset.originalText = b.textContent; b.disabled = true; b.textContent = loadingText; } else { b.disabled = false; b.textContent = b.dataset.originalText || 'Enviar'; } }
+
+// --- Helper para Formatear Hora ---
+function formatTime(t) { if (!t) return 'N/A'; try { return new Date(`1970-01-01T${t}`).toLocaleTimeString([], { hour:'2-digit',minute:'2-digit',hour12:true }); } catch(e){ return t; } }
+
+// --- Helper para Formatear Fecha ---
+function formatDate(d) { if (!d) return 'N/A'; try { return new Date(d+'T00:00:00').toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}); } catch(e){ return d; } }
+
+// --- Helper para Clases de Estado CSS ---
+function getEstadoClass(st) { const c = {'Programada':'bg-blue-100 ...','Confirmada':'bg-green-100 ...','Cancelada Paciente':'bg-red-100 ...','Cancelada Doctor':'bg-red-100 ...','Completada':'bg-gray-100 ...','No Asistió':'bg-yellow-100 ...'}; return c[st] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'; } // Clases abreviadas para brevedad
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('[MediAgenda] Scripts inicializados (scripts.js).');
 
     // ========================================================================
-    // == 3. INICIALIZACIÓN UI COMÚN =========================================
+    // == 2. REFERENCIAS A ELEMENTOS DOM Y VARIABLES ESPECÍFICAS DEL ÁMBITO ==
     // ========================================================================
 
+    // notificationArea se busca/crea en showNotification o aquí si es necesario para otras cosas
+    notificationArea = document.getElementById('notification-area'); // Intentar obtenerla aquí también
+    const body = document.body;
+    let selectedCitaIdForNotes = null; // Panel Médico
 
-    if (!notificationArea && document.body) { notificationArea = document.createElement('div'); notificationArea.id = 'notification-area'; notificationArea.className = 'fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm'; document.body.appendChild(notificationArea); }
+
+    // ========================================================================
+    // == 3. FUNCIONES AUXILIARES ESPECÍFICAS DE ESTE ÁMBITO ==============
+    // ========================================================================
+
+    // --- Helper para Manejo de Formularios (Usa helpers globales) ---
+    function handleFormSubmit(formSelector, phpScript, successCallback) {
+        const form = document.querySelector(formSelector); if (!form) return;
+        const btn = form.querySelector('button[type="submit"]'); const btnTxt = btn ? btn.textContent : 'Enviar';
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); console.log(`%c[Submit] ${formSelector} -> ${phpScript}`, 'color:orange;');
+            const fd = new FormData(form);
+            setLoadingState(form, true, 'Enviando...'); // Usa helper global
+            try {
+                const data = await fetchData(phpScript, { method: 'POST', body: fd }); // Usa helper global
+                console.log(`[Submit] Resp ${phpScript}:`, data);
+                if (data?.success) { if (successCallback) successCallback(data, form); else showNotification(data.message || "Éxito.", 'success'); } // Usa helper global
+                else if (data) { showNotification(data.message || "Error.", 'error'); } // Usa helper global
+            } catch (err) { console.error(`[Submit] Catch ${formSelector}:`, err); /* Error ya notificado por fetchData */ }
+            finally { setLoadingState(form, false, btnTxt); } // Usa helper global
+        });
+    }
+
+    // --- Helpers UI (Específicos o que usan globales) ---
+    // Los formatters y getEstadoClass ya son globales
+
+    // ========================================================================
+    // == 4. INICIALIZACIÓN UI COMÚN =========================================
+    // ========================================================================
+
+    // Asegurar que el área de notificaciones exista si no fue creada por showNotification aún
+    if (!notificationArea && document.body) {
+        notificationArea = document.createElement('div');
+        notificationArea.id = 'notification-area';
+        notificationArea.className = 'fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm';
+        document.body.appendChild(notificationArea);
+        console.log("[Init UI] Área de notificaciones creada.");
+    }
+
+    // El resto de la inicialización UI (dark mode, hamburger, scroll, parallax, fade-in) permanece aquí
     const darkModeToggle = document.getElementById('dark-mode-toggle'); if (darkModeToggle) { const i=darkModeToggle.querySelector('i'); const a=d=>{body.classList.toggle('dark',d);if(i){i.classList.toggle('fa-sun',d);i.classList.toggle('fa-moon',!d);}localStorage.theme=d?'dark':'light';};const p=window.matchMedia('(prefers-color-scheme: dark)').matches;a(localStorage.theme==='dark'||(!localStorage.theme&&p));darkModeToggle.addEventListener('click',()=>a(!body.classList.contains('dark'))); }
     const hamburgerBtn = document.getElementById('hamburger-menu'); const mobileMenu = document.getElementById('mobile-menu'); if (hamburgerBtn && mobileMenu) { const s=hamburgerBtn.querySelectorAll('span'); hamburgerBtn.addEventListener('click',()=>{mobileMenu.classList.toggle('hidden');const o=hamburgerBtn.classList.toggle('open');if(s.length===3){s[0].style.transform=o?'rotate(45deg) translate(5px, 5px)':'';s[1].style.opacity=o?'0':'1';s[2].style.transform=o?'rotate(-45deg) translate(5px, -5px)':'';}}); mobileMenu.querySelectorAll('a, button').forEach(l=>l.addEventListener('click',()=>{if(l.tagName==='A'||l.hasAttribute('data-target'))closeMobileMenu();}));} function closeMobileMenu(){if(mobileMenu)mobileMenu.classList.add('hidden');if(hamburgerBtn){hamburgerBtn.classList.remove('open');const s=hamburgerBtn.querySelectorAll('span');if(s.length===3){s[0].style.transform='';s[1].style.opacity='1';s[2].style.transform='';}}}
     document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){const h=this.getAttribute('href');if(h&&h.length>1&&h!=='#'){try{const t=document.querySelector(h);if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}}catch(err){console.error(`Scroll err: ${h}`,err);}}});});
     const parallaxElems = document.querySelectorAll('.parallax, .parallax-doctors, .parallax-testimonials'); if(parallaxElems.length>0){window.addEventListener('scroll',()=>{let o=window.pageYOffset;parallaxElems.forEach(e=>{if(e.getBoundingClientRect){let s=0.5;e.style.backgroundPositionY=(o-e.offsetTop)*s+'px';}});},{passive:true});}
     const fadeInElems = document.querySelectorAll('.fade-in'); if(fadeInElems.length > 0 && 'IntersectionObserver' in window){const obs=new IntersectionObserver((e)=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');obs.unobserve(i.target);}});},{threshold:0.1}); fadeInElems.forEach(el=>obs.observe(el));}
 
-
     // ========================================================================
-    // == 4. LÓGICA ESPECÍFICA POR PÁGINA (ROUTING) ==========================
+    // == 5. LÓGICA ESPECÍFICA POR PÁGINA (ROUTING) ==========================
     // ========================================================================
-
 
     const currentPath = window.location.pathname;
     console.log(`[Routing] Path actual: ${currentPath}`);
@@ -121,9 +162,8 @@ function handleFormSubmit(formSelector, phpScript, successCallback) {
     // else if (currentPath.includes('panel-admin-sistema.html')) { ... }
     else { console.log('[Routing] Sin lógica específica para esta página en scripts.js.'); }
 
-
     // ========================================================================
-    // == 5. DEFINICIÓN DE FUNCIONES ESPECÍFICAS DE PANELES ===================
+    // == 6. DEFINICIÓN DE FUNCIONES ESPECÍFICAS DE PANELES ===================
     // ========================================================================
     /**
      * Crea el elemento LI para mostrar una cita en el panel del paciente.
@@ -168,13 +208,6 @@ function handleFormSubmit(formSelector, phpScript, successCallback) {
             </div>`;
         return li;
     }
-
-    /**
-     * Crea el elemento LI para mostrar una cita en el panel del médico.
-     * @param {object} cita - El objeto de datos de la cita.
-     * @returns {HTMLLIElement} El elemento LI creado.
-     */
-
 
     // --- Funciones Panel Paciente ---
     async function cargarDatosPerfilUsuario() { /* ... */ }
@@ -380,9 +413,8 @@ function handleFormSubmit(formSelector, phpScript, successCallback) {
         finally { setLoadingState(form, false, 'Guardar Notas'); }
     }
 
-
     // ========================================================================
-    // == 6. MANEJADORES DE EVENTOS DELEGADOS / FUNCIONES GLOBALES ==========
+    // == 7. MANEJADORES DE EVENTOS DELEGADOS / FUNCIONES GLOBALES ==========
     // ========================================================================
 
     async function cambiarEstadoCita(idCita, nuevoEstado) { /* ... */ console.log(`%c[Acción Cita] Solicitando: ${nuevoEstado} para cita ${idCita}`, 'color: teal;'); if (!confirm(`¿Cambiar estado a "${nuevoEstado}"?`)) return; try { const fd = new FormData(); fd.append('idCita', idCita); fd.append('nuevoEstado', nuevoEstado); const data = await fetchData('cambiar_estado_cita.php', { method: 'POST', body: fd }); if (data?.success) { showNotification(data.message || "Estado actualizado.", 'success'); if (currentPath.includes('perfil-doctores.html')) cargarCitasMedico(); if (currentPath.includes('perfil-usuario.html')) cargarCitasUsuario(); } } catch (error) { /* Handled */ } }
@@ -417,7 +449,7 @@ function handleFormSubmit(formSelector, phpScript, successCallback) {
     }
 
     // ========================================================================
-    // == 7. FINALIZACIÓN =====================================================
+    // == 8. FINALIZACIÓN =====================================================
     // ========================================================================
     console.log('[MediAgenda] Inicialización del script finalizada.');
 
