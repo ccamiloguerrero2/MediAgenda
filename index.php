@@ -68,7 +68,7 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
 
             <!-- Menú de navegación con submenús -->
             <nav>
-                <ul id="nav-links" class="hidden lg:flex gap-6">
+                <ul id="nav-links" class="hidden lg:flex gap-6 items-center">
                     <li><a href="index.php"
                             class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">Inicio</a>
                     </li>
@@ -132,10 +132,12 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
 
                     <!-- Condicionalmente mostrar "Registro / Iniciar Sesión" o "Cerrar Sesión" -->
                     <?php if (!$loggedIn): ?>
-                        <li><a href="registro.php" ...>Registro / Iniciar Sesión</a></li> <!-- Apunta a registro.php -->
+                        <li><a href="registro.php" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Registro / Iniciar Sesión</a></li>
                     <?php else: ?>
-                        <li class="text-gray-700 dark:text-gray-300">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></li>
-                        <li><a href="mediagenda-backend/logout.php" ...>Cerrar Sesión</a></li> <!-- Apunta a logout.php -->
+                        <li class="text-gray-700 dark:text-gray-300">
+                            <span class="px-4 py-2 inline-block">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></span>
+                        </li>
+                        <li><a href="mediagenda-backend/logout.php" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Cerrar Sesión</a></li>
                     <?php endif; ?>
 
 
