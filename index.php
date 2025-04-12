@@ -99,17 +99,8 @@ if ($loggedIn) {
                             Panel
                         </a>
                         <ul class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg mt-2 transition-all duration-700 ease-in-out min-w-max">
-                            <?php if ($rolUsuario === 'paciente'): ?>
-                                <li><a href="perfil-usuario.php" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel Paciente</a></li>
-                            <?php endif; ?>
-                            <?php if ($rolUsuario === 'medico'): ?>
-                                <li><a href="perfil-doctores.php" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel Doctor</a></li>
-                            <?php endif; ?>
-                            <?php if ($rolUsuario === 'admin'): ?>
-                                <li><a href="panel-admin-sistema.php" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel Admin</a></li>
-                            <?php endif; ?>
-                             <!-- Enlace a 'Mi Panel' genérico que lleva al panel correcto -->
-                             <li><a href="<?php echo $panelLink; ?>" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 font-semibold">Ir a mi Panel</a></li>
+                            <!-- Mantenemos solo el enlace genérico 'Ir a mi Panel' -->
+                            <li><a href="<?php echo $panelLink; ?>" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 font-semibold">Ir a mi Panel</a></li>
                         </ul>
                     </li>
                     <?php endif; ?>

@@ -35,11 +35,29 @@ document.addEventListener('DOMContentLoaded', function () {
     // == 3. LÓGICA ESPECÍFICA DEL PANEL ADMIN ===============================
     // ========================================================================
 
-    // --- Función para Renderizar la Tabla de Usuarios --- (Sin cambios, no usaba helpers directamente)
+    // --- Función para Renderizar la Tabla de Usuarios --- (Añadidas clases dark)
     function renderUserTable(usuarios) {
         if (!userTableBody) return; userTableBody.innerHTML = '';
         if (!usuarios || usuarios.length === 0) { userTableBody.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No hay usuarios.</td></tr>'; return; }
-        usuarios.forEach(user => { const row = userTableBody.insertRow(); row.innerHTML = `<td class="px-6 py-4 ...">${user.idUsuario}</td><td class="px-6 py-4 ...">${user.nombre}</td><td class="px-6 py-4 ...">${user.email}</td><td class="px-6 py-4 ...">${user.rol}</td><td class="px-6 py-4 ..."><button data-action="editar-usuario" data-id="${user.idUsuario}" class="text-indigo-600 ...">Editar</button><button data-action="eliminar-usuario" data-id="${user.idUsuario}" class="text-red-600 ... ml-2">Eliminar</button></td>`; }); // Clases abreviadas
+        usuarios.forEach(user => {
+            const row = userTableBody.insertRow();
+            // Clases abreviadas por brevedad, pero añadiendo dark: variants
+            const editButtonClasses = 'text-indigo-600 hover:text-indigo-900 dark:text-blue-400 dark:hover:text-blue-300';
+            const deleteButtonClasses = 'text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 ml-2';
+            const cellClasses = 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200';
+            const actionCellClasses = 'px-6 py-4 whitespace-nowrap text-right text-sm font-medium'; // Contenedor de botones
+
+            row.innerHTML = `
+                <td class="${cellClasses}">${user.idUsuario}</td>
+                <td class="${cellClasses}">${user.nombre}</td>
+                <td class="${cellClasses}">${user.email}</td>
+                <td class="${cellClasses}">${user.rol}</td>
+                <td class="${actionCellClasses}">
+                    <button data-action="editar-usuario" data-id="${user.idUsuario}" class="${editButtonClasses}">Editar</button>
+                    <button data-action="eliminar-usuario" data-id="${user.idUsuario}" class="${deleteButtonClasses}">Eliminar</button>
+                </td>
+            `;
+        });
     }
 
     // --- Función para Cargar la Lista de Usuarios --- (Ahora usa fetchData global)
