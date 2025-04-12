@@ -22,6 +22,7 @@ $idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es nece
     <link rel="stylesheet" href="dist/output.css"> <!-- Tu CSS compilado con Tailwind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <style>
         /* Estilos adicionales si son necesarios, por ejemplo, para la animación de la X del menú */
@@ -280,10 +281,8 @@ $idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es nece
         </div>
     </footer>
 
-    <!-- JavaScript (Importante que scripts.js esté al final y DESPUÉS del contenido HTML) -->
-
-
-    <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="scripts.js"></script>
 </body>
 </html>

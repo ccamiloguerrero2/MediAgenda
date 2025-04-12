@@ -4,45 +4,52 @@
 // == 1. CONFIGURACIÓN GLOBAL Y FUNCIONES AUXILIARES GLOBALES ============
 // ========================================================================
 const backendUrl = 'mediagenda-backend/';
-let notificationArea = null; // Inicializar como null, buscarla en DOMContentLoaded o en showNotification
+// let notificationArea = null; // Ya no es necesario
 
-// --- Función para Mostrar Notificaciones ---
+// --- Función para Mostrar Notificaciones (Modales Completos en Español) ---
 function showNotification(message, type = 'info') {
-    // Buscar el área cada vez o si es null, asegurando que exista cuando se llame
-    if (!notificationArea) {
-        notificationArea = document.getElementById('notification-area');
-    }
-    // Si aún no existe y el body sí, crearla (opcional, pero puede ser útil si se llama muy temprano)
-    if (!notificationArea && document.body) {
-         console.warn("[showNotification] Área de notificación no encontrada, intentando crearla.");
-         notificationArea = document.createElement('div'); notificationArea.id = 'notification-area';
-         notificationArea.className = 'fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm';
-         document.body.appendChild(notificationArea);
-    }
-    // Si sigue sin existir (p.ej. body no listo), mostrar alerta como fallback
-    if (!notificationArea) { console.error("Área de notificación no encontrada y no se pudo crear."); alert(message); return; }
+    let iconType = 'info';
+    let titleText = 'Información'; // Título por defecto en español
 
-    const notification = document.createElement('div'); notification.textContent = message;
-    let baseClasses = 'px-4 py-3 rounded-md shadow-lg text-sm font-medium animate-fade-in'; let typeClasses = '';
     switch (type) {
-        case 'success': typeClasses = 'bg-green-100 border border-green-300 text-green-800 dark:bg-green-900 dark:text-green-300 dark:border-green-700'; break;
-        case 'error': typeClasses = 'bg-red-100 border border-red-300 text-red-800 dark:bg-red-900 dark:text-red-300 dark:border-red-700'; break;
-        case 'warning': typeClasses = 'bg-yellow-100 border border-yellow-300 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 dark:border-yellow-700'; break;
-        default: typeClasses = 'bg-blue-100 border border-blue-300 text-blue-800 dark:bg-blue-900 dark:text-blue-300 dark:border-blue-700';
+        case 'success':
+            iconType = 'success';
+            titleText = 'Éxito';
+            break;
+        case 'error':
+            iconType = 'error';
+            titleText = 'Error';
+            break;
+        case 'warning':
+            iconType = 'warning';
+            titleText = 'Advertencia';
+            break;
+        // 'info' ya está configurado
     }
-    notification.className = `${baseClasses} ${typeClasses}`; notificationArea.appendChild(notification);
-    setTimeout(() => { notification.style.transition = 'opacity 0.5s ease-out'; notification.style.opacity = '0'; setTimeout(() => notification.remove(), 500); }, 5000);
+
+    Swal.fire({
+        icon: iconType,
+        title: titleText, // Título en español
+        text: message,
+        confirmButtonText: 'Aceptar', // Botón en español
+        // Mantenemos las otras opciones de modal completo
+        showConfirmButton: true,
+        customClass: {
+             // popup: 'dark:bg-gray-800', // Descomentar si necesitas estilos dark específicos
+             // title: 'dark:text-white',
+             // htmlContainer: 'dark:text-gray-300',
+             // confirmButton: 'bg-blue-600 hover:bg-blue-700 ...', // Puedes aplicar clases Tailwind al botón si quieres
+        },
+    });
 }
 
 // --- Función Auxiliar para Fetch ---
 async function fetchData(url, options = {}) {
     try {
-        // backendUrl ahora es global
         const response = await fetch(backendUrl + url, options);
         if (!response.ok) { let eD = { m: `HTTP ${response.status}`, c: response.status }; try { const eJ = await response.json(); eD.m = eJ.message||eD.m; } catch (e) {} const err = new Error(eD.m); err.code = eD.c; console.error(`[Fetch] Error ${err.code||''}: ${err.message} en ${url}`); throw err; }
         if (response.status === 204) return null; return await response.json();
     } catch (error) {
-        // showNotification ahora es global
         if (!error.code && !(error instanceof SyntaxError)) { console.error('[Fetch] Error Red:', error); showNotification('Error comunicación.', 'error'); throw new Error('Error comunicación.'); }
         else if (error instanceof SyntaxError) { console.error('[Fetch] JSON inválido:', error); showNotification('Respuesta inválida.', 'error'); throw new Error('Respuesta inválida.'); }
         else { showNotification(`Error: ${error.message || '?'}`, 'error'); throw error; }
@@ -72,8 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // == 2. REFERENCIAS A ELEMENTOS DOM Y VARIABLES ESPECÍFICAS DEL ÁMBITO ==
     // ========================================================================
 
-    // notificationArea se busca/crea en showNotification o aquí si es necesario para otras cosas
-    notificationArea = document.getElementById('notification-area'); // Intentar obtenerla aquí también
+    // notificationArea = document.getElementById('notification-area'); // Ya no es necesario
     const body = document.body;
     let selectedCitaIdForNotes = null; // Panel Médico
 
@@ -89,14 +95,14 @@ document.addEventListener('DOMContentLoaded', function () {
         form.addEventListener('submit', async (e) => {
             e.preventDefault(); console.log(`%c[Submit] ${formSelector} -> ${phpScript}`, 'color:orange;');
             const fd = new FormData(form);
-            setLoadingState(form, true, 'Enviando...'); // Usa helper global
+            setLoadingState(form, true, 'Enviando...');
             try {
-                const data = await fetchData(phpScript, { method: 'POST', body: fd }); // Usa helper global
+                const data = await fetchData(phpScript, { method: 'POST', body: fd });
                 console.log(`[Submit] Resp ${phpScript}:`, data);
-                if (data?.success) { if (successCallback) successCallback(data, form); else showNotification(data.message || "Éxito.", 'success'); } // Usa helper global
-                else if (data) { showNotification(data.message || "Error.", 'error'); } // Usa helper global
+                if (data?.success) { if (successCallback) successCallback(data, form); else showNotification(data.message || "Éxito.", 'success'); }
+                else if (data) { showNotification(data.message || "Error.", 'error'); }
             } catch (err) { console.error(`[Submit] Catch ${formSelector}:`, err); /* Error ya notificado por fetchData */ }
-            finally { setLoadingState(form, false, btnTxt); } // Usa helper global
+            finally { setLoadingState(form, false, btnTxt); }
         });
     }
 
@@ -107,14 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // == 4. INICIALIZACIÓN UI COMÚN =========================================
     // ========================================================================
 
-    // Asegurar que el área de notificaciones exista si no fue creada por showNotification aún
-    if (!notificationArea && document.body) {
-        notificationArea = document.createElement('div');
-        notificationArea.id = 'notification-area';
-        notificationArea.className = 'fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm';
-        document.body.appendChild(notificationArea);
-        console.log("[Init UI] Área de notificaciones creada.");
-    }
+    // if (!notificationArea && document.body) { ... } // Ya no es necesario crear el div
 
     // El resto de la inicialización UI (dark mode, hamburger, scroll, parallax, fade-in) permanece aquí
     const darkModeToggle = document.getElementById('dark-mode-toggle'); if (darkModeToggle) { const i=darkModeToggle.querySelector('i'); const a=d=>{body.classList.toggle('dark',d);if(i){i.classList.toggle('fa-sun',d);i.classList.toggle('fa-moon',!d);}localStorage.theme=d?'dark':'light';};const p=window.matchMedia('(prefers-color-scheme: dark)').matches;a(localStorage.theme==='dark'||(!localStorage.theme&&p));darkModeToggle.addEventListener('click',()=>a(!body.classList.contains('dark'))); }
@@ -417,7 +416,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // == 7. MANEJADORES DE EVENTOS DELEGADOS / FUNCIONES GLOBALES ==========
     // ========================================================================
 
-    async function cambiarEstadoCita(idCita, nuevoEstado) { /* ... */ console.log(`%c[Acción Cita] Solicitando: ${nuevoEstado} para cita ${idCita}`, 'color: teal;'); if (!confirm(`¿Cambiar estado a "${nuevoEstado}"?`)) return; try { const fd = new FormData(); fd.append('idCita', idCita); fd.append('nuevoEstado', nuevoEstado); const data = await fetchData('cambiar_estado_cita.php', { method: 'POST', body: fd }); if (data?.success) { showNotification(data.message || "Estado actualizado.", 'success'); if (currentPath.includes('perfil-doctores.html')) cargarCitasMedico(); if (currentPath.includes('perfil-usuario.html')) cargarCitasUsuario(); } } catch (error) { /* Handled */ } }
+    async function cambiarEstadoCita(idCita, nuevoEstado) {
+         console.log(`%c[Acción Cita] Solicitando: ${nuevoEstado} para cita ${idCita}`, 'color: teal;');
+         // TODO: Reemplazar confirm con Swal.fire
+         if (!confirm(`¿Cambiar estado a "${nuevoEstado}"?`)) return;
+         try {
+             const fd = new FormData(); fd.append('idCita', idCita); fd.append('nuevoEstado', nuevoEstado);
+             const data = await fetchData('cambiar_estado_cita.php', { method: 'POST', body: fd });
+             if (data?.success) { showNotification(data.message || "Estado actualizado.", 'success'); if (currentPath.includes('perfil-doctores.html')) cargarCitasMedico(); if (currentPath.includes('perfil-usuario.html')) cargarCitasUsuario(); }
+         } catch (error) { /* Handled */ }
+     }
 
     function attachCitaActionListeners(containerSelector) {
         const container = document.querySelector(containerSelector); if (!container) return;
