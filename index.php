@@ -2,6 +2,25 @@
 session_start();
 $loggedIn = isset($_SESSION['idUsuario']) && !empty($_SESSION['idUsuario']);
 $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
+// Obtener el rol del usuario si está logueado, en minúsculas para comparación
+$rolUsuario = $loggedIn ? strtolower($_SESSION['rolUsuario'] ?? '') : '';
+
+// Determinar el enlace del panel correcto
+$panelLink = 'index.php'; // Fallback
+if ($loggedIn) {
+    switch ($rolUsuario) {
+        case 'paciente':
+            $panelLink = 'perfil-usuario.php';
+            break;
+        case 'medico':
+            $panelLink = 'perfil-doctores.php';
+            break;
+        case 'admin':
+            $panelLink = 'panel-admin-sistema.php';
+            break;
+        // No hay caso para recepcionista
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -73,28 +92,27 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
                             class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">Inicio</a>
                     </li>
 
-                    <!-- Submenú Usuarios -->
+                    <!-- Submenú Usuarios - Visible solo si está logueado -->
+                    <?php if ($loggedIn): ?>
                     <li class="relative group">
-                        <a href="#"
-                            class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">
-                            Usuarios
+                        <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">
+                            Panel
                         </a>
-                        <ul
-                            class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg mt-2 transition-all duration-700 ease-in-out">
-                            <li><a href="perfil-usuario.php"
-                                    class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel
-                                    Pacientes</a></li>
-                            <li><a href="perfil-doctores.php"
-                                    class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel
-                                    Doctores</a></li>
-                            <li><a href="panel-admin-recepcionista.html"
-                                    class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel
-                                    Recepcionista</a></li>
-                            <li><a href="panel-admin-sistema.php"
-                                    class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel
-                                    Administrativo</a></li>
+                        <ul class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg mt-2 transition-all duration-700 ease-in-out min-w-max">
+                            <?php if ($rolUsuario === 'paciente'): ?>
+                                <li><a href="perfil-usuario.php" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel Paciente</a></li>
+                            <?php endif; ?>
+                            <?php if ($rolUsuario === 'medico'): ?>
+                                <li><a href="perfil-doctores.php" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel Doctor</a></li>
+                            <?php endif; ?>
+                            <?php if ($rolUsuario === 'admin'): ?>
+                                <li><a href="panel-admin-sistema.php" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel Admin</a></li>
+                            <?php endif; ?>
+                             <!-- Enlace a 'Mi Panel' genérico que lleva al panel correcto -->
+                             <li><a href="<?php echo $panelLink; ?>" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 font-semibold">Ir a mi Panel</a></li>
                         </ul>
                     </li>
+                    <?php endif; ?>
 
                     <!-- Submenú Noticias y Blog -->
                     <li>
@@ -155,8 +173,9 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
      <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-gray-800 shadow-lg py-4">
          <ul class="flex flex-col items-center gap-4">
              <li><a href="index.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Inicio</a></li>
-             <li><a href="perfil-usuario.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Pacientes</a></li>
-             <li><a href="perfil-doctores.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Doctores</a></li>
+             <!-- Quitar enlaces directos a paneles específicos, se usa 'Mi Panel' condicional -->
+             <!-- <li><a href="perfil-usuario.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Pacientes</a></li> -->
+             <!-- <li><a href="perfil-doctores.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Doctores</a></li> -->
              <li><a href="blog.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Blog</a></li>
              <li><a href="contacto.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Contacto</a></li>
              <li><a href="#agenda" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Agendar Cita</a></li>
@@ -167,7 +186,9 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
                  <li><a href="registro.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Registro / Iniciar Sesión</a></li>
              <?php else: ?>
                  <li class="text-gray-700 dark:text-gray-300 px-4 py-2">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></li>
-                 <li><a href="mediagenda-backend/logout.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Cerrar Sesión</a></li>
+                 <!-- Añadir enlace a 'Mi Panel' que apunta al lugar correcto -->
+                 <li><a href="<?php echo $panelLink; ?>" class="block text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 px-4 py-2 font-medium">Mi Panel</a></li>
+                 <li><a href="mediagenda-backend/logout.php" class="block text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 px-4 py-2">Cerrar Sesión</a></li>
              <?php endif; ?>
          </ul>
      </div>

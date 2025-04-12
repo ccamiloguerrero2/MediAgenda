@@ -140,8 +140,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 const r = {
                     'paciente': 'perfil-usuario.php',
                     'medico': 'perfil-doctores.php',
-                    'admin': 'panel-admin-sistema.html',
-                    'administrador': 'panel-admin-sistema.html'
+                    'admin': 'panel-admin-sistema.php',
+                    'administrador': 'panel-admin-sistema.php'
                 };
                 const u = r[d.rol.toLowerCase()] || 'index.php';
                 if(!r[d.rol.toLowerCase()]){
