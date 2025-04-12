@@ -1,8 +1,23 @@
+<?php
+session_start(); // Iniciar/reanudar la sesión
+
+// Verificar si el usuario está logueado. Si no, redirigir a registro.php
+if (!isset($_SESSION['idUsuario']) || empty($_SESSION['idUsuario'])) {
+    // Puedes añadir un parámetro para mostrar un mensaje en registro.php si quieres
+    header('Location: registro.php#login'); // Redirige a la pestaña de login
+    exit; // Detiene la ejecución del script para evitar que se cargue el resto del HTML
+}
+
+// Si llegamos aquí, el usuario está logueado. Podemos obtener su nombre si es necesario.
+$nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
+
+?>
 <!DOCTYPE html>
 <html lang="es" class="dark:bg-gray-800">
 
 <head>
-    <meta charset="UTF-8">
+    {/* ... resto del head ... */}
+     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediAgenda - Panel de Pacientes</title>
 
@@ -32,7 +47,9 @@
 <body class="font-sans antialiased transition-colors duration-300 dark:bg-gray-800 dark:text-white bg-gray-100 flex flex-col min-h-screen">
 
     <!-- Header -->
+    {/* El header ahora SÍ debe mostrar siempre "Cerrar Sesión", porque solo usuarios logueados verán esta página */}
     <header class="bg-white bg-opacity-90 shadow-md sticky top-0 z-50 dark:bg-gray-800 dark:bg-opacity-90 backdrop-blur-sm">
+       {/* ... resto del header ... */}
         <div class="container mx-auto flex justify-between items-center py-4 px-6">
             <div class="flex items-center gap-2">
                  <!-- CORREGIDO: Enlace a index.php -->
@@ -68,6 +85,7 @@
     </header>
 
     <!-- Main Content -->
+    {/* ... resto del body ... */}
     <main class="dark:bg-gray-800 flex-grow w-full">
         <div class="container mx-auto py-10 px-6">
 
@@ -180,21 +198,18 @@
                 </div>
             </section>
 
-        </div>
+        </div> <!-- Cierre del div container -->
     </main>
 
     <!-- Footer -->
     <footer class="bg-white dark:bg-gray-800 py-6 mt-auto border-t dark:border-gray-700 border-gray-200">
         <div class="container mx-auto text-center text-sm text-gray-600 dark:text-gray-400">
-            © <?php echo date("Y"); ?> MediAgenda. Todos los derechos reservados.
+            © <?php /* Puedes quitar el tag php si no lo necesitas aqui */ date("Y"); ?> MediAgenda. Todos los derechos reservados.
         </div>
     </footer>
 
- <!-- Área para mostrar notificaciones -->
- <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
-
- <!-- Enlace al archivo JavaScript -->
- <script src="scripts.js"></script>
+    {/* Scripts */}
+    <script src="scripts.js"></script>
 
 </body>
-</html>
+</html> 

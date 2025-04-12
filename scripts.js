@@ -135,7 +135,23 @@ document.addEventListener('DOMContentLoaded', function () {
         const tabs = document.querySelectorAll('.tab-button'); const tabContents = document.querySelectorAll('.tab-content'); if (tabs.length > 0 && tabContents.length > 0) { let showTab=(id)=>{let f=0;tabContents.forEach(c=>c.style.display=(c.id===id)?(f=1,'block'):'none');tabs.forEach(b=>{const a=b.getAttribute('data-target')===id;b.classList.toggle('text-blue-600',a);b.classList.toggle('dark:text-blue-400',a);b.classList.toggle('border-blue-500',a);b.classList.toggle('text-gray-600',!a);b.classList.toggle('dark:text-gray-400',!a);b.classList.toggle('border-transparent',!a);});return f;}; tabs.forEach(b=>{b.addEventListener('click',(e)=>{e.preventDefault();const t=b.getAttribute('data-target');if(t&&typeof showTab==='function')showTab(t);if(mobileMenu&&!mobileMenu.classList.contains('hidden')&&mobileMenu.contains(b))closeMobileMenu();});});let iT='login';if(window.location.hash&&document.getElementById(window.location.hash.substring(1)))iT=window.location.hash.substring(1);if(typeof showTab==='function'&&!showTab(iT)&&tabContents.length>0)showTab(tabContents[0].id);}
         handleFormSubmit('#patient-register-form', 'registrar_paciente.php', (d,f)=>{if(typeof showTab==='function')showTab('login');f.reset();showNotification(d.message||"Registro exitoso.",'success');});
         handleFormSubmit('#doctor-register-form', 'registrar_medico.php', (d,f)=>{if(typeof showTab==='function')showTab('login');f.reset();showNotification(d.message||"Registro exitoso.",'success');});
-        handleFormSubmit('#login-form', 'login.php', (d)=>{if(d.success&&d.rol){const r={'paciente':'perfil-usuario.html','medico':'perfil-doctores.html','admin':'panel-admin-sistema.html','administrador':'panel-admin-sistema.html'};const u=r[d.rol.toLowerCase()]||'index.php';if(!r[d.rol.toLowerCase()]){showNotification("Rol desconocido.",'warning');setTimeout(()=>window.location.href=u,1500);}else{window.location.href=u;}}});
+        handleFormSubmit('#login-form', 'login.php', (d)=>{
+            if(d.success && d.rol){
+                const r = {
+                    'paciente': 'perfil-usuario.php',
+                    'medico': 'perfil-doctores.php',
+                    'admin': 'panel-admin-sistema.html',
+                    'administrador': 'panel-admin-sistema.html'
+                };
+                const u = r[d.rol.toLowerCase()] || 'index.php';
+                if(!r[d.rol.toLowerCase()]){
+                    showNotification("Rol desconocido. Redirigiendo al inicio.",'warning');
+                    setTimeout(()=>window.location.href=u, 1500);
+                } else {
+                    window.location.href = u;
+                }
+            }
+        });
     }
 
     // --- Lógica para: perfil-usuario.html ---

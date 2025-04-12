@@ -7,6 +7,26 @@ $loggedIn = isset($_SESSION['idUsuario']) && !empty($_SESSION['idUsuario']);
 $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : ''; // Obtener nombre si está logueado
 $idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es necesario
 
+// MODIFICADO: Calcular $panelLink apuntando a .php
+$panelLink = 'index.php'; // Default fallback
+if ($loggedIn && isset($_SESSION['rolUsuario'])) {
+    switch (strtolower($_SESSION['rolUsuario'])) {
+        case 'paciente':
+            $panelLink = 'perfil-usuario.php'; // Cambiado a .php
+            break;
+        case 'medico':
+            $panelLink = 'perfil-doctores.php'; // Cambiado a .php
+            break;
+        case 'admin':
+        case 'administrador':
+            $panelLink = 'panel-admin-sistema.php';
+            break;
+        case 'recepcionista':
+            $panelLink = 'panel-admin-recepcionista.html'; // Mantener .html si no se ha renombrado
+            break;
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es" class="dark:bg-gray-800">
@@ -113,7 +133,6 @@ $idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es nece
         </div>
         <!-- Menú Móvil Desplegable -->
         <div id="mobile-menu" class="lg:hidden hidden flex-col bg-white dark:bg-gray-800 absolute w-full shadow-lg pb-4">
-            <!-- Enlazar a index.php si lo renombraste -->
             <a href="index.php" class="block px-6 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-700">Inicio</a>
             <?php if (!$loggedIn): ?>
                 <!-- Usamos botones que activan tabs y cierran el menú (JS se encarga) -->
@@ -123,27 +142,6 @@ $idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es nece
             <?php else: ?>
                 <span class="block px-6 py-2 text-gray-500 dark:text-gray-400">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></span>
                 <a href="mediagenda-backend/logout.php" class="block px-6 py-2 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-gray-700">Cerrar Sesión</a>
-                <!-- Opcional: Enlace al panel correspondiente -->
-                <?php
-                $panelLink = 'index.php'; // Default fallback
-                if (isset($_SESSION['rolUsuario'])) {
-                    switch (strtolower($_SESSION['rolUsuario'])) {
-                        case 'paciente':
-                            $panelLink = 'perfil-usuario.html';
-                            break;
-                        case 'medico':
-                            $panelLink = 'perfil-doctores.html';
-                            break;
-                        case 'admin':
-                        case 'administrador':
-                            $panelLink = 'panel-admin-sistema.html';
-                            break;
-                        case 'recepcionista':
-                            $panelLink = 'panel-admin-recepcionista.html';
-                            break;
-                    }
-                }
-                ?>
                 <a href="<?php echo $panelLink; ?>" class="block px-6 py-2 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-gray-700">Mi Panel</a>
             <?php endif; ?>
         </div>

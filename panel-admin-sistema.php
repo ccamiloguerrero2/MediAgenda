@@ -1,3 +1,19 @@
+<?php
+session_start();
+
+// Verificar si el usuario está autenticado y es administrador
+if (!isset($_SESSION['user_id']) || $_SESSION['rol'] !== 'admin') {
+    // Si no está autenticado o no es admin, redirigir a la página de inicio de sesión
+    header('Location: index.php?error=unauthorized'); // O a login.php si tienes una página específica
+    exit();
+}
+
+// Opcional: puedes obtener datos del usuario desde la sesión si los necesitas más adelante
+$user_id = $_SESSION['user_id'];
+$nombre_usuario = $_SESSION['nombre']; // Asegúrate de que guardas el nombre en la sesión al iniciar sesión
+$rol_usuario = $_SESSION['rol'];
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 

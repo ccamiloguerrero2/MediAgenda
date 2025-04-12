@@ -81,16 +81,16 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
                         </a>
                         <ul
                             class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg mt-2 transition-all duration-700 ease-in-out">
-                            <li><a href="perfil-usuario.html"
+                            <li><a href="perfil-usuario.php"
                                     class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel
                                     Pacientes</a></li>
-                            <li><a href="perfil-doctores.html"
+                            <li><a href="perfil-doctores.php"
                                     class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel
                                     Doctores</a></li>
                             <li><a href="panel-admin-recepcionista.html"
                                     class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel
                                     Recepcionista</a></li>
-                            <li><a href="panel-admin-sistema.html"
+                            <li><a href="panel-admin-sistema.php"
                                     class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Panel
                                     Administrativo</a></li>
                         </ul>
@@ -155,8 +155,8 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
      <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-gray-800 shadow-lg py-4">
          <ul class="flex flex-col items-center gap-4">
              <li><a href="index.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Inicio</a></li>
-             <li><a href="perfil-usuario.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Pacientes</a></li>
-             <li><a href="perfil-doctores.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Doctores</a></li>
+             <li><a href="perfil-usuario.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Pacientes</a></li>
+             <li><a href="perfil-doctores.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Doctores</a></li>
              <li><a href="blog.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Blog</a></li>
              <li><a href="contacto.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Contacto</a></li>
              <li><a href="#agenda" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Agendar Cita</a></li>
