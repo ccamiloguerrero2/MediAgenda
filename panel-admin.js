@@ -35,26 +35,36 @@ document.addEventListener('DOMContentLoaded', function () {
     // == 3. LÓGICA ESPECÍFICA DEL PANEL ADMIN ===============================
     // ========================================================================
 
-    // --- Función para Renderizar la Tabla de Usuarios --- (Añadidas clases dark)
+    // --- Función para Renderizar la Tabla de Usuarios --- (Añadidas clases dark y UX mejorada)
     function renderUserTable(usuarios) {
-        if (!userTableBody) return; userTableBody.innerHTML = '';
-        if (!usuarios || usuarios.length === 0) { userTableBody.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No hay usuarios.</td></tr>'; return; }
+        if (!userTableBody) return;
+        userTableBody.innerHTML = '';
+        if (!usuarios || usuarios.length === 0) {
+            userTableBody.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No hay usuarios registrados.</td></tr>';
+            return;
+        }
         usuarios.forEach(user => {
             const row = userTableBody.insertRow();
-            // Clases abreviadas por brevedad, pero añadiendo dark: variants
-            const editButtonClasses = 'text-indigo-600 hover:text-indigo-900 dark:text-blue-400 dark:hover:text-blue-300';
-            const deleteButtonClasses = 'text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 ml-2';
-            const cellClasses = 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200';
-            const actionCellClasses = 'px-6 py-4 whitespace-nowrap text-right text-sm font-medium'; // Contenedor de botones
+
+            // Clases mejoradas para botones y celdas
+            const commonButtonClasses = 'inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2';
+            const editButtonClasses = `${commonButtonClasses} text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-600`;
+            const deleteButtonClasses = `${commonButtonClasses} text-white bg-red-600 hover:bg-red-700 focus:ring-red-500 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-600 ml-2`;
+            const cellClasses = 'px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300';
+            const actionCellClasses = 'px-6 py-4 whitespace-nowrap text-right text-sm font-medium'; // Flexbox no es ideal aquí, mantenemos simple por ahora
 
             row.innerHTML = `
                 <td class="${cellClasses}">${user.idUsuario}</td>
-                <td class="${cellClasses}">${user.nombre}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">${user.nombre}</td>
                 <td class="${cellClasses}">${user.email}</td>
                 <td class="${cellClasses}">${user.rol}</td>
                 <td class="${actionCellClasses}">
-                    <button data-action="editar-usuario" data-id="${user.idUsuario}" class="${editButtonClasses}">Editar</button>
-                    <button data-action="eliminar-usuario" data-id="${user.idUsuario}" class="${deleteButtonClasses}">Eliminar</button>
+                    <button data-action="editar-usuario" data-id="${user.idUsuario}" class="${editButtonClasses}" title="Editar">
+                        <i class="bi bi-pencil-fill mr-1"></i> Editar
+                    </button>
+                    <button data-action="eliminar-usuario" data-id="${user.idUsuario}" class="${deleteButtonClasses}" title="Eliminar">
+                        <i class="bi bi-trash-fill mr-1"></i> Eliminar
+                    </button>
                 </td>
             `;
         });
@@ -100,15 +110,52 @@ document.addEventListener('DOMContentLoaded', function () {
         userFormContainer.style.display = 'block'; userForm.querySelector('[name="nombre"]')?.focus();
     }
 
-    // --- Función para Eliminar Usuario --- (Usa fetchData y showNotification globales)
+    // --- Función para Eliminar Usuario --- (Ahora usa SweetAlert para confirmar)
     async function eliminarUsuario(idUsuario) {
         console.log(`[Admin Panel] Solicitando eliminar ID: ${idUsuario}`);
-        if (!confirm(`¿Seguro de eliminar al usuario ID ${idUsuario}?`)) return;
-        try {
-            const fd = new FormData(); fd.append('idUsuario', idUsuario);
-            const data = await fetchData('admin_eliminar_usuario.php', { method: 'POST', body: fd }); // Usa fetchData global
-            if (data?.success) { showNotification(data.message || 'Usuario eliminado.', 'success'); cargarListaUsuariosAdmin(); } // Usa showNotification global
-        } catch (error) { /* Handled by fetchData */ }
+
+        // Usar SweetAlert para confirmación
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: `Esta acción eliminará al usuario con ID ${idUsuario}. ¡No podrás revertir esto!`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33', // Rojo para el botón de confirmar eliminación
+            cancelButtonColor: '#6b7280', // Gris para cancelar
+            confirmButtonText: 'Sí, ¡eliminar!',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                console.log(`[Admin Panel] Confirmado eliminar ID: ${idUsuario}`);
+                // Proceder con la eliminación si se confirma
+                try {
+                    const fd = new FormData();
+                    fd.append('idUsuario', idUsuario);
+                    // Mostrar estado de carga (opcional, podrías implementar un spinner global)
+                    showNotification('Eliminando usuario...', 'info');
+
+                    const data = await fetchData('admin_eliminar_usuario.php', { method: 'POST', body: fd }); // Usa fetchData global
+
+                    if (data?.success) {
+                        Swal.fire(
+                            '¡Eliminado!',
+                            data.message || 'El usuario ha sido eliminado.',
+                            'success'
+                        );
+                        cargarListaUsuariosAdmin(); // Recargar la lista
+                    } else {
+                        // Si fetchData no lanza error pero success es false
+                        showNotification(data?.message || 'No se pudo eliminar el usuario.', 'error');
+                    }
+                } catch (error) {
+                    // Error ya notificado por fetchData, pero podemos añadir un mensaje específico aquí si queremos
+                    console.error('[Admin Panel] Error al eliminar usuario:', error);
+                    // No es necesario mostrar otra notificación aquí, fetchData ya lo hizo.
+                }
+            } else {
+                console.log(`[Admin Panel] Cancelada eliminación ID: ${idUsuario}`);
+            }
+        });
     }
 
     // --- Listener Delegado para Acciones en Tabla Usuarios --- (Sin cambios, las acciones llamadas ahora usan helpers globales)

@@ -27,6 +27,8 @@ $rol_usuario = $_SESSION['rolUsuario'];
     <link rel="stylesheet" href="dist/output.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Añadir CSS de SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 
 <body class="font-sans antialiased transition-colors duration-300 dark:bg-gray-900 dark:text-white">
@@ -50,11 +52,37 @@ $rol_usuario = $_SESSION['rolUsuario'];
                 </ul>
             </nav>
             <!-- Botón para cambiar a modo oscuro -->
-            <button id="dark-mode-toggle" class="text-blue-600">
-                <i class="fas fa-moon"></i>
-            </button>
+            <!-- Contenedor para botones derechos (modo oscuro y hamburguesa) -->
+            <div class="flex items-center gap-4">
+                <button id="dark-mode-toggle" class="text-blue-600 dark:text-yellow-400 text-xl">
+                    <i class="fas fa-moon"></i> <!-- JS cambiará a fa-sun -->
+                </button>
+                <!-- Icono Hamburguesa (visible en móvil) -->
+                <div class="hamburger-menu lg:hidden flex flex-col gap-1 cursor-pointer" id="hamburger-menu">
+                   <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
+                   <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
+                   <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
+                </div>
+            </div>
         </div>
     </header>
+
+    <!-- Contenedor del MENÚ MÓVIL (copiado y adaptado de index.php) -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-gray-800 shadow-lg py-4">
+        <ul class="flex flex-col items-center gap-4">
+            <!-- Enlaces a secciones del panel admin -->
+            <li><a href="#users" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Usuarios</a></li>
+            <li><a href="#doctors" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Doctores</a></li>
+            <li><a href="#reports" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Reportes</a></li>
+            <li><a href="#settings" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Configuraciones</a></li>
+
+            <hr class="w-1/2 border-gray-300 dark:border-gray-600 my-2">
+
+            <!-- Saludo y cerrar sesión -->
+            <li class="text-gray-700 dark:text-gray-300 px-4 py-2">Hola, <?php echo htmlspecialchars($nombre_usuario); ?></li>
+            <li><a href="mediagenda-backend/logout.php" class="block text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 px-4 py-2">Cerrar Sesión</a></li>
+        </ul>
+    </div>
 
 <!-- Main Content -->
 <main class="w-full py-10 dark:bg-gray-800">
@@ -117,7 +145,7 @@ $rol_usuario = $_SESSION['rolUsuario'];
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Nombre</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Email</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Rol</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Acciones</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="admin-user-list-body" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -137,6 +165,8 @@ $rol_usuario = $_SESSION['rolUsuario'];
 <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
 
 <!-- Enlaces a JavaScript -->
+<!-- Añadir SweetAlert2 ANTES de los otros scripts -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <!-- Incluir scripts.js PRIMERO si necesitas funciones comunes como modo oscuro, menú, etc. -->
 <script src="scripts.js"></script>
 <!-- Incluir panel-admin.js DESPUÉS -->
