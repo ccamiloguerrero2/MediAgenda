@@ -9,7 +9,7 @@ $idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es nece
 
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark:bg-gray-800">
 
 <head>
     <meta charset="UTF-8">
@@ -58,7 +58,7 @@ $idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es nece
     </style>
 </head>
 
-<body class="font-sans antialiased transition-colors duration-300 dark:bg-gray-900 dark:text-white bg-gray-100">
+<body class="font-sans antialiased transition-colors duration-300 dark:bg-gray-800 dark:text-white bg-gray-100 flex flex-col min-h-screen">
 
     <!-- Header Mejorado -->
     <header class="bg-white bg-opacity-90 shadow-md sticky top-0 z-50 dark:bg-gray-800 dark:bg-opacity-90 backdrop-blur-sm">
@@ -148,130 +148,132 @@ $idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es nece
         </div>
     </header>
 
-    <!-- Contenedor Principal con Pestañas -->
-    <main class="container mx-auto py-10 px-4 md:px-6">
-        <div class="max-w-3xl mx-auto">
+    <!-- Contenedor Principal -->
+    <main class="dark:bg-gray-800 flex-grow w-full">
+        <div class="container mx-auto py-10 px-4 md:px-6 h-full">
+            <div class="max-w-3xl mx-auto">
 
-            <!-- Mensaje si ya está logueado -->
-            <?php if ($loggedIn): ?>
-                <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 text-center border border-blue-200 dark:border-gray-700">
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">Ya has iniciado sesión</h2>
-                    <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">Hola <span class="font-medium"><?php echo htmlspecialchars($nombreUsuario); ?></span>, tu sesión está activa.</p>
-                    <div class="flex justify-center items-center gap-4">
-                        <a href="<?php echo $panelLink; ?>" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-md transition duration-200">
-                            Ir a mi Panel
-                        </a>
-                        <a href="mediagenda-backend/logout.php" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-5 rounded-md transition duration-200">
-                            Cerrar Sesión
-                        </a>
+                <!-- Mensaje si ya está logueado -->
+                <?php if ($loggedIn): ?>
+                    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 text-center border border-blue-200 dark:border-gray-700">
+                        <h2 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">Ya has iniciado sesión</h2>
+                        <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">Hola <span class="font-medium"><?php echo htmlspecialchars($nombreUsuario); ?></span>, tu sesión está activa.</p>
+                        <div class="flex justify-center items-center gap-4">
+                            <a href="<?php echo $panelLink; ?>" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-md transition duration-200">
+                                Ir a mi Panel
+                            </a>
+                            <a href="mediagenda-backend/logout.php" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-5 rounded-md transition duration-200">
+                                Cerrar Sesión
+                            </a>
+                        </div>
                     </div>
-                </div>
-            <?php else: ?>
-                <!-- Pestañas de Navegación (si no está logueado) -->
-                <div class="mb-6 border-b border-gray-300 dark:border-gray-700 flex flex-wrap justify-center space-x-2 md:space-x-6">
-                    <button class="tab-button py-2 px-3 md:px-4 text-sm md:text-base text-gray-600 dark:text-gray-400 border-b-2 border-transparent hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none" data-target="login">Iniciar Sesión</button>
-                    <button class="tab-button py-2 px-3 md:px-4 text-sm md:text-base text-gray-600 dark:text-gray-400 border-b-2 border-transparent hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none" data-target="register-patient">Registro Paciente</button>
-                    <button class="tab-button py-2 px-3 md:px-4 text-sm md:text-base text-gray-600 dark:text-gray-400 border-b-2 border-transparent hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none" data-target="register-doctor">Registro Médico</button>
-                </div>
-
-                <!-- Contenido de las Pestañas -->
-
-                <!-- Pestaña Iniciar Sesión -->
-                <section id="login" class="tab-content">
-                    <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">Acceso a Usuarios</h2>
-                    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 md:p-8">
-                        <!-- Asegúrate que el form tenga el ID correcto -->
-                        <form id="login-form">
-                            <div class="mb-4">
-                                <label for="login-email" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Correo Electrónico</label>
-                                <input id="login-email" type="email" name="login_email" required autocomplete="email" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="sucorreo@example.com">
-                            </div>
-                            <div class="mb-6">
-                                <label for="login-password" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Contraseña</label>
-                                <input id="login-password" type="password" name="login_password" required autocomplete="current-password" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="********">
-                            </div>
-                            <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
-                                <!-- Funcionalidad olvidó contraseña no implementada aún -->
-                                <a href="#" class="text-sm text-blue-600 hover:underline dark:text-blue-400">¿Olvidó su contraseña?</a>
-                                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition duration-200">Iniciar Sesión</button>
-                            </div>
-                        </form>
+                <?php else: ?>
+                    <!-- Pestañas de Navegación (si no está logueado) -->
+                    <div class="mb-6 border-b border-gray-300 dark:border-gray-700 flex flex-wrap justify-center space-x-2 md:space-x-6">
+                        <button class="tab-button py-2 px-3 md:px-4 text-sm md:text-base text-gray-600 dark:text-gray-400 border-b-2 border-transparent hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none" data-target="login">Iniciar Sesión</button>
+                        <button class="tab-button py-2 px-3 md:px-4 text-sm md:text-base text-gray-600 dark:text-gray-400 border-b-2 border-transparent hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none" data-target="register-patient">Registro Paciente</button>
+                        <button class="tab-button py-2 px-3 md:px-4 text-sm md:text-base text-gray-600 dark:text-gray-400 border-b-2 border-transparent hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none" data-target="register-doctor">Registro Médico</button>
                     </div>
-                </section>
 
-                <!-- Pestaña Registro Paciente -->
-                <section id="register-patient" class="tab-content"> <!-- No necesita display:none aquí, JS lo maneja -->
-                    <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">Registro de Paciente</h2>
-                    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 md:p-8">
-                        <!-- Asegúrate que el form tenga el ID correcto -->
-                        <form id="patient-register-form">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label for="patient-name" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Nombre Completo</label>
-                                    <input id="patient-name" type="text" name="patient_name" required class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nombre Apellido">
-                                </div>
-                                <div>
-                                    <label for="patient-email" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Correo Electrónico</label>
-                                    <input id="patient-email" type="email" name="patient_email" required autocomplete="email" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="paciente@example.com">
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                <div>
-                                    <label for="patient-phone" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Teléfono</label>
-                                    <input id="patient-phone" type="tel" name="patient_phone" required autocomplete="tel" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="+57 3001234567">
-                                </div>
-                                <div>
-                                    <label for="patient-password" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Contraseña</label>
-                                    <input id="patient-password" type="password" name="patient_password" required minlength="6" autocomplete="new-password" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Mínimo 6 caracteres">
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md transition duration-200">Registrarme como Paciente</button>
-                            </div>
-                        </form>
-                    </div>
-                </section>
+                    <!-- Contenido de las Pestañas -->
 
-                <!-- Pestaña Registro Médico -->
-                <section id="register-doctor" class="tab-content"> <!-- No necesita display:none aquí, JS lo maneja -->
-                    <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">Registro de Médico</h2>
-                    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 md:p-8">
-                        <!-- Asegúrate que el form tenga el ID correcto -->
-                        <form id="doctor-register-form">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label for="doctor-name" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Nombre Completo</label>
-                                    <input id="doctor-name" type="text" name="doctor_name" required class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Dr. Nombre Apellido">
+                    <!-- Pestaña Iniciar Sesión -->
+                    <section id="login" class="tab-content">
+                        <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">Acceso a Usuarios</h2>
+                        <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 md:p-8">
+                            <!-- Asegúrate que el form tenga el ID correcto -->
+                            <form id="login-form">
+                                <div class="mb-4">
+                                    <label for="login-email" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Correo Electrónico</label>
+                                    <input id="login-email" type="email" name="login_email" required autocomplete="email" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="sucorreo@example.com">
                                 </div>
-                                <div>
-                                    <label for="doctor-specialty" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Especialidad Principal</label>
-                                    <input id="doctor-specialty" type="text" name="doctor_specialty" required class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej: Cardiología">
-                                    <!-- Podrías cambiarlo a un <select> si tienes una lista fija -->
+                                <div class="mb-6">
+                                    <label for="login-password" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Contraseña</label>
+                                    <input id="login-password" type="password" name="login_password" required autocomplete="current-password" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="********">
                                 </div>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                <div>
-                                    <label for="doctor-email" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Correo Electrónico Profesional</label>
-                                    <input id="doctor-email" type="email" name="doctor_email" required autocomplete="email" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="doctor@example.com">
+                                <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+                                    <!-- Funcionalidad olvidó contraseña no implementada aún -->
+                                    <a href="#" class="text-sm text-blue-600 hover:underline dark:text-blue-400">¿Olvidó su contraseña?</a>
+                                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition duration-200">Iniciar Sesión</button>
                                 </div>
-                                <div>
-                                    <label for="doctor-password" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Contraseña</label>
-                                    <input id="doctor-password" type="password" name="doctor_password" required minlength="6" autocomplete="new-password" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Mínimo 6 caracteres">
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-md transition duration-200">Registrarme como Médico</button>
-                            </div>
-                        </form>
-                    </div>
-                </section>
-            <?php endif; ?> <!-- Fin del if !$loggedIn -->
+                            </form>
+                        </div>
+                    </section>
 
-        </div><!-- Fin max-w-3xl -->
+                    <!-- Pestaña Registro Paciente -->
+                    <section id="register-patient" class="tab-content"> <!-- No necesita display:none aquí, JS lo maneja -->
+                        <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">Registro de Paciente</h2>
+                        <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 md:p-8">
+                            <!-- Asegúrate que el form tenga el ID correcto -->
+                            <form id="patient-register-form">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label for="patient-name" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Nombre Completo</label>
+                                        <input id="patient-name" type="text" name="patient_name" required class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nombre Apellido">
+                                    </div>
+                                    <div>
+                                        <label for="patient-email" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Correo Electrónico</label>
+                                        <input id="patient-email" type="email" name="patient_email" required autocomplete="email" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="paciente@example.com">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                    <div>
+                                        <label for="patient-phone" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Teléfono</label>
+                                        <input id="patient-phone" type="tel" name="patient_phone" required autocomplete="tel" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="+57 3001234567">
+                                    </div>
+                                    <div>
+                                        <label for="patient-password" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Contraseña</label>
+                                        <input id="patient-password" type="password" name="patient_password" required minlength="6" autocomplete="new-password" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Mínimo 6 caracteres">
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-md transition duration-200">Registrarme como Paciente</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                    <!-- Pestaña Registro Médico -->
+                    <section id="register-doctor" class="tab-content"> <!-- No necesita display:none aquí, JS lo maneja -->
+                        <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">Registro de Médico</h2>
+                        <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 md:p-8">
+                            <!-- Asegúrate que el form tenga el ID correcto -->
+                            <form id="doctor-register-form">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label for="doctor-name" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Nombre Completo</label>
+                                        <input id="doctor-name" type="text" name="doctor_name" required class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Dr. Nombre Apellido">
+                                    </div>
+                                    <div>
+                                        <label for="doctor-specialty" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Especialidad Principal</label>
+                                        <input id="doctor-specialty" type="text" name="doctor_specialty" required class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej: Cardiología">
+                                        <!-- Podrías cambiarlo a un <select> si tienes una lista fija -->
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                    <div>
+                                        <label for="doctor-email" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Correo Electrónico Profesional</label>
+                                        <input id="doctor-email" type="email" name="doctor_email" required autocomplete="email" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="doctor@example.com">
+                                    </div>
+                                    <div>
+                                        <label for="doctor-password" class="block text-gray-700 dark:text-gray-300 font-medium mb-1">Contraseña</label>
+                                        <input id="doctor-password" type="password" name="doctor_password" required minlength="6" autocomplete="new-password" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Mínimo 6 caracteres">
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-md transition duration-200">Registrarme como Médico</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                <?php endif; ?> <!-- Fin del if !$loggedIn -->
+
+            </div><!-- Fin max-w-3xl -->
+        </div> <!-- Fin container -->
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-200 dark:bg-gray-800 py-6 mt-16">
+    <footer class="bg-gray-200 dark:bg-gray-800 py-6">
         <div class="container mx-auto text-center text-sm text-gray-600 dark:text-gray-400">
             © <?php echo date("Y"); ?> MediAgenda. Todos los derechos reservados.
             <!-- Puedes añadir más enlaces aquí si quieres -->
@@ -284,3 +286,4 @@ $idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es nece
     <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
     <script src="scripts.js"></script>
 </body>
+</html>
