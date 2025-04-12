@@ -21,6 +21,17 @@ if ($loggedIn) {
         // No hay caso para recepcionista
     }
 }
+
+// Determinar el enlace para "Agendar Cita"
+$agendarCitaLink = 'registro.php'; // Por defecto, llevar al registro si no está logueado
+if ($loggedIn) {
+    if ($rolUsuario === 'paciente') {
+        $agendarCitaLink = 'perfil-usuario.php'; // Paciente va a su panel para agendar
+    } else {
+        // Médico o Admin van a su propio panel (aunque el botón dice "Agendar Cita")
+        $agendarCitaLink = $panelLink;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -36,6 +47,8 @@ if ($loggedIn) {
     <link rel="stylesheet" href="dist/output.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Añadir CSS de SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <style>
         /* Estilos para el efecto Parallax en distintas secciones */
@@ -88,9 +101,9 @@ if ($loggedIn) {
             <!-- Menú de navegación de ESCRITORIO con submenús -->
             <nav>
                 <ul id="nav-links" class="hidden lg:flex gap-6 items-center">
-                    <li><a href="index.php"
+                    <?php /* <li><a href="index.php"
                             class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">Inicio</a>
-                    </li>
+                    </li> */ ?>
 
                     <!-- Submenú Usuarios - Visible solo si está logueado -->
                     <?php if ($loggedIn): ?>
@@ -135,13 +148,20 @@ if ($loggedIn) {
                         <li><a href="registro.php" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Registro / Iniciar Sesión</a></li>
                     <?php else: ?>
                         <li class="text-gray-700 dark:text-gray-300 px-4 py-2">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></li>
-                        <li><a href="mediagenda-backend/logout.php" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Cerrar Sesión</a></li>
+                        <!-- Estilo de Cerrar Sesión actualizado -->
+                        <li><a href="mediagenda-backend/logout.php"
+                               class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 font-medium px-3 py-2 rounded-md hover:bg-red-50 dark:hover:bg-gray-700 transition text-sm">
+                               <i class="bi bi-box-arrow-right mr-1"></i>Cerrar Sesión
+                            </a>
+                        </li>
                     <?php endif; ?>
 
-                    <!-- Botón de agendar cita -->
-                    <li><a href="#agenda"
-                            class="text-white font-bold bg-blue-700 hover:bg-white hover:text-blue-700 hover:border-blue-700 border-2 px-6 py-2 rounded-md">Agendar
-                            Cita</a></li>
+                    <!-- Botón de agendar cita (oculto para admin) -->
+                    <?php if (!$loggedIn || $rolUsuario !== 'admin'): ?>
+                        <li><a href="<?php echo $agendarCitaLink; ?>"
+                                class="text-white font-bold bg-blue-700 hover:bg-white hover:text-blue-700 hover:border-blue-700 border-2 px-6 py-2 rounded-md">Agendar
+                                Cita</a></li>
+                    <?php endif; ?>
                 </ul>
             </nav>
 
@@ -169,7 +189,10 @@ if ($loggedIn) {
              <!-- <li><a href="perfil-doctores.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Doctores</a></li> -->
              <li><a href="blog.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Blog</a></li>
              <li><a href="contacto.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Contacto</a></li>
-             <li><a href="#agenda" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Agendar Cita</a></li>
+             <!-- Actualizar enlace Agendar Cita Móvil (oculto para admin) -->
+             <?php if (!$loggedIn || $rolUsuario !== 'admin'): ?>
+                 <li><a href="<?php echo $agendarCitaLink; ?>" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Agendar Cita</a></li>
+             <?php endif; ?>
 
              <hr class="w-1/2 border-gray-300 dark:border-gray-600 my-2">
 
@@ -179,7 +202,11 @@ if ($loggedIn) {
                  <li class="text-gray-700 dark:text-gray-300 px-4 py-2">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></li>
                  <!-- Añadir enlace a 'Mi Panel' que apunta al lugar correcto -->
                  <li><a href="<?php echo $panelLink; ?>" class="block text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 px-4 py-2 font-medium">Mi Panel</a></li>
-                 <li><a href="mediagenda-backend/logout.php" class="block text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 px-4 py-2">Cerrar Sesión</a></li>
+                 <!-- Estilo de Cerrar Sesión actualizado (Móvil) -->
+                 <li><a href="mediagenda-backend/logout.php" class="block text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 px-4 py-2">
+                        <i class="bi bi-box-arrow-right mr-1"></i>Cerrar Sesión
+                     </a>
+                 </li>
              <?php endif; ?>
          </ul>
      </div>
@@ -325,6 +352,8 @@ if ($loggedIn) {
     </footer>
 
     <!-- Enlace al archivo de JavaScript para manejar las interacciones -->
+    <!-- Añadir SweetAlert2 ANTES de scripts.js -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="scripts.js"></script>
 
     <!-- Área para mostrar notificaciones -->

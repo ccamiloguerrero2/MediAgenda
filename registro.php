@@ -97,8 +97,8 @@ if ($loggedIn && isset($_SESSION['rolUsuario'])) {
             <nav class="flex items-center gap-4">
                 <!-- Links para Desktop -->
                 <ul id="nav-links-desktop" class="hidden lg:flex items-center gap-4 md:gap-6">
-                    <!-- Enlazar a index.php si lo renombraste -->
-                    <li><a href="index.php" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Inicio</a></li>
+                    <!-- Eliminado enlace a Inicio -->
+                    <?php /* <li><a href="index.php" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Inicio</a></li> */ ?>
 
                     <?php if ($loggedIn): ?>
                         <!-- Mostrar nombre y botón de cerrar sesión si está logueado -->
@@ -111,9 +111,10 @@ if ($loggedIn && isset($_SESSION['rolUsuario'])) {
                         </li>
                     <?php else: ?>
                         <!-- Mostrar botones/enlaces de Login/Registro si no está logueado -->
-                        <!-- Usamos botones que activan las tabs vía JS -->
-                        <li><button data-target="login" class="tab-button text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition font-medium">Iniciar Sesión</button></li>
-                        <li><button data-target="register-patient" class="tab-button bg-blue-600 hover:bg-blue-700 text-white dark:text-white font-semibold py-2 px-4 rounded-md transition duration-200 text-sm">Registrarse</button></li>
+                        <!-- Restaurando clase tab-button para funcionalidad JS -->
+                        <li><button data-target="login" class="tab-button bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600 dark:text-white font-semibold py-2 px-4 rounded-md transition duration-200 text-sm">Iniciar Sesión</button></li>
+                        <li><button data-target="register-patient" class="tab-button bg-green-600 hover:bg-green-700 text-white dark:text-white dark:bg-green-500 dark:hover:bg-green-600 font-semibold py-2 px-4 rounded-md transition duration-200 text-sm">Registro Paciente</button></li>
+                        <li><button data-target="register-doctor" class="tab-button bg-purple-600 hover:bg-purple-700 text-white dark:text-white dark:bg-purple-500 dark:hover:bg-purple-600 font-semibold py-2 px-4 rounded-md transition duration-200 text-sm">Registro Médico</button></li>
                     <?php endif; ?>
                 </ul>
 
@@ -135,7 +136,7 @@ if ($loggedIn && isset($_SESSION['rolUsuario'])) {
         <div id="mobile-menu" class="lg:hidden hidden flex-col bg-white dark:bg-gray-800 absolute w-full shadow-lg pb-4">
             <a href="index.php" class="block px-6 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-700">Inicio</a>
             <?php if (!$loggedIn): ?>
-                <!-- Usamos botones que activan tabs y cierran el menú (JS se encarga) -->
+                <!-- Restaurados botones específicos de registro paciente/médico -->
                 <button data-target="login" class="tab-button block w-full text-left px-6 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-700">Iniciar Sesión</button>
                 <button data-target="register-patient" class="tab-button block w-full text-left px-6 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-700">Registro Paciente</button>
                 <button data-target="register-doctor" class="tab-button block w-full text-left px-6 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-700">Registro Médico</button>

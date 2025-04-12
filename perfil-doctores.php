@@ -1,3 +1,17 @@
+<?php
+session_start(); // Iniciar/reanudar la sesión
+
+// Verificar si el usuario está logueado. Si no, redirigir a registro.php
+if (!isset($_SESSION['idUsuario']) || empty($_SESSION['idUsuario'])) {
+    // Puedes añadir un parámetro para mostrar un mensaje en registro.php si quieres
+    header('Location: registro.php#login'); // Redirige a la pestaña de login
+    exit; // Detiene la ejecución del script para evitar que se cargue el resto del HTML
+}
+
+// Si llegamos aquí, el usuario está logueado. Podemos obtener su nombre si es necesario.
+$nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 

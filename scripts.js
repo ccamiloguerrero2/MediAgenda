@@ -7,24 +7,17 @@ const backendUrl = 'mediagenda-backend/';
 // let notificationArea = null; // Ya no es necesario
 
 // --- Función para Mostrar Notificaciones (Modales Completos en Español) ---
-function showNotification(message, type = 'info') {
+function showNotification(message, type = 'info', title = null) {
     let iconType = 'info';
-    let titleText = 'Información'; // Título por defecto en español
+    let titleText = title; // Usar title si se proporciona
 
-    switch (type) {
-        case 'success':
-            iconType = 'success';
-            titleText = 'Éxito';
-            break;
-        case 'error':
-            iconType = 'error';
-            titleText = 'Error';
-            break;
-        case 'warning':
-            iconType = 'warning';
-            titleText = 'Advertencia';
-            break;
-        // 'info' ya está configurado
+    if (!titleText) { // Si no se proporciona title, usar el type para determinarlo
+        switch (type) {
+            case 'success': titleText = 'Éxito'; break;
+            case 'error': titleText = 'Error'; break;
+            case 'warning': titleText = 'Advertencia'; break;
+            default: titleText = 'Información'; break;
+        }
     }
 
     Swal.fire({
@@ -121,6 +114,24 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){const h=this.getAttribute('href');if(h&&h.length>1&&h!=='#'){try{const t=document.querySelector(h);if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}}catch(err){console.error(`Scroll err: ${h}`,err);}}});});
     const parallaxElems = document.querySelectorAll('.parallax, .parallax-doctors, .parallax-testimonials'); if(parallaxElems.length>0){window.addEventListener('scroll',()=>{let o=window.pageYOffset;parallaxElems.forEach(e=>{if(e.getBoundingClientRect){let s=0.5;e.style.backgroundPositionY=(o-e.offsetTop)*s+'px';}});},{passive:true});}
     const fadeInElems = document.querySelectorAll('.fade-in'); if(fadeInElems.length > 0 && 'IntersectionObserver' in window){const obs=new IntersectionObserver((e)=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');obs.unobserve(i.target);}});},{threshold:0.1}); fadeInElems.forEach(el=>obs.observe(el));}
+
+    // --- Lógica para mostrar notificación de logout --- (Se ejecuta en todas las páginas)
+    console.log("[Logout Check] Verificando parámetros de URL..."); // <-- LOG 1
+    const currentSearchParams = window.location.search;
+    console.log("[Logout Check] window.location.search:", currentSearchParams); // <-- LOG 2
+    const urlParams = new URLSearchParams(currentSearchParams);
+    if (urlParams.has('logout') && urlParams.get('logout') === 'success') {
+        console.log("[Logout Check] Parámetro logout=success detectado."); // <-- LOG 3
+        // Usar showNotification para mantener consistencia
+        console.log("[Logout Check] Llamando a showNotification..."); // <-- LOG 4
+        showNotification('Has cerrado sesión correctamente.', 'success', 'Sesión Cerrada');
+        console.log("[Logout Check] showNotification llamada."); // <-- LOG 5
+        // Limpiar el parámetro de la URL para evitar que se muestre de nuevo al recargar
+        if (history.replaceState) {
+            const cleanUrl = window.location.pathname + window.location.hash; // Mantiene el hash si existe
+            history.replaceState(null, '', cleanUrl);
+        }
+    }
 
     // ========================================================================
     // == 5. LÓGICA ESPECÍFICA POR PÁGINA (ROUTING) ==========================

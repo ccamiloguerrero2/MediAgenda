@@ -20,6 +20,6 @@ session_destroy();
 
 // Redirigir al usuario a la página principal.
 // La ruta '../index.php' es correcta según tu estructura de carpetas.
-header("Location: ../index.php");
+header('Location: ../index.php?logout=success'); // Ajusta la ruta '../' si es necesario
 exit(); // Asegura que el script se detenga después de la redirección
 ?>  

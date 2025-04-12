@@ -44,11 +44,20 @@ $rol_usuario = $_SESSION['rolUsuario'];
             </div>
             <nav>
                 <!-- Navegación entre secciones del panel administrativo -->
-                <ul id="nav-links" class="hidden lg:flex gap-6">
+                <ul id="nav-links" class="hidden lg:flex gap-6 items-center">
                     <li><a href="#users" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Usuarios</a></li>
                     <li><a href="#doctors" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Doctores</a></li>
                     <li><a href="#reports" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Reportes</a></li>
                     <li><a href="#settings" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Configuraciones</a></li>
+                    <!-- Separador visual (opcional) -->
+                    <li class="border-l border-gray-300 dark:border-gray-600 h-6"></li>
+                    <!-- Saludo y Cerrar Sesión para Escritorio -->
+                    <li class="text-gray-700 dark:text-gray-300">Hola, <?php echo htmlspecialchars($nombre_usuario); ?></li>
+                    <li><a href="mediagenda-backend/logout.php"
+                           class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 font-medium px-3 py-2 rounded-md hover:bg-red-50 dark:hover:bg-gray-700 transition text-sm">
+                           <i class="bi bi-box-arrow-right mr-1"></i>Cerrar Sesión
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- Botón para cambiar a modo oscuro -->
