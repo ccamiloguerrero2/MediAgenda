@@ -132,12 +132,10 @@ $nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
 
                     <!-- Condicionalmente mostrar "Registro / Iniciar Sesión" o "Cerrar Sesión" -->
                     <?php if (!$loggedIn): ?>
-                        <li><a href="registro.php" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Registro / Iniciar Sesión</a></li>
+                        <li><a href="registro.php" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Registro / Iniciar Sesión</a></li> <!-- Apunta a registro.php -->
                     <?php else: ?>
-                        <li class="text-gray-700 dark:text-gray-300">
-                            <span class="px-4 py-2 inline-block">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></span>
-                        </li>
-                        <li><a href="mediagenda-backend/logout.php" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Cerrar Sesión</a></li>
+                        <li class="text-gray-700 dark:text-gray-300 px-4 py-2">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></li>
+                        <li><a href="mediagenda-backend/logout.php" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Cerrar Sesión</a></li> <!-- Apunta a logout.php -->
                     <?php endif; ?>
 
 

@@ -1,5 +1,4 @@
 dashboard/
-node_modules/
 xampp/
 webalizer/
 *.log
