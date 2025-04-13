@@ -9,26 +9,31 @@ if (!isset($_GET['token']) || empty(trim($_GET['token']))) {
 $token = trim($_GET['token']);
 // Podrías añadir validación extra del formato del token si lo deseas (ej: longitud, caracteres)
 
-// ***** 2. INTENTAR CONEXIÓN DIRECTAMENTE AQUÍ (DEBUG) *****
-error_log("[DEBUG RESET_PASS] Iniciando intento de conexión...");
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "mediagenda_db";
+// ***** 2. INCLUIR TU ARCHIVO DE CONEXIÓN A LA BASE DE DATOS *****
+// Usando tu archivo conexion.php
+require_once 'conexion.php'; // ¡AHORA USA CONEXION.PHP!
 
-$conexion = @mysqli_connect($servername, $username, $password, $database); // Usar @ para suprimir warning estándar
-
-if (!$conexion) {
-    error_log("[DEBUG RESET_PASS] mysqli_connect FALLÓ.");
-    $error_msg = mysqli_connect_error();
-    error_log("[DEBUG RESET_PASS] mysqli_connect_error() dice: " . ($error_msg ? $error_msg : '¿Error vacío?'));
-    // Mostrar un mensaje más simple para no depender de JSON
-    die("Error crítico de base de datos. Revise los logs.");
-} else {
-    error_log("[DEBUG RESET_PASS] mysqli_connect ¡ÉXITO!");
-    // La conexión funcionó, podemos continuar
+// Verificar conexión (desde conexion.php)
+if (!isset($conexion) || !$conexion) {
+    // Si conexion.php falló y envió JSON, esta parte no se ejecutará.
+    // Si por alguna razón $conexion no está seteada pero el script sigue,
+    // mostramos un error genérico aquí antes de intentar usar $conexion.
+    die("Error crítico interno del servidor [DB Connection Check].");
 }
-// ***** FIN DEBUG CONEXIÓN DIRECTA *****
+
+// ***** COMENTAR BLOQUE DE DEBUG PDO INCORRECTO *****
+/*
+// --- DEBUGGING ---
+if (isset($pdo)) { // O usa $conn si usas MySQLi
+    error_log("DEBUG solicitar_reset: Conexión PDO ($pdo) parece existir.");
+} else {
+    error_log("DEBUG solicitar_reset: ERROR - La variable de conexión PDO (\$pdo) NO existe después del require_once!");
+    // Detener aquí si no hay conexión, porque el resto fallará
+    echo json_encode(['success' => false, 'message' => 'Error interno del servidor (DB Connection).']);
+    exit;
+}
+// --- FIN DEBUGGING ---
+*/
 
 // ***** 3. VERIFICAR VALIDEZ DEL TOKEN (MySQLi) *****
 $isValidToken = false;
