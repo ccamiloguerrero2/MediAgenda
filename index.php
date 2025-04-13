@@ -72,11 +72,8 @@ if ($loggedIn) {
 
         /* Estilos para el efecto Parallax en distintas secciones */
         .parallax {
-            /* Gradiente claro + imagen original */
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.9) 40%, rgba(255, 255, 255, 0.7) 60%, rgba(255, 255, 255, 0.3) 80%, rgba(255, 255, 255, 0) 100%), url('/img/FondoMedico1.jpg');
+            background-image: linear-gradient(to right, rgb(255, 255, 255) 40%, rgba(255, 255, 255, 0.7) 60%, rgba(255, 255, 255, 0.3) 80%, rgba(255, 255, 255, 0) 100%), url('/img/FondoMedico1.jpg');
             height: 100vh;
-            /* background-attachment: fixed; */
-            /* Eliminado para quitar parallax */
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -86,13 +83,10 @@ if ($loggedIn) {
         /* Estilo para modo oscuro */
         .dark .parallax {
             background-image: linear-gradient(to right, rgba(17, 24, 39, 0.9) 30%, rgba(31, 41, 55, 0.8) 50%, rgba(55, 65, 81, 0.6) 70%, rgba(55, 65, 81, 0) 100%), url('/img/Fondoini1.jpeg');
-            /* No necesita background-attachment aquí si se quita en .parallax base */
         }
 
         .parallax-doctors {
             height: 100vh;
-            /* background-attachment: fixed; */
-            /* Eliminado para quitar parallax */
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -101,8 +95,6 @@ if ($loggedIn) {
 
         .parallax-testimonials {
             height: 100vh;
-            /* background-attachment: fixed; */
-            /* Eliminado para quitar parallax */
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -240,7 +232,7 @@ if ($loggedIn) {
 
     <!-- Sección Hero con efecto Parallax -->
     <section class="parallax">
-        <div class="absolute inset-0 bg-gray-800 bg-opacity-30 dark:bg-opacity-50"></div>
+        <div class="absolute inset-0 bg-gray-800 bg-opacity-0 dark:bg-opacity-50"></div>
         <div class="relative z-10 flex flex-col justify-center h-full px-6 sm:px-10 md:px-16 lg:px-24 py-10 text-white">
             <div class="max-w-2xl">
                 <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Programe su cita médica con facilidad</h1>
