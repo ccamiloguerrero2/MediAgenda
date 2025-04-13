@@ -50,6 +50,64 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
             /* gray-400 */
             font-style: italic;
         }
+
+        /* Estilos mejorados para botones de acciones de citas */
+        button[data-action="confirmar"] {
+            background-color: #10B981;
+            color: white;
+            font-weight: 600;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        button[data-action="confirmar"]:hover {
+            background-color: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button[data-action="cancelar-doctor"] {
+            background-color: #EF4444;
+            color: white;
+            font-weight: 600;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        button[data-action="cancelar-doctor"]:hover {
+            background-color: #DC2626;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button[data-action="cargar-notas"] {
+            background-color: #3B82F6;
+            color: white;
+            font-weight: 600;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            font-size: 0.875rem;
+        }
+
+        button[data-action="cargar-notas"]:hover {
+            background-color: #2563EB;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo para los botones deshabilitados */
+        button[data-action]:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
     </style>
 </head>
 
@@ -116,7 +174,7 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                         <div>
                             <label for="doc-profile-nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre completo</label>
-                            <input type="text" id="doc-profile-nombre" name="nombre_completo" placeholder="Tu nombre" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
+                            <input type="text" id="doc-profile-nombre" name="nombre" placeholder="Tu nombre" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
                             <label for="doc-profile-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo Electrónico</label>
@@ -222,6 +280,9 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
 
     <!-- Área para mostrar notificaciones -->
     <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
+
+    <!-- Incluir SweetAlert2 ANTES de tu script principal -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
     <!-- Enlace al archivo JavaScript -->
     <script src="scripts.js"></script>

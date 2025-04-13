@@ -118,49 +118,21 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
         <div class="container mx-auto py-10 px-6">
 
             <!-- Envoltura del Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-                <!-- Columna 1: Citas -->
-                <div class="lg:col-span-1 flex flex-col gap-8">
+                <!-- Columna 1: Citas e Historial -->
+                <div class="flex flex-col gap-8">
                     <section id="appointments" class="scroll-mt-20">
                         <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Tus Citas Programadas</h2>
-                        <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800 h-full">
+                        <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800 flex flex-col">
                             <ul id="appointments-list" class="space-y-4">
                                 <li class="placeholder text-gray-500 dark:text-gray-400 italic">Cargando citas...</li>
                             </ul>
-                            <div class="mt-6 border-t pt-4 dark:border-gray-700"><a href="#schedule" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-200"><i class="bi bi-calendar-plus mr-1"></i> Agendar Nueva Cita</a></div>
-                        </div>
-                    </section>
-                </div>
-
-                <!-- Columna 2: Agendar e Historial -->
-                <div class="lg:col-span-1 flex flex-col gap-8">
-                    <section id="schedule" class="scroll-mt-20">
-                        <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Agendar Nueva Cita</h2>
-                        <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
-                            <form id="schedule-appointment-form" novalidate>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                                    <div>
-                                        <label for="schedule-medico" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Médico <span class="text-red-500">*</span></label>
-                                        <select id="schedule-medico" name="idMedico" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
-                                            <option value="" disabled selected>Seleccione un médico...</option>
-                                        </select>
-                                        <p class="text-xs text-red-600 mt-1 hidden error-message" id="schedule-medico-error"></p>
-                                    </div>
-                                    <div>
-                                        <label for="schedule-fecha" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha <span class="text-red-500">*</span></label>
-                                        <input type="date" id="schedule-fecha" name="fecha" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500" min="<?php echo date('Y-m-d'); ?>">
-                                        <p class="text-xs text-red-600 mt-1 hidden error-message" id="schedule-fecha-error"></p>
-                                    </div>
-                                    <div>
-                                        <label for="schedule-hora" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Hora <span class="text-red-500">*</span></label>
-                                        <input type="time" id="schedule-hora" name="hora" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
-                                        <p class="text-xs text-red-600 mt-1 hidden error-message" id="schedule-hora-error"></p>
-                                    </div>
-                                </div>
-                                <div class="mb-4"><label for="schedule-motivo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Motivo (Opcional)</label><textarea id="schedule-motivo" name="motivo" rows="3" placeholder="Describa brevemente el motivo..." class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"></textarea></div>
-                                <div class="text-right mt-4"><button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-5 rounded-md transition duration-200">Confirmar Cita</button></div>
-                            </form>
+                            <div class="mt-6 border-t pt-4 dark:border-gray-700">
+                                <button id="btn-show-schedule" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-200">
+                                    <i class="bi bi-calendar-plus mr-1"></i> Agendar Nueva Cita
+                                </button>
+                            </div>
                         </div>
                     </section>
 
@@ -178,8 +150,8 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
                     </section>
                 </div>
 
-                <!-- Columna 3: Perfil -->
-                <div class="lg:col-span-1 flex flex-col gap-8">
+                <!-- Columna 2: Perfil -->
+                <div class="flex flex-col gap-8">
                     <section id="profile" class="scroll-mt-20">
                         <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Perfil del Paciente</h2>
                         <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
@@ -205,10 +177,10 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
                     </section>
                 </div>
 
-                <!-- Mover la sección Consultas fuera del grid principal o al final -->
-                <section id="consultations" class="scroll-mt-20 lg:col-span-3">
-                    <!-- ... Contenido consultas ... -->
-                </section>
+                <!-- Sección Consultas (Eliminada o reubicada si es necesaria) -->
+                <!-- <section id="consultations" class="scroll-mt-20 lg:col-span-3"> -->
+                <!-- ... Contenido consultas ... -->
+                <!-- </section> -->
             </div> <!-- Fin Envoltura del Grid -->
 
         </div> <!-- Cierre del div container -->
@@ -220,6 +192,40 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
             © <?php echo date("Y"); ?> MediAgenda. Todos los derechos reservados.
         </div>
     </footer>
+
+    <!-- Modal para Agendar Cita -->
+    <div id="schedule-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-[60] p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 md:p-8 w-full max-w-2xl relative">
+            <!-- Botón de Cierre -->
+            <button id="close-schedule-modal" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl">&times;</button>
+
+            <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Agendar Nueva Cita</h2>
+
+            <form id="schedule-appointment-form" novalidate>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                    <div>
+                        <label for="modal-schedule-medico" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Médico <span class="text-red-500">*</span></label>
+                        <select id="modal-schedule-medico" name="idMedico" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="" disabled selected>Seleccione un médico...</option>
+                        </select>
+                        <p class="text-xs text-red-600 mt-1 hidden error-message" id="modal-schedule-medico-error"></p>
+                    </div>
+                    <div>
+                        <label for="modal-schedule-fecha" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha <span class="text-red-500">*</span></label>
+                        <input type="date" id="modal-schedule-fecha" name="fecha" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500" min="<?php echo date('Y-m-d'); ?>">
+                        <p class="text-xs text-red-600 mt-1 hidden error-message" id="modal-schedule-fecha-error"></p>
+                    </div>
+                    <div>
+                        <label for="modal-schedule-hora" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Hora <span class="text-red-500">*</span></label>
+                        <input type="time" id="modal-schedule-hora" name="hora" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
+                        <p class="text-xs text-red-600 mt-1 hidden error-message" id="modal-schedule-hora-error"></p>
+                    </div>
+                </div>
+                <div class="mb-6"><label for="modal-schedule-motivo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Motivo (Opcional)</label><textarea id="modal-schedule-motivo" name="motivo" rows="3" placeholder="Describa brevemente el motivo..." class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"></textarea></div>
+                <div class="text-right"><button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-5 rounded-md transition duration-200">Confirmar Cita</button></div>
+            </form>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <!-- Incluir SweetAlert2 JS (DESDE CDN) ANTES de tu script -->

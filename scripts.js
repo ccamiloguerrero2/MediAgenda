@@ -353,18 +353,56 @@ document.addEventListener('DOMContentLoaded', function () {
         cargarListaMedicos();
         // cargarHistorialUsuario(); // <-- Descomentar si la función está implementada
         handleFormSubmit('#update-profile-form', 'actualizar_perfil.php', (d) => { showNotification(d.message || "Perfil actualizado.", 'success'); });
-        handleFormSubmit('#schedule-appointment-form', 'programar_cita.php', (d, f) => { f.reset(); const s = f.querySelector('#schedule-medico'); if (s) s.selectedIndex = 0; cargarCitasUsuario(); showNotification(d.message || "Cita programada.", 'success'); });
+        handleFormSubmit('#schedule-appointment-form', 'programar_cita.php', (d, f) => {
+            f.reset();
+            // const s = f.querySelector('#schedule-medico'); // Ya no es necesario resetear select aquí
+            // if (s) s.selectedIndex = 0; 
+            cargarCitasUsuario();
+            closeScheduleModal(); // Cerrar modal al agendar con éxito
+            showNotification(d.message || "Cita programada.", 'success');
+        });
         attachCitaActionListeners('#appointments-list');
+
+        // Listeners para mostrar/cerrar el modal de agendar cita
+        const btnShowSchedule = document.getElementById('btn-show-schedule');
+        const linkShowSchedule = document.querySelector('a[href="#schedule"]');
+        const scheduleModal = document.getElementById('schedule-modal');
+        const btnCloseSchedule = document.getElementById('close-schedule-modal');
+
+        if (btnShowSchedule) {
+            btnShowSchedule.addEventListener('click', (e) => {
+                e.preventDefault();
+                openScheduleModal();
+            });
+        }
+        if (linkShowSchedule) {
+            linkShowSchedule.addEventListener('click', (e) => {
+                e.preventDefault();
+                openScheduleModal();
+            });
+        }
+        if (btnCloseSchedule) {
+            btnCloseSchedule.addEventListener('click', closeScheduleModal);
+        }
+        if (scheduleModal) {
+            // Cerrar modal si se hace clic fuera del contenido (en el overlay)
+            scheduleModal.addEventListener('click', (e) => {
+                if (e.target === scheduleModal) { // Solo si el clic es directo en el overlay
+                    closeScheduleModal();
+                }
+            });
+        }
     }
 
     // --- Lógica para: perfil-doctores.php ---
     else if (currentPath.includes('perfil-doctores.php')) {
         console.log('[Routing] Ejecutando lógica para perfil-doctores.php');
         cargarDatosPerfilMedico();
-        cargarCitasMedico();
+        cargarCitasMedico(); // Esta función ya llama a attachCitaActionListeners internamente
         // cargarPacientesHoy(); // <-- Descomentar si la función está implementada
         // handleFormSubmit('#consulta-notes-form', 'guardar_notas_consulta.php', (d,f)=>{...}); // <-- Descomentar si está implementado
-        attachCitaActionListeners('#appointments-list-doctor');
+        // Ya no es necesario llamar attachCitaActionListeners aquí directamente
+        // attachCitaActionListeners('#appointments-list-doctor'); 
         // attachCitaActionListeners('#patients-list-doctor'); // <-- Descomentar si está implementado
     }
 
@@ -377,6 +415,41 @@ document.addEventListener('DOMContentLoaded', function () {
     // ========================================================================
     // == 6. DEFINICIÓN DE FUNCIONES ESPECÍFICAS DE PANELES ===================
     // ========================================================================
+
+    /**
+     * Abre el modal para agendar una cita.
+     */
+    function openScheduleModal() {
+        const modal = document.getElementById('schedule-modal');
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex'); // Usar flex para centrar el contenido
+            // Opcional: resetear el formulario al abrir
+            // const form = modal.querySelector('#schedule-appointment-form');
+            // if (form) form.reset(); 
+            // Opcional: cargar médicos si aún no se han cargado
+            cargarListaMedicos(); // Asegurarse de que los médicos estén listos
+            // Opcional: enfocar el primer campo
+            const firstInput = modal.querySelector('select, input');
+            if (firstInput) {
+                setTimeout(() => firstInput.focus(), 50); // Pequeño delay para asegurar que esté visible
+            }
+        } else {
+            console.error("Modal #schedule-modal no encontrado.");
+        }
+    }
+
+    /**
+     * Cierra el modal para agendar una cita.
+     */
+    function closeScheduleModal() {
+        const modal = document.getElementById('schedule-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    }
+
     /**
      * Crea el elemento LI para mostrar una cita en el panel del paciente.
      * @param {object} cita - El objeto de datos de la cita.
@@ -423,174 +496,185 @@ document.addEventListener('DOMContentLoaded', function () {
         const li = document.createElement('li');
         li.className = 'mb-4 p-3 border rounded-md dark:border-gray-700 bg-gray-50 dark:bg-gray-800';
         li.dataset.citaId = c.idCita;
-        const eC = getEstadoClass(c.estado);
-        const hF = formatTime(c.hora);
+
+        // Clases para la insignia de estado
+        const estadoBadgeClasses = {
+            'Programada': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+            'Confirmada': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+            'Cancelada Paciente': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+            'Cancelada Doctor': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+            'Completada': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+            'No Asistió': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
+        };
+
+        const estadoClase = estadoBadgeClasses[c.estado] || 'bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200';
         const hoy = new Date().toISOString().split('T')[0];
-        if (c.fecha === hoy) li.classList.add('border-l-4', 'border-blue-500');
-        li.innerHTML = `<div class="flex justify-between items-start mb-1 flex-wrap gap-x-2"><strong class="text-purple-600 dark:text-purple-400">P: 
-        ${c.nombrePaciente || 'N/A'}</strong><span class="text-xs font-semibold px-2 py-0.5 rounded 
-        ${eC}">${c.estado || '?'}</span></div><div class="text-sm..."><i class="bi bi-telephone"></i> 
-        ${c.telefonoPaciente || '-'}</div><div class="text-sm..."><i class="bi bi-calendar-event"></i> 
-        ${formatDate(c.fecha)} <i class="bi bi-clock"></i> 
-        ${hF}</div>${c.motivo ? `<div class="text-sm mt-2 pt-2 border-t..."><stron>Motivo:</stron> 
-            ${c.motivo}</div>` : ''}<div class="mt-3 flex flex-wrap gap-2">
-            ${(c.estado === 'Programada') ? `<button data-action="confirmar" data-id="${c.idCita}" class="btn-cita-accion btn-confirmar">Confirmar</button>` : ''}
-            ${(c.estado !== 'Cancelada Paciente' && c.estado !== 'Cancelada Doctor' && c.estado !== 'Completada') ? `<button data-action="cancelar-doctor" data-id="${c.idCita}" class="btn-cita-accion btn-cancelar">Cancelar</button>` : ''}
-            ${(c.estado === 'Confirmada') ? `<button data-action="completar" data-id="${c.idCita}" class="btn-cita-accion btn-completar">Completada</button>` : ''}
-            ${(c.estado !== 'Cancelada Paciente' && c.estado !== 'Cancelada Doctor' && c.estado !== 'Completada') ? `<button data-action="cargar-notas" data-id="${c.idCita}" class="btn-cita-accion btn-notas">Cargar p/ Notas</button>` : ''}
-            </div>`;
+
+        // Destacar las citas de hoy
+        if (c.fecha === hoy) {
+            li.classList.add('border-l-4', 'border-blue-500');
+        }
+
+        li.innerHTML = `
+            <div class="flex justify-between items-start mb-1 flex-wrap gap-x-2">
+                <strong class="text-purple-600 dark:text-purple-400">P: ${c.nombrePaciente || 'N/A'}</strong>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded ${estadoClase}">${c.estado || '?'}</span>
+            </div>
+            
+            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                <i class="bi bi-telephone mr-1"></i> ${c.telefonoPaciente || '-'}
+            </div>
+            
+            <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                <i class="bi bi-calendar-event mr-1"></i> ${formatDate(c.fecha)} 
+                <span class="ml-2"><i class="bi bi-clock mr-1"></i> ${formatTime(c.hora)}</span>
+            </div>
+            
+            ${c.motivo ? `
+                <div class="text-sm mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+                    <strong class="text-gray-700 dark:text-gray-300">Motivo:</strong>
+                    <p class="mt-1 text-gray-600 dark:text-gray-400">${c.motivo}</p>
+                </div>` : ''}
+                
+            <div class="mt-3 flex flex-wrap gap-2">
+                ${(c.estado === 'Programada') ?
+                `<button data-action="confirmar" data-id="${c.idCita}" class="text-xs bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded transition duration-200">
+                        <i class="bi bi-check-circle mr-1"></i> Confirmar
+                    </button>` : ''}
+                    
+                ${(c.estado !== 'Cancelada Paciente' && c.estado !== 'Cancelada Doctor' && c.estado !== 'Completada') ?
+                `<button data-action="cancelar-doctor" data-id="${c.idCita}" class="text-xs bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded transition duration-200">
+                        <i class="bi bi-x-circle mr-1"></i> Cancelar
+                    </button>` : ''}
+                    
+                ${(c.estado === 'Confirmada') ?
+                `<button data-action="completar" data-id="${c.idCita}" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-1 px-3 rounded transition duration-200">
+                        <i class="bi bi-check-square mr-1"></i> Completada
+                    </button>` : ''}
+                    
+                ${(c.estado !== 'Cancelada Paciente' && c.estado !== 'Cancelada Doctor' && c.estado !== 'Completada') ?
+                `<button data-action="cargar-notas" data-id="${c.idCita}" class="text-xs bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded transition duration-200">
+                        <i class="bi bi-clipboard-plus mr-1"></i> Cargar p/ Notas
+                    </button>` : ''}
+            </div>
+        `;
+
         return li;
     }
 
     // --- Funciones Panel Paciente ---
-    async function cargarDatosPerfilUsuario() { /* ... */ }
-    async function cargarCitasUsuario() { /* ... */ }
-    async function cargarListaMedicos() { /* ... */ }
-    async function cargarHistorialUsuario() { /* ... */ }
-
-    // --- Funciones Panel Médico ---
-    async function cargarDatosPerfilMedico() { /* ... */ }
-    async function cargarCitasMedico() { /* ... */ }
-    async function cargarPacientesHoy() { /* ... */ }
-    async function guardarNotasConsulta(event) { /* ... */ }
-
-    // --- Funciones Panel Paciente ---
     async function cargarDatosPerfilUsuario() {
-         /* ... */ const form = document.querySelector('#update-profile-form');
-        setLoadingState(form, true);
+        console.log("[Funciones Panel] Cargando datos del perfil del usuario..."); // LOG INICIO
+        const form = document.querySelector('#update-profile-form');
+        if (!form) {
+            console.error("[cargarDatosPerfilUsuario] Error: Formulario #update-profile-form no encontrado.");
+            return;
+        }
+        setLoadingState(form, true); // Poner estado de carga mientras se obtienen los datos
         try {
+            console.log("[cargarDatosPerfilUsuario] Realizando fetch a obtener_perfil.php..."); // LOG FETCH
             const data = await fetchData('obtener_perfil.php');
+            console.log("[cargarDatosPerfilUsuario] Datos recibidos:", data); // LOG RESPUESTA
+
             if (data?.success && data.perfil) {
-                if (form) populateForm(form, data.perfil);
-                else console.error("Form #update-profile-form no encontrado.");
+                console.log("[cargarDatosPerfilUsuario] Éxito. Rellenando formulario con:", data.perfil); // LOG ÉXITO Y DATOS
+                populateForm(form, data.perfil);
+            } else if (data && data.message?.toLowerCase().includes("sesión no iniciada")) {
+                console.warn("[cargarDatosPerfilUsuario] Sesión no iniciada detectada. Redirigiendo...");
+                // Opcional: Mostrar notificación antes de redirigir
+                // showNotification("Tu sesión ha expirado. Por favor, inicia sesión de nuevo.", "warning");
+                setTimeout(() => window.location.href = 'registro.php#login', 1500); // Dar tiempo a ver mensaje
+            } else {
+                console.error("[cargarDatosPerfilUsuario] Error en la respuesta del backend o formato inválido.", data); // LOG ERROR RESPUESTA
+                // Opcional: Mostrar un error en el propio formulario
+                // form.innerHTML = '<p class="text-red-500">Error al cargar los datos del perfil.</p>';
             }
-            else if (data && data.message?.toLowerCase().includes("sesión no iniciada")) { setTimeout(() => window.location.href = 'registro.php#login', 2000); }
-        } catch (error) { /* Handled */ } finally { setLoadingState(form, false, 'Actualizar Datos'); }
+        } catch (error) {
+            console.error("[cargarDatosPerfilUsuario] Error en la comunicación (fetch):"); // LOG ERROR FETCH
+            // Opcional: Mostrar un error en el formulario
+            // form.innerHTML = '<p class="text-red-500">Error de comunicación al cargar el perfil.</p>';
+        } finally {
+            setLoadingState(form, false, 'Actualizar Datos'); // Quitar estado de carga
+        }
     }
     async function cargarCitasUsuario() {
-        console.log("[Funciones Panel] Cargando citas del usuario...");
+        console.log("[Funciones Panel] Cargando citas del usuario..."); // LOG INICIO
         const listElement = document.querySelector('#appointments-list');
-        if (!listElement) { console.error("Elemento #appointments-list no encontrado."); return; }
+        if (!listElement) {
+            console.error("[cargarCitasUsuario] Error: Elemento #appointments-list no encontrado.");
+            return;
+        }
         listElement.innerHTML = '<li class="placeholder text-gray-500 dark:text-gray-400 italic">Cargando citas...</li>';
         try {
+            console.log("[cargarCitasUsuario] Realizando fetch a obtener_citas.php?rol=paciente..."); // LOG FETCH
             const data = await fetchData('obtener_citas.php?rol=paciente');
-            // <<< LOG DETALLADO DE LA RESPUESTA COMPLETA >>>
-            console.log("[cargarCitasUsuario] Datos recibidos del backend:", JSON.stringify(data, null, 2)); // Muestra el JSON formateado
+            console.log("[cargarCitasUsuario] Datos recibidos:", data); // LOG RESPUESTA
 
             listElement.innerHTML = ''; // Limpiar carga
 
-            if (data?.success && Array.isArray(data.citas)) { // Verifica que sea un array
+            if (data?.success && Array.isArray(data.citas)) {
+                console.log(`[cargarCitasUsuario] Éxito. Procesando ${data.citas.length} citas.`); // LOG ÉXITO
                 if (data.citas.length === 0) {
                     listElement.innerHTML = '<li class="placeholder text-gray-500 dark:text-gray-400 italic">No tiene citas programadas.</li>';
                 } else {
-                    console.log(`[cargarCitasUsuario] Procesando ${data.citas.length} citas...`);
                     data.citas.forEach((cita, index) => {
-                        console.log(`[cargarCitasUsuario]   Procesando cita #${index + 1}:`, cita); // Log de cada cita
-                        let li = null; // Inicializar li
                         try {
-                            // <<< LOG ANTES DE CREAR ELEMENTO >>>
-                            console.log(`[cargarCitasUsuario]     Intentando crear elemento LI para cita ${cita.idCita}...`);
-                            li = crearElementoCitaPaciente(cita); // Llama a la función helper
-                            // <<< LOG DESPUÉS DE CREAR (SI NO HAY ERROR) >>>
-                            console.log(`[cargarCitasUsuario]     Elemento LI creado para cita ${cita.idCita}.`);
-
-                            // <<< LOG ANTES DE AÑADIR AL DOM >>>
-                            console.log(`[cargarCitasUsuario]     Intentando añadir LI al DOM...`);
+                            console.log(`[cargarCitasUsuario] Creando elemento para cita ${index + 1}:`, cita); // LOG CITA
+                            const li = crearElementoCitaPaciente(cita);
                             listElement.appendChild(li);
-                            // <<< LOG DESPUÉS DE AÑADIR (SI NO HAY ERROR) >>>
-                            console.log(`[cargarCitasUsuario]     LI añadido al DOM para cita ${cita.idCita}.`);
-
+                            console.log(`[cargarCitasUsuario] Elemento añadido para cita ${index + 1}.`); // LOG AÑADIDO
                         } catch (error) {
-                            // <<< LOG SI HAY ERROR DURANTE CREACIÓN O AÑADIDO >>>
-                            console.error(`[cargarCitasUsuario]   ¡ERROR procesando cita #${index + 1} (ID: ${cita.idCita})!`, error);
-                            // Opcional: Añadir un LI de error para esta cita específica
-                            if (listElement) {
-                                const errorLi = document.createElement('li');
-                                errorLi.className = 'placeholder text-red-500';
-                                errorLi.textContent = `Error al mostrar cita ID ${cita.idCita}.`;
-                                listElement.appendChild(errorLi);
-                            }
+                            console.error(`[cargarCitasUsuario] Error al crear/añadir elemento para cita ${index + 1}:`, error, cita);
+                            const errorLi = document.createElement('li');
+                            errorLi.className = 'placeholder text-red-500';
+                            errorLi.textContent = `Error al mostrar cita ID ${cita.idCita || '(desconocido)'}.`;
+                            listElement.appendChild(errorLi);
                         }
                     });
-                    // Llamar a attach listeners DESPUÉS de añadir todos los elementos
                     attachCitaActionListeners('#appointments-list');
                 }
             } else {
-                // Error en la estructura de la respuesta (no success o citas no es array)
-                console.error("[cargarCitasUsuario] Respuesta del backend no válida o sin éxito:", data);
-                listElement.innerHTML = `<li class="placeholder text-red-500">Error: ${data?.message || 'Formato de respuesta incorrecto'}.</li>`;
+                console.error("[cargarCitasUsuario] Error en la respuesta del backend o formato inválido.", data); // LOG ERROR RESPUESTA
+                listElement.innerHTML = `<li class="placeholder text-red-500">Error al cargar citas: ${data?.message || 'Formato de respuesta incorrecto'}.</li>`;
             }
         } catch (error) {
-            // Error en fetchData (comunicación, etc.)
-            console.error("[cargarCitasUsuario] Error en fetchData:", error);
+            console.error("[cargarCitasUsuario] Error en la comunicación (fetch):"); // LOG ERROR FETCH
             listElement.innerHTML = '<li class="placeholder text-red-500">Error de comunicación al cargar citas.</li>';
         }
     }
     async function cargarListaMedicos() {
-        /* ... */ const sel = document.getElementById('schedule-medico');
-        if (!sel) return; sel.disabled = true; sel.innerHTML = '<option value="" disabled selected>Cargando...</option>';
+        console.log("[Funciones Panel] Cargando lista de médicos..."); // LOG INICIO
+        const sel = document.getElementById('modal-schedule-medico');
+        if (!sel) {
+            console.error("[cargarListaMedicos] Error: Elemento #modal-schedule-medico no encontrado.");
+            return;
+        }
+        sel.disabled = true;
+        sel.innerHTML = '<option value="" disabled selected>Cargando médicos...</option>';
         try {
-            const data = await fetchData('obtener_medicos.php'); sel.innerHTML = '<option value="" disabled selected>Seleccione...</option>';
-            if (data?.success && data.medicos) {
-                if (data.medicos.length > 0) { data.medicos.forEach(m => sel.add(new Option(`${m.nombre} - ${m.especialidad || 'Gral.'}`, m.idMedico))); sel.disabled = false; }
-                else sel.innerHTML = '<option value="" disabled>No disponibles</option>';
-            } else sel.innerHTML = '<option value="" disabled>Error</option>';
-        } catch (error) { sel.innerHTML = '<option value="" disabled>Error</option>'; }
-    }
-    async function cargarHistorialUsuario() { // <-- NUEVA FUNCIÓN IMPLEMENTADA
-        console.log("[Funciones Panel] Cargando historial médico del paciente...");
-        const listElement = document.querySelector('#history-list');
-        if (!listElement) { console.error("Elemento #history-list no encontrado."); return; }
-        listElement.innerHTML = '<li class="placeholder text-gray-500 dark:text-gray-400 italic">Cargando historial...</li>';
-        try {
-            const data = await fetchData('obtener_historial.php');
-            listElement.innerHTML = ''; // Limpiar
-            if (data?.success && data.historial) {
-                if (data.historial.length === 0) {
-                    listElement.innerHTML = '<li class="placeholder text-gray-500 dark:text-gray-400 italic">No hay registros en tu historial.</li>';
-                } else {
-                    data.historial.forEach(registro => {
-                        const li = document.createElement('li');
-                        li.className = 'mb-3 pb-3 border-b dark:border-gray-700 text-sm';
-                        li.innerHTML = `
-                            <div class="flex justify-between items-center mb-1">
-                                <strong class="text-gray-800 dark:text-gray-200">${formatDate(registro.fecha)}</strong>
-                                <span class="text-gray-600 dark:text-gray-400 text-xs">Dr. ${registro.nombreMedico || 'N/A'}</span>
-                            </div>
-                            ${registro.diagnostico ? `<div class="mb-1"><strong class="font-medium text-gray-700 dark:text-gray-300">Diagnóstico:</strong> ${registro.diagnostico}</div>` : ''}
-                            ${registro.tratamiento ? `<div><strong class="font-medium text-gray-700 dark:text-gray-300">Tratamiento:</strong> ${registro.tratamiento}</div>` : ''}
-                             ${!registro.diagnostico && !registro.tratamiento ? `<div class="text-gray-500 italic">Sin detalles.</div>` : ''}
-                        `;
-                        listElement.appendChild(li);
+            console.log("[cargarListaMedicos] Realizando fetch a obtener_medicos.php..."); // LOG FETCH
+            const data = await fetchData('obtener_medicos.php');
+            console.log("[cargarListaMedicos] Datos recibidos:", data); // LOG RESPUESTA
+            sel.innerHTML = '<option value="" disabled selected>Seleccione un médico...</option>'; // Resetear con placeholder
+            if (data?.success && Array.isArray(data.medicos)) {
+                console.log(`[cargarListaMedicos] Éxito. Procesando ${data.medicos.length} médicos.`); // LOG ÉXITO
+                if (data.medicos.length > 0) {
+                    data.medicos.forEach(m => {
+                        console.log(`[cargarListaMedicos] Añadiendo médico:`, m); // LOG MÉDICO
+                        sel.add(new Option(`${m.nombre} - ${m.especialidad || 'General'}`, m.idMedico));
                     });
+                    sel.disabled = false;
+                } else {
+                    sel.innerHTML = '<option value="" disabled>No hay médicos disponibles</option>';
                 }
-            } else { listElement.innerHTML = `<li class="placeholder text-red-500">Error al cargar historial: ${data?.message || '?'}.</li>`; }
-        } catch (error) { listElement.innerHTML = '<li class="placeholder text-red-500">Error de comunicación al cargar historial.</li>'; }
-    }
-
-    // --- Funciones Panel Médico ---
-    async function cargarDatosPerfilMedico() { /* ... */
-        const form = document.querySelector('#doctor-profile-form'); setLoadingState(form, true);
-        try {
-            const data = await fetchData('obtener_perfil.php'); if (data?.success && data.perfil) {
-                if (form) populateForm(form, data.perfil);
-                else console.error("Form #doctor-profile-form no encontrado.");
-            } else if (data && data.message?.toLowerCase().includes("sesión no iniciada")) { setTimeout(() => window.location.href = 'registro.php#login', 2000); }
-        } catch (error) { /* Handled */ } finally { setLoadingState(form, false, 'Actualizar Perfil'); }
-    }
-    async function cargarCitasMedico() { /* ... */
-        const el = document.querySelector('#appointments-list-doctor');
-        if (!el) return; el.innerHTML = '<li class="plh">Cargando...</li>';
-        try {
-            const data = await fetchData('obtener_citas.php?rol=medico'); el.innerHTML = '';
-            if (data?.success && data.citas) {
-                if (data.citas.length === 0) el.innerHTML = '<li class="plh">No hay citas.</li>';
-                else {
-                    data.citas.forEach(c => el.appendChild(crearElementoCitaMedico(c)));
-                    attachCitaActionListeners('#appointments-list-doctor');
-                }
-            } else el.innerHTML = `<li class="plh err">Error: ${data?.message || '?'}.</li>`;
-        } catch (error) { el.innerHTML = '<li class="plh err">Error red.</li>'; }
+            } else {
+                console.error("[cargarListaMedicos] Error en la respuesta del backend o formato inválido.", data); // LOG ERROR RESPUESTA
+                sel.innerHTML = '<option value="" disabled>Error al cargar médicos</option>';
+            }
+        } catch (error) {
+            console.error("[cargarListaMedicos] Error en la comunicación (fetch):"); // LOG ERROR FETCH
+            sel.innerHTML = '<option value="" disabled>Error de comunicación</option>';
+        }
     }
     async function cargarPacientesHoy() { // <-- NUEVA FUNCIÓN IMPLEMENTADA
         console.log("[Funciones Panel] Cargando pacientes de hoy...");
@@ -652,13 +736,95 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function cambiarEstadoCita(idCita, nuevoEstado) {
         console.log(`%c[Acción Cita] Solicitando: ${nuevoEstado} para cita ${idCita}`, 'color: teal;');
-        // TODO: Reemplazar confirm con Swal.fire
-        if (!confirm(`¿Cambiar estado a "${nuevoEstado}"?`)) return;
+
+        // Obtener la ruta actual para saber qué vista actualizar después
+        const currentPath = window.location.pathname;
+
+        // Configurar opciones según el tipo de estado
+        let confirmOptions = {
+            title: `¿Cambiar estado de la cita?`,
+            text: `La cita pasará a estado "${nuevoEstado}"`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, cambiar',
+            cancelButtonText: 'Cancelar'
+        };
+
+        // Personalizar botones y mensajes según el tipo de acción
+        if (nuevoEstado === 'Confirmada') {
+            confirmOptions.title = '¿Confirmar esta cita?';
+            confirmOptions.text = 'El paciente será notificado de la confirmación';
+            confirmOptions.icon = 'info';
+            confirmOptions.confirmButtonColor = '#10B981'; // Verde
+        }
+        else if (nuevoEstado.includes('Cancelada')) {
+            confirmOptions.title = '¿Cancelar esta cita?';
+            confirmOptions.text = 'Esta acción no se puede deshacer';
+            confirmOptions.icon = 'warning';
+            confirmOptions.confirmButtonColor = '#EF4444'; // Rojo
+        }
+        else if (nuevoEstado === 'Completada') {
+            confirmOptions.title = '¿Marcar cita como completada?';
+            confirmOptions.text = 'Se registrará la cita como atendida';
+            confirmOptions.icon = 'info';
+            confirmOptions.confirmButtonColor = '#6366F1'; // Índigo
+        }
+
+        // Mostrar el modal de confirmación
+        console.log('[cambiarEstadoCita] Mostrando SweetAlert de confirmación...'); // LOG
+        const result = await Swal.fire(confirmOptions);
+        console.log('[cambiarEstadoCita] Resultado de SweetAlert:', result); // LOG
+        if (!result.isConfirmed) {
+            console.log('[cambiarEstadoCita] Confirmación cancelada por el usuario.'); // LOG
+            return;
+        }
+
+        console.log('[cambiarEstadoCita] Confirmación aceptada. Procediendo con fetch...'); // LOG
         try {
-            const fd = new FormData(); fd.append('idCita', idCita); fd.append('nuevoEstado', nuevoEstado);
+            const fd = new FormData();
+            fd.append('idCita', idCita);
+            fd.append('nuevoEstado', nuevoEstado);
+
+            // Mostrar indicador de carga
+            console.log('[cambiarEstadoCita] Mostrando SweetAlert de carga...'); // LOG
+            Swal.fire({
+                title: 'Actualizando...',
+                text: 'Por favor espere',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            console.log('[cambiarEstadoCita] Realizando fetch a cambiar_estado_cita.php...'); // LOG
             const data = await fetchData('cambiar_estado_cita.php', { method: 'POST', body: fd });
-            if (data?.success) { showNotification(data.message || "Estado actualizado.", 'success'); if (currentPath.includes('perfil-doctores.php')) cargarCitasMedico(); if (currentPath.includes('perfil-usuario.php')) cargarCitasUsuario(); }
-        } catch (error) { /* Handled */ }
+            console.log('[cambiarEstadoCita] Respuesta del fetch:', data); // LOG
+
+            if (data?.success) {
+                console.log('[cambiarEstadoCita] Fetch exitoso. Mostrando SweetAlert de éxito.'); // LOG
+                Swal.fire({
+                    title: '¡Actualizado!',
+                    text: data.message || "Estado de la cita actualizado correctamente",
+                    icon: 'success',
+                    timer: 2000,
+                    timerProgressBar: true
+                });
+
+                // Recargar las citas según la página actual
+                console.log('[cambiarEstadoCita] Recargando citas para:', currentPath); // LOG
+                if (currentPath.includes('perfil-doctores.php')) cargarCitasMedico();
+                if (currentPath.includes('perfil-usuario.php')) cargarCitasUsuario();
+            }
+        } catch (error) {
+            console.error('[cambiarEstadoCita] Error durante el fetch o proceso:', error); // LOG
+            Swal.fire({
+                title: 'Error',
+                text: 'No se pudo actualizar el estado de la cita',
+                icon: 'error'
+            });
+        }
     }
 
     function attachCitaActionListeners(containerSelector) {
@@ -670,24 +836,117 @@ document.addEventListener('DOMContentLoaded', function () {
             const button = event.target.closest('button[data-action]'); if (!button || button.disabled) return;
             const action = button.dataset.action; const idCita = button.dataset.id; console.log(`%c[Click Acción Cita] ${containerSelector}: Acción=${action}, ID=${idCita}`, 'color: darkcyan;');
             if (!idCita) { console.error("Botón sin data-id!"); return; }
-            button.disabled = true; const originalText = button.textContent; button.textContent = '...';
-            const executeAndEnable = async (fn) => { try { await fn(); } catch (err) { } finally { button.disabled = false; button.textContent = originalText; } };
+
+            // Guardar estado original y deshabilitar
+            const originalDisabledState = button.disabled;
+            button.disabled = true;
+            // Ya no cambiamos el texto a "..." para no perder el icono
+            // const originalText = button.textContent; button.textContent = '...'; 
+
+            const executeAndEnable = async (fn) => {
+                try {
+                    await fn();
+                } catch (err) {
+                    // El error debería ser manejado y notificado dentro de fn si es necesario
+                    console.error(`[executeAndEnable] Error en acción ${action} para cita ${idCita}:`, err);
+                } finally {
+                    // Rehabilitar botón solo si no era ya `cargar-notas` (que se rehabilita inmediatamente)
+                    if (action !== 'cargar-notas') {
+                        button.disabled = originalDisabledState;
+                    }
+                    // Ya no restauramos el texto porque no lo cambiamos
+                    // button.textContent = originalText;
+                }
+            };
             switch (action) {
                 case 'confirmar': executeAndEnable(() => cambiarEstadoCita(idCita, 'Confirmada')); break;
                 case 'cancelar-doctor': executeAndEnable(() => cambiarEstadoCita(idCita, 'Cancelada Doctor')); break;
                 case 'cancelar-paciente': executeAndEnable(() => cambiarEstadoCita(idCita, 'Cancelada Paciente')); break;
                 case 'completar': executeAndEnable(() => cambiarEstadoCita(idCita, 'Completada')); break;
                 case 'cargar-notas':
-                    selectedCitaIdForNotes = idCita; showNotification(`Cita ${idCita} seleccionada para notas.`, 'info'); document.querySelector('#consulta-notes-form textarea')?.focus();
-                    container.querySelectorAll('li[data-cita-id]').forEach(li => li.classList.remove('bg-blue-100', 'dark:bg-blue-900')); button.closest('li[data-cita-id]')?.classList.add('bg-blue-100', 'dark:bg-blue-900');
-                    button.disabled = false; button.textContent = originalText; // Rehabilitar inmediato
+                    selectedCitaIdForNotes = idCita;
+                    // Reemplazamos la notificación simple por un SweetAlert2 más atractivo
+                    Swal.fire({
+                        title: 'Cita seleccionada',
+                        text: `Cita #${idCita} lista para añadir notas médicas`,
+                        icon: 'info',
+                        timer: 1500,
+                        timerProgressBar: true,
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false
+                    });
+
+                    document.querySelector('#consulta-notes-form textarea')?.focus();
+                    container.querySelectorAll('li[data-cita-id]').forEach(li => li.classList.remove('bg-blue-100', 'dark:bg-blue-900'));
+                    button.closest('li[data-cita-id]')?.classList.add('bg-blue-100', 'dark:bg-blue-900');
+                    button.disabled = false; // Rehabilitar inmediato
                     break;
-                default: console.warn(`Acción desconocida: ${action}`); showNotification(`Acción no implementada: ${action}`, 'warning'); button.disabled = false; button.textContent = originalText;
+                default: console.warn(`Acción desconocida: ${action}`); showNotification(`Acción no implementada: ${action}`, 'warning'); button.disabled = false;
             }
         };
         container.addEventListener('click', handleCitaActionClick);
         container.handleCitaClick = handleCitaActionClick; // Guardar referencia para posible limpieza futura
         console.log(`[Listeners] Listener delegado adjuntado a ${containerSelector}`);
+    }
+
+    // --- Funciones Panel Médico ---
+    async function cargarDatosPerfilMedico() {
+        console.log("[Funciones Panel] Cargando datos del perfil del médico..."); // LOG INICIO
+        const form = document.querySelector('#doctor-profile-form');
+        if (!form) {
+            console.error("[cargarDatosPerfilMedico] Error: Formulario #doctor-profile-form no encontrado.");
+            return;
+        }
+        setLoadingState(form, true);
+        try {
+            console.log("[cargarDatosPerfilMedico] Realizando fetch a obtener_perfil.php..."); // LOG FETCH
+            const data = await fetchData('obtener_perfil.php');
+            console.log("[cargarDatosPerfilMedico] Datos recibidos:", data); // LOG RESPUESTA
+            if (data?.success && data.perfil) {
+                console.log("[cargarDatosPerfilMedico] Éxito. Rellenando formulario con:", data.perfil); // LOG DATOS
+                populateForm(form, data.perfil);
+            } else if (data && data.message?.toLowerCase().includes("sesión no iniciada")) {
+                console.warn("[cargarDatosPerfilMedico] Sesión no iniciada. Redirigiendo...");
+                setTimeout(() => window.location.href = 'registro.php#login', 1500);
+            } else {
+                console.error("[cargarDatosPerfilMedico] Error en la respuesta del backend.", data);
+            }
+        } catch (error) {
+            console.error("[cargarDatosPerfilMedico] Error en fetch:", error);
+        } finally {
+            setLoadingState(form, false, 'Actualizar Perfil');
+        }
+    }
+    async function cargarCitasMedico() {
+        console.log("[Funciones Panel] Cargando citas del médico..."); // LOG INICIO
+        const el = document.querySelector('#appointments-list-doctor');
+        if (!el) {
+            console.error("[cargarCitasMedico] Error: Elemento #appointments-list-doctor no encontrado.");
+            return;
+        }
+        el.innerHTML = '<li class="placeholder text-gray-500 dark:text-gray-400 italic">Cargando citas...</li>';
+        try {
+            console.log("[cargarCitasMedico] Realizando fetch a obtener_citas.php?rol=medico..."); // LOG FETCH
+            const data = await fetchData('obtener_citas.php?rol=medico');
+            console.log("[cargarCitasMedico] Datos recibidos:", data); // LOG RESPUESTA
+            el.innerHTML = ''; // Limpiar carga
+            if (data?.success && Array.isArray(data.citas)) {
+                console.log(`[cargarCitasMedico] Éxito. Procesando ${data.citas.length} citas.`); // LOG ÉXITO
+                if (data.citas.length === 0) {
+                    el.innerHTML = '<li class="placeholder text-gray-500 dark:text-gray-400 italic">No hay citas programadas.</li>';
+                } else {
+                    data.citas.forEach(c => el.appendChild(crearElementoCitaMedico(c)));
+                    attachCitaActionListeners('#appointments-list-doctor');
+                }
+            } else {
+                console.error("[cargarCitasMedico] Error en la respuesta del backend.", data);
+                el.innerHTML = `<li class="placeholder text-red-500">Error al cargar citas: ${data?.message || '?'}.</li>`;
+            }
+        } catch (error) {
+            console.error("[cargarCitasMedico] Error en fetch:", error);
+            el.innerHTML = '<li class="placeholder text-red-500">Error de comunicación al cargar citas.</li>';
+        }
     }
 
     // ========================================================================
