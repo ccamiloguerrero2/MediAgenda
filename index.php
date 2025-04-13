@@ -18,7 +18,7 @@ if ($loggedIn) {
         case 'admin':
             $panelLink = 'panel-admin-sistema.php';
             break;
-        // No hay caso para recepcionista
+            // No hay caso para recepcionista
     }
 }
 
@@ -107,22 +107,22 @@ if ($loggedIn) {
 
                     <!-- Submenú Usuarios - Visible solo si está logueado -->
                     <?php if ($loggedIn): ?>
-                    <li class="relative group">
-                        <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">
-                            Panel
-                        </a>
-                        <ul class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg mt-2 transition-all duration-700 ease-in-out min-w-max">
-                            <!-- Mantenemos solo el enlace genérico 'Ir a mi Panel' -->
-                            <li><a href="<?php echo $panelLink; ?>" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 font-semibold">Ir a mi Panel</a></li>
-                        </ul>
-                    </li>
+                        <li class="relative group">
+                            <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">
+                                Panel
+                            </a>
+                            <ul class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg mt-2 transition-all duration-700 ease-in-out min-w-max">
+                                <!-- Mantenemos solo el enlace genérico 'Ir a mi Panel' -->
+                                <li><a href="<?php echo $panelLink; ?>" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 font-semibold">Ir a mi Panel</a></li>
+                            </ul>
+                        </li>
                     <?php endif; ?>
 
                     <!-- Submenú Noticias y Blog -->
                     <li>
                         <a href="blog.html"
                             class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">
-                           Blog
+                            Blog
                         </a>
                     </li>
 
@@ -150,8 +150,8 @@ if ($loggedIn) {
                         <li class="text-gray-700 dark:text-gray-300 px-4 py-2">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></li>
                         <!-- Estilo de Cerrar Sesión actualizado -->
                         <li><a href="mediagenda-backend/logout.php"
-                               class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 font-medium px-3 py-2 rounded-md hover:bg-red-50 dark:hover:bg-gray-700 transition text-sm">
-                               <i class="bi bi-box-arrow-right mr-1"></i>Cerrar Sesión
+                                class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 font-medium px-3 py-2 rounded-md hover:bg-red-50 dark:hover:bg-gray-700 transition text-sm">
+                                <i class="bi bi-box-arrow-right mr-1"></i>Cerrar Sesión
                             </a>
                         </li>
                     <?php endif; ?>
@@ -159,57 +159,57 @@ if ($loggedIn) {
                     <!-- Botón de agendar cita (oculto para admin) -->
                     <?php if (!$loggedIn || $rolUsuario !== 'admin'): ?>
                         <li><a href="<?php echo $agendarCitaLink; ?>"
-                            class="text-white font-bold bg-blue-700 hover:bg-white hover:text-blue-700 hover:border-blue-700 border-2 px-6 py-2 rounded-md">Agendar
-                            Cita</a></li>
+                                class="text-white font-bold bg-blue-700 hover:bg-white hover:text-blue-700 hover:border-blue-700 border-2 px-6 py-2 rounded-md">Agendar
+                                Cita</a></li>
                     <?php endif; ?>
                 </ul>
             </nav>
 
             <!-- Contenedor para botones derechos (modo oscuro y hamburguesa) -->
             <div class="flex items-center gap-4">
-            <button id="dark-mode-toggle" class="cta-button text-blue-600">
-                <i class="fas fa-moon text-2xl"></i>
-            </button>
-            <div class="hamburger-menu lg:hidden flex flex-col gap-1 cursor-pointer" id="hamburger-menu">
-                <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
-                <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
-                <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
-            </div>
+                <button id="dark-mode-toggle" class="cta-button text-blue-600">
+                    <i class="fas fa-moon text-2xl"></i>
+                </button>
+                <div class="hamburger-menu lg:hidden flex flex-col gap-1 cursor-pointer" id="hamburger-menu">
+                    <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
+                    <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
+                    <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
+                </div>
             </div>
 
         </div>
     </header>
 
-     <!-- Contenedor del MENÚ MÓVIL -->
-     <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-gray-800 shadow-lg py-4">
-         <ul class="flex flex-col items-center gap-4">
-             <li><a href="index.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Inicio</a></li>
-             <!-- Quitar enlaces directos a paneles específicos, se usa 'Mi Panel' condicional -->
-             <!-- <li><a href="perfil-usuario.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Pacientes</a></li> -->
-             <!-- <li><a href="perfil-doctores.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Doctores</a></li> -->
-             <li><a href="blog.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Blog</a></li>
-             <li><a href="contacto.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Contacto</a></li>
-             <!-- Actualizar enlace Agendar Cita Móvil (oculto para admin) -->
-             <?php if (!$loggedIn || $rolUsuario !== 'admin'): ?>
-                 <li><a href="<?php echo $agendarCitaLink; ?>" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Agendar Cita</a></li>
-             <?php endif; ?>
+    <!-- Contenedor del MENÚ MÓVIL -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-gray-800 shadow-lg py-4">
+        <ul class="flex flex-col items-center gap-4">
+            <li><a href="index.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Inicio</a></li>
+            <!-- Quitar enlaces directos a paneles específicos, se usa 'Mi Panel' condicional -->
+            <!-- <li><a href="perfil-usuario.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Pacientes</a></li> -->
+            <!-- <li><a href="perfil-doctores.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Doctores</a></li> -->
+            <li><a href="blog.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Blog</a></li>
+            <li><a href="contacto.html" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Contacto</a></li>
+            <!-- Actualizar enlace Agendar Cita Móvil (oculto para admin) -->
+            <?php if (!$loggedIn || $rolUsuario !== 'admin'): ?>
+                <li><a href="<?php echo $agendarCitaLink; ?>" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Agendar Cita</a></li>
+            <?php endif; ?>
 
-             <hr class="w-1/2 border-gray-300 dark:border-gray-600 my-2">
+            <hr class="w-1/2 border-gray-300 dark:border-gray-600 my-2">
 
-             <?php if (!$loggedIn): ?>
-                 <li><a href="registro.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Registro / Iniciar Sesión</a></li>
-             <?php else: ?>
-                 <li class="text-gray-700 dark:text-gray-300 px-4 py-2">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></li>
-                 <!-- Añadir enlace a 'Mi Panel' que apunta al lugar correcto -->
-                 <li><a href="<?php echo $panelLink; ?>" class="block text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 px-4 py-2 font-medium">Mi Panel</a></li>
-                 <!-- Estilo de Cerrar Sesión actualizado (Móvil) -->
-                 <li><a href="mediagenda-backend/logout.php" class="block text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 px-4 py-2">
+            <?php if (!$loggedIn): ?>
+                <li><a href="registro.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Registro / Iniciar Sesión</a></li>
+            <?php else: ?>
+                <li class="text-gray-700 dark:text-gray-300 px-4 py-2">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></li>
+                <!-- Añadir enlace a 'Mi Panel' que apunta al lugar correcto -->
+                <li><a href="<?php echo $panelLink; ?>" class="block text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 px-4 py-2 font-medium">Mi Panel</a></li>
+                <!-- Estilo de Cerrar Sesión actualizado (Móvil) -->
+                <li><a href="mediagenda-backend/logout.php" class="block text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 px-4 py-2">
                         <i class="bi bi-box-arrow-right mr-1"></i>Cerrar Sesión
-                     </a>
-                 </li>
-             <?php endif; ?>
-         </ul>
-     </div>
+                    </a>
+                </li>
+            <?php endif; ?>
+        </ul>
+    </div>
 
     <!-- Sección Hero con efecto Parallax -->
     <section class="parallax">
@@ -221,6 +221,30 @@ if ($loggedIn) {
                 Iniciar Sesión</a>
         </div>
     </section>
+
+    <!-- Mensaje de Error para acceso no autorizado -->
+    <?php if (isset($_GET['error']) && $_GET['error'] === 'unauthorized_role'): ?>
+        <div id="error-message" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-auto my-4 max-w-4xl">
+            <div class="flex items-center">
+                <div class="py-1"><i class="fas fa-exclamation-circle text-red-500 mr-3"></i></div>
+                <div>
+                    <p class="font-bold">Acceso no autorizado</p>
+                    <p>No tienes permiso para acceder al panel solicitado. Por favor, usa el panel asignado a tu rol de usuario.</p>
+                </div>
+            </div>
+        </div>
+        <script>
+            // Auto-ocultar el mensaje después de 5 segundos
+            setTimeout(() => {
+                const errorMsg = document.getElementById('error-message');
+                if (errorMsg) {
+                    errorMsg.style.opacity = '0';
+                    errorMsg.style.transition = 'opacity 0.5s ease';
+                    setTimeout(() => errorMsg.remove(), 500);
+                }
+            }, 5000);
+        </script>
+    <?php endif; ?>
 
     <!-- Sección de Características del Sistema -->
     <section class="bg-gray-100 py-20 text-center dark:bg-gray-800">
@@ -356,8 +380,9 @@ if ($loggedIn) {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="scripts.js"></script>
 
- <!-- Área para mostrar notificaciones -->
- <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
+    <!-- Área para mostrar notificaciones -->
+    <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
 
 </body>
+
 </html>
