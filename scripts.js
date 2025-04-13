@@ -316,22 +316,22 @@ document.addEventListener('DOMContentLoaded', function () {
         if (btnForgotPassword && forgotPasswordModal && closeForgotModalBtn && forgotPasswordForm) {
             console.log("[Forgot Password] Listeners modal añadidos.");
             btnForgotPassword.addEventListener('click', () => {
-                forgotPasswordModal.classList.remove('hidden');
+                openForgotModal();
             });
             closeForgotModalBtn.addEventListener('click', () => {
-                forgotPasswordModal.classList.add('hidden');
+                closeForgotModal();
             });
             // Cerrar modal si se hace clic fuera de ella
             forgotPasswordModal.addEventListener('click', (event) => {
                 if (event.target === forgotPasswordModal) {
-                    forgotPasswordModal.classList.add('hidden');
+                    closeForgotModal();
                 }
             });
 
             // Manejar envío del form de la modal
             handleFormSubmit('#forgot-password-form', 'solicitar_reset.php', (data, form) => {
                 // Independientemente del resultado del backend (por seguridad), mostrar mensaje genérico
-                forgotPasswordModal.classList.add('hidden'); // Ocultar modal
+                closeForgotModal();
                 form.reset(); // Limpiar el campo de email
                 showNotification(
                     'Si existe una cuenta asociada a ese correo, recibirás un enlace para restablecer tu contraseña en breve.',
@@ -955,3 +955,21 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('[MediAgenda] Inicialización del script finalizada.');
 
 }); // Fin de DOMContentLoaded
+
+function openForgotModal() {
+    if (forgotPasswordModal) {
+        forgotPasswordModal.classList.remove('hidden');
+        forgotPasswordModal.classList.add('flex'); // Añadir flex al mostrar
+        const emailInput = forgotPasswordModal.querySelector('#forgot-email');
+        if (emailInput) setTimeout(() => emailInput.focus(), 50);
+    } else {
+        console.error("Modal #forgot-password-modal no encontrado.");
+    }
+}
+
+function closeForgotModal() {
+    if (forgotPasswordModal) {
+        forgotPasswordModal.classList.add('hidden');
+        forgotPasswordModal.classList.remove('flex'); // Quitar flex al ocultar
+    }
+}

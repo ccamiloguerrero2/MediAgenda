@@ -117,9 +117,8 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
     <header class="bg-white bg-opacity-90 shadow-md sticky top-0 z-50 dark:bg-gray-800 dark:bg-opacity-90 backdrop-blur-sm">
         <div class="container mx-auto flex justify-between items-center py-4 px-6">
             <div class="flex items-center gap-2">
-                <!-- CORREGIDO: Enlace a index.php -->
                 <a href="index.php">
-                    <img src="logo.png" alt="MediAgenda Logo" class="w-10 h-10">
+                    <img src="img/logo.png" alt="MediAgenda Logo" class="w-10 h-10">
                 </a>
                 <span class="text-xl font-bold text-blue-600 dark:text-blue-300">MediAgenda - Panel de Doctores</span>
             </div>

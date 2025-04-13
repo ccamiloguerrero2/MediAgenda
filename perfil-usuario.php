@@ -71,7 +71,7 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
             <div class="flex items-center gap-2">
                 <!-- CORREGIDO: Enlace a index.php -->
                 <a href="index.php">
-                    <img src="logo.png" alt="MediAgenda Logo" class="w-10 h-10">
+                    <img src="img/logo.png" alt="MediAgenda Logo" class="w-10 h-10">
                 </a>
                 <span class="text-xl font-bold text-blue-600 dark:text-blue-300">MediAgenda - Panel de Pacientes</span>
             </div>

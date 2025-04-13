@@ -50,22 +50,49 @@ if ($loggedIn) {
     <!-- Añadir CSS de SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+    <!-- Google Fonts (Roboto y Montserrat) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
     <style>
+        /* Aplicar fuentes base */
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
         /* Estilos para el efecto Parallax en distintas secciones */
         .parallax {
-            background-image: url('/img/Fondoini1.jpeg');
+            /* Gradiente claro + imagen original */
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.9) 40%, rgba(255, 255, 255, 0.7) 60%, rgba(255, 255, 255, 0.3) 80%, rgba(255, 255, 255, 0) 100%), url('/img/FondoMedico1.jpg');
             height: 100vh;
-            background-attachment: fixed;
+            /* background-attachment: fixed; */
+            /* Eliminado para quitar parallax */
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
             position: relative;
         }
 
+        /* Estilo para modo oscuro */
+        .dark .parallax {
+            background-image: linear-gradient(to right, rgba(17, 24, 39, 0.9) 30%, rgba(31, 41, 55, 0.8) 50%, rgba(55, 65, 81, 0.6) 70%, rgba(55, 65, 81, 0) 100%), url('/img/Fondoini1.jpeg');
+            /* No necesita background-attachment aquí si se quita en .parallax base */
+        }
+
         .parallax-doctors {
-            background-image: url('/img/Fondoini2.jpeg');
             height: 100vh;
-            background-attachment: fixed;
+            /* background-attachment: fixed; */
+            /* Eliminado para quitar parallax */
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -73,9 +100,9 @@ if ($loggedIn) {
         }
 
         .parallax-testimonials {
-            background-image: url('/img/Fondoini3.png');
             height: 100vh;
-            background-attachment: fixed;
+            /* background-attachment: fixed; */
+            /* Eliminado para quitar parallax */
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -84,23 +111,23 @@ if ($loggedIn) {
     </style>
 </head>
 
-<body class="font-sans antialiased transition-colors duration-300 dark:bg-gray-900 dark:text-white">
+<body class="antialiased transition-colors duration-300 dark:bg-gray-900 dark:text-white">
 
     <!-- Encabezado con logo, navegación y modo oscuro -->
-    <header class="bg-white bg-opacity-80 shadow-md sticky top-0 z-50 dark:bg-gray-800">
-        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+    <header class="bg-white shadow-md sticky top-0 z-50 dark:bg-gray-800">
+        <div class="container mx-auto flex justify-between items-center py-3 px-4">
 
             <!-- Logo de MediAgenda -->
             <div class="flex items-center gap-2">
                 <a href="index.php">
-                    <img src="logo.png" alt="MediAgenda Logo" class="w-10 h-10">
+                    <img src="img/logo.png" alt="MediAgenda Logo" class="w-10 h-10">
                 </a>
                 <span class="text-xl font-bold text-blue-600 dark:text-blue-300">MediAgenda</span>
             </div>
 
             <!-- Menú de navegación de ESCRITORIO con submenús -->
             <nav>
-                <ul id="nav-links" class="hidden lg:flex gap-6 items-center">
+                <ul id="nav-links" class="hidden lg:flex space-x-8 items-center">
                     <?php /* <li><a href="index.php"
                             class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">Inicio</a>
                     </li> */ ?>
@@ -213,12 +240,13 @@ if ($loggedIn) {
 
     <!-- Sección Hero con efecto Parallax -->
     <section class="parallax">
-        <div class="absolute inset-0 bg-gray-800 bg-opacity-30"></div>
-        <div class="relative z-10 flex flex-col justify-center items-center text-center text-white h-full">
-            <h1 class="text-4xl md:text-6xl font-bold">Programe su cita médica con facilidad</h1>
-            <p class="text-xl md:text-2xl mt-4">Programación rápida, cómoda y segura de sus citas médicas.</p>
-            <a href="./registro.php" class="mt-8 bg-blue-600 text-white py-4 px-8 rounded-lg shadow-lg">Registrarse /
-                Iniciar Sesión</a>
+        <div class="absolute inset-0 bg-gray-800 bg-opacity-30 dark:bg-opacity-50"></div>
+        <div class="relative z-10 flex flex-col justify-center h-full px-6 sm:px-10 md:px-16 lg:px-24 py-10 text-white">
+            <div class="max-w-2xl">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Programe su cita médica con facilidad</h1>
+                <p class="text-xl md:text-2xl mt-4 text-gray-700 dark:text-gray-300">Programación rápida, cómoda y segura de sus citas médicas.</p>
+                <a href="./registro.php" class="mt-8 inline-block bg-blue-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-blue-700 transition">Registrarse / Iniciar Sesión</a>
+            </div>
         </div>
     </section>
 
@@ -304,7 +332,6 @@ if ($loggedIn) {
 
     <!-- Sección de Doctores -->
     <section id="doctors" class="parallax-doctors bg-white py-20 dark:bg-gray-800">
-        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         <div class="relative container mx-auto">
             <h2 class="text-3xl font-semibold mb-4 text-center text-white dark:text-white">Nuestros Doctores</h2>
             <p class="mb-12 text-center text-white dark:text-gray-300">Conozca a nuestros doctores.</p>
@@ -330,7 +357,6 @@ if ($loggedIn) {
 
     <!-- Sección de Testimonios -->
     <section id="testimonials" class="parallax-testimonials bg-white py-20 dark:bg-gray-800">
-        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         <div class="relative container mx-auto">
             <h2 class="text-3xl font-semibold mb-4 text-center text-white dark:text-white">Testimonios de Usuarios</h2>
             <p class="mb-12 text-center text-white dark:text-gray-300">Escucha lo que nuestros usuarios dicen sobre
@@ -357,10 +383,10 @@ if ($loggedIn) {
                 <!-- Columna 1: Logo y Descripción -->
                 <div class="md:col-span-1">
                     <div class="flex items-center gap-2 mb-4">
-                        <img src="logo.png" alt="MediAgenda Logo" class="w-8 h-8">
+                        <img src="img/logo.png" alt="MediAgenda Logo" class="w-8 h-8">
                         <span class="text-xl font-bold text-white">MediAgenda</span>
                     </div>
-                    <p class="text-sm text-gray-400">Facilitando el acceso a la salud, una cita a la vez.</p>
+                    <p class="text-sm text-gray-400">Facilitando el acceso a la salud.</p>
                 </div>
 
                 <!-- Columna 2: Enlaces Rápidos -->

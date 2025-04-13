@@ -84,14 +84,11 @@ if ($loggedIn && isset($_SESSION['rolUsuario'])) {
     <!-- Header Mejorado -->
     <header class="bg-white bg-opacity-90 shadow-md sticky top-0 z-50 dark:bg-gray-800 dark:bg-opacity-90 backdrop-blur-sm">
         <div class="container mx-auto flex justify-between items-center py-3 px-6">
-            <!-- Logo -->
-            <div class="flex items-center gap-3">
-                <!-- Enlazar a index.php si lo renombraste -->
-                <a href="index.php">
-                    <img src="logo.png" alt="MediAgenda Logo" class="w-10 h-10 md:w-12 md:h-12">
-                </a>
-                <span class="text-xl md:text-2xl font-bold text-blue-600 dark:text-blue-300">MediAgenda</span>
-            </div>
+            <!-- Logo y Título -->
+            <a href="index.php" class="flex items-center gap-2">
+                <img src="img/logo.png" alt="MediAgenda Logo" class="w-10 h-10 md:w-12 md:h-12">
+                <span class="text-xl md:text-2xl font-semibold text-blue-600 dark:text-blue-300">MediAgenda</span>
+            </a>
 
             <!-- Navegación Principal / Acciones -->
             <nav class="flex items-center gap-4">
@@ -273,7 +270,7 @@ if ($loggedIn && isset($_SESSION['rolUsuario'])) {
     </main>
 
     <!-- Modal Olvidó Contraseña (Oculto por defecto) -->
-    <div id="forgot-password-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-gray-800 bg-opacity-75 hidden">
+    <div id="forgot-password-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-gray-800 bg-opacity-75 p-4">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Restablecer Contraseña</h3>
