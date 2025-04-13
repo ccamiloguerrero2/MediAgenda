@@ -192,8 +192,8 @@ if ($loggedIn && isset($_SESSION['rolUsuario'])) {
                                     <input id="login-password" type="password" name="login_password" required autocomplete="current-password" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="********">
                                 </div>
                                 <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
-                                    <!-- Funcionalidad olvidó contraseña no implementada aún -->
-                                    <a href="#" class="text-sm text-blue-600 hover:underline dark:text-blue-400">¿Olvidó su contraseña?</a>
+                                    <!-- Funcionalidad olvidó contraseña - Ahora es un botón que abre modal -->
+                                    <button type="button" id="btn-forgot-password" class="text-sm text-blue-600 hover:underline dark:text-blue-400">¿Olvidó su contraseña?</button>
                                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition duration-200">Iniciar Sesión</button>
                                 </div>
                             </form>
@@ -271,6 +271,26 @@ if ($loggedIn && isset($_SESSION['rolUsuario'])) {
             </div><!-- Fin max-w-3xl -->
         </div> <!-- Fin container -->
     </main>
+
+    <!-- Modal Olvidó Contraseña (Oculto por defecto) -->
+    <div id="forgot-password-modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-gray-800 bg-opacity-75 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Restablecer Contraseña</h3>
+                <button id="close-forgot-modal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">&times;</button>
+            </div>
+            <form id="forgot-password-form">
+                <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.</p>
+                <div class="mb-4">
+                    <label for="forgot-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo Electrónico</label>
+                    <input type="email" id="forgot-email" name="forgot_email" required autocomplete="email" class="w-full px-4 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="tuCorreo@example.com">
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition duration-200">Enviar Enlace</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-gray-200 dark:bg-gray-800 py-6">

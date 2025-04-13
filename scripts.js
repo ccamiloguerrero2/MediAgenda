@@ -163,6 +163,43 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         });
+
+        // --- Lógica para Modal "Olvidó Contraseña" --- (En registro.php)
+        const btnForgotPassword = document.getElementById('btn-forgot-password');
+        const forgotPasswordModal = document.getElementById('forgot-password-modal');
+        const closeForgotModalBtn = document.getElementById('close-forgot-modal');
+        const forgotPasswordForm = document.getElementById('forgot-password-form');
+
+        if (btnForgotPassword && forgotPasswordModal && closeForgotModalBtn && forgotPasswordForm) {
+            console.log("[Forgot Password] Listeners modal añadidos.");
+            btnForgotPassword.addEventListener('click', () => {
+                forgotPasswordModal.classList.remove('hidden');
+            });
+            closeForgotModalBtn.addEventListener('click', () => {
+                forgotPasswordModal.classList.add('hidden');
+            });
+            // Cerrar modal si se hace clic fuera de ella
+            forgotPasswordModal.addEventListener('click', (event) => {
+                if (event.target === forgotPasswordModal) {
+                    forgotPasswordModal.classList.add('hidden');
+                }
+            });
+
+            // Manejar envío del form de la modal
+            handleFormSubmit('#forgot-password-form', 'solicitar_reset.php', (data, form) => {
+                // Independientemente del resultado del backend (por seguridad), mostrar mensaje genérico
+                forgotPasswordModal.classList.add('hidden'); // Ocultar modal
+                form.reset(); // Limpiar el campo de email
+                showNotification(
+                    'Si existe una cuenta asociada a ese correo, recibirás un enlace para restablecer tu contraseña en breve.',
+                    'info', // Usar 'info' o 'success' aquí es debatible, info es más neutral
+                    'Solicitud Enviada'
+                );
+            });
+        } else {
+            console.log("[Forgot Password] Elementos modal no encontrados en esta página.");
+        }
+
     }
 
     // --- Lógica para: perfil-usuario.html ---
