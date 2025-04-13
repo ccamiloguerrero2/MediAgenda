@@ -99,10 +99,10 @@ try {
 
 } catch (Exception $e) {
     http_response_code(500);
-    // Loguear el error específico
+    // Loguear el error específico para depuración interna
     error_log("Error en programar_cita.php (idUsuario: $idUsuario, idMedico: $idMedico, Fecha: $fecha, Hora: $hora): " . $e->getMessage());
-    // Enviar mensaje genérico o específico (cuidado con exponer detalles)
-    echo json_encode(["success" => false, "message" => "Error del servidor al programar la cita. Detalles: " . $e->getMessage()]);
+    // Enviar mensaje genérico y seguro al usuario final
+    echo json_encode(["success" => false, "message" => "Ocurrió un error inesperado al intentar programar la cita. Por favor, inténtalo más tarde."]);
 } finally {
     // 6. Limpiar
     if (isset($stmt_insert) && $stmt_insert) {

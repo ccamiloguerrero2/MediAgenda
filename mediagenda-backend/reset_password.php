@@ -21,20 +21,6 @@ if (!isset($conexion) || !$conexion) {
     die("Error crítico interno del servidor [DB Connection Check].");
 }
 
-// ***** COMENTAR BLOQUE DE DEBUG PDO INCORRECTO *****
-/*
-// --- DEBUGGING ---
-if (isset($pdo)) { // O usa $conn si usas MySQLi
-    error_log("DEBUG solicitar_reset: Conexión PDO ($pdo) parece existir.");
-} else {
-    error_log("DEBUG solicitar_reset: ERROR - La variable de conexión PDO (\$pdo) NO existe después del require_once!");
-    // Detener aquí si no hay conexión, porque el resto fallará
-    echo json_encode(['success' => false, 'message' => 'Error interno del servidor (DB Connection).']);
-    exit;
-}
-// --- FIN DEBUGGING ---
-*/
-
 // ***** 3. VERIFICAR VALIDEZ DEL TOKEN (MySQLi) *****
 $isValidToken = false;
 $email = null;

@@ -32,7 +32,7 @@ if (!$rolUsuario) {
 }
 
 // 2. Obtener y Validar Datos de POST (¡Ajusta los nombres según tu HTML!)
-$nombre = trim($_POST['nombre_completo'] ?? ''); // Espera name="nombre_completo" en el form
+$nombre = trim($_POST['nombre'] ?? ''); // Espera name="nombre" en el form (CORREGIDO)
 $email = trim($_POST['email'] ?? '');           // Espera name="email"
 // Campos específicos de rol
 $telefono = trim($_POST['telefono'] ?? '');       // Espera name="telefono" (para paciente)

@@ -28,10 +28,10 @@ function showNotification(message, type = 'info', title = null) {
         // Mantenemos las otras opciones de modal completo
         showConfirmButton: true,
         customClass: {
-             // popup: 'dark:bg-gray-800', // Descomentar si necesitas estilos dark específicos
-             // title: 'dark:text-white',
-             // htmlContainer: 'dark:text-gray-300',
-             // confirmButton: 'bg-blue-600 hover:bg-blue-700 ...', // Puedes aplicar clases Tailwind al botón si quieres
+            // popup: 'dark:bg-gray-800', // Descomentar si necesitas estilos dark específicos
+            // title: 'dark:text-white',
+            // htmlContainer: 'dark:text-gray-300',
+            // confirmButton: 'bg-blue-600 hover:bg-blue-700 ...', // Puedes aplicar clases Tailwind al botón si quieres
         },
     });
 }
@@ -40,7 +40,7 @@ function showNotification(message, type = 'info', title = null) {
 async function fetchData(url, options = {}) {
     try {
         const response = await fetch(backendUrl + url, options);
-        if (!response.ok) { let eD = { m: `HTTP ${response.status}`, c: response.status }; try { const eJ = await response.json(); eD.m = eJ.message||eD.m; } catch (e) {} const err = new Error(eD.m); err.code = eD.c; console.error(`[Fetch] Error ${err.code||''}: ${err.message} en ${url}`); throw err; }
+        if (!response.ok) { let eD = { m: `HTTP ${response.status}`, c: response.status }; try { const eJ = await response.json(); eD.m = eJ.message || eD.m; } catch (e) { } const err = new Error(eD.m); err.code = eD.c; console.error(`[Fetch] Error ${err.code || ''}: ${err.message} en ${url}`); throw err; }
         if (response.status === 204) return null; return await response.json();
     } catch (error) {
         if (!error.code && !(error instanceof SyntaxError)) { console.error('[Fetch] Error Red:', error); showNotification('Error comunicación.', 'error'); throw new Error('Error comunicación.'); }
@@ -56,13 +56,13 @@ function populateForm(form, data) { if (!form || !data) return; for (const k in 
 function setLoadingState(form, isLoading, loadingText = 'Cargando...') { if (!form) return; const b = form.querySelector('button[type="submit"]'); if (!b) return; if (isLoading) { b.dataset.originalText = b.textContent; b.disabled = true; b.textContent = loadingText; } else { b.disabled = false; b.textContent = b.dataset.originalText || 'Enviar'; } }
 
 // --- Helper para Formatear Hora ---
-function formatTime(t) { if (!t) return 'N/A'; try { return new Date(`1970-01-01T${t}`).toLocaleTimeString([], { hour:'2-digit',minute:'2-digit',hour12:true }); } catch(e){ return t; } }
+function formatTime(t) { if (!t) return 'N/A'; try { return new Date(`1970-01-01T${t}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }); } catch (e) { return t; } }
 
 // --- Helper para Formatear Fecha ---
-function formatDate(d) { if (!d) return 'N/A'; try { return new Date(d+'T00:00:00').toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}); } catch(e){ return d; } }
+function formatDate(d) { if (!d) return 'N/A'; try { return new Date(d + 'T00:00:00').toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }); } catch (e) { return d; } }
 
 // --- Helper para Clases de Estado CSS ---
-function getEstadoClass(st) { const c = {'Programada':'bg-blue-100 ...','Confirmada':'bg-green-100 ...','Cancelada Paciente':'bg-red-100 ...','Cancelada Doctor':'bg-red-100 ...','Completada':'bg-gray-100 ...','No Asistió':'bg-yellow-100 ...'}; return c[st] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'; } // Clases abreviadas para brevedad
+function getEstadoClass(st) { const c = { 'Programada': 'bg-blue-100 ...', 'Confirmada': 'bg-green-100 ...', 'Cancelada Paciente': 'bg-red-100 ...', 'Cancelada Doctor': 'bg-red-100 ...', 'Completada': 'bg-gray-100 ...', 'No Asistió': 'bg-yellow-100 ...' }; return c[st] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'; } // Clases abreviadas para brevedad
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -85,17 +85,67 @@ document.addEventListener('DOMContentLoaded', function () {
     function handleFormSubmit(formSelector, phpScript, successCallback) {
         const form = document.querySelector(formSelector); if (!form) return;
         const btn = form.querySelector('button[type="submit"]'); const btnTxt = btn ? btn.textContent : 'Enviar';
+
+        // Limpiar errores previos al añadir listener
+        form.querySelectorAll('.error-message').forEach(el => el.classList.add('hidden'));
+        form.querySelectorAll('[required]').forEach(el => el.classList.remove('border-red-500'));
+
         form.addEventListener('submit', async (e) => {
-            e.preventDefault(); console.log(`%c[Submit] ${formSelector} -> ${phpScript}`, 'color:orange;');
+            e.preventDefault();
+            console.log(`%c[Submit] ${formSelector} -> ${phpScript}`, 'color:orange;');
+
+            // Limpiar errores al intentar enviar
+            form.querySelectorAll('.error-message').forEach(el => el.classList.add('hidden'));
+            form.querySelectorAll('[required]').forEach(el => el.classList.remove('border-red-500'));
+
+            // --- Validación básica Client-Side ---
+            let isValid = true;
+            // Iterar sobre los campos requeridos DENTRO del formulario actual
+            form.querySelectorAll('[required]').forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    const errorElement = form.querySelector(`#${input.id}-error`); // Asume id="campo-error"
+                    if (errorElement) {
+                        errorElement.textContent = 'Este campo es obligatorio.';
+                        errorElement.classList.remove('hidden');
+                    }
+                    input.classList.add('border-red-500');
+                }
+                // Añadir más validaciones específicas aquí si es necesario (ej. formato email)
+                if (input.type === 'email' && input.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
+                    isValid = false;
+                    const errorElement = form.querySelector(`#${input.id}-error`);
+                    if (errorElement) {
+                        errorElement.textContent = 'Formato de correo inválido.';
+                        errorElement.classList.remove('hidden');
+                    }
+                    input.classList.add('border-red-500');
+                }
+            });
+
+            if (!isValid) {
+                showNotification('Por favor, corrija los errores en el formulario.', 'warning');
+                return; // Detener si no es válido
+            }
+            // --- Fin Validación Client-Side ---
+
             const fd = new FormData(form);
             setLoadingState(form, true, 'Enviando...');
             try {
                 const data = await fetchData(phpScript, { method: 'POST', body: fd });
                 console.log(`[Submit] Resp ${phpScript}:`, data);
-                if (data?.success) { if (successCallback) successCallback(data, form); else showNotification(data.message || "Éxito.", 'success'); }
-                else if (data) { showNotification(data.message || "Error.", 'error'); }
-            } catch (err) { console.error(`[Submit] Catch ${formSelector}:`, err); /* Error ya notificado por fetchData */ }
-            finally { setLoadingState(form, false, btnTxt); }
+                if (data?.success) {
+                    if (successCallback) successCallback(data, form);
+                    else showNotification(data.message || "Éxito.", 'success');
+                } else if (data) {
+                    showNotification(data.message || "Error desconocido desde el servidor.", 'error'); // Mensaje por defecto más claro
+                }
+            } catch (err) {
+                console.error(`[Submit] Catch ${formSelector}:`, err);
+                // El error de comunicación ya es notificado por fetchData
+            } finally {
+                setLoadingState(form, false, btnTxt);
+            }
         });
     }
 
@@ -109,11 +159,104 @@ document.addEventListener('DOMContentLoaded', function () {
     // if (!notificationArea && document.body) { ... } // Ya no es necesario crear el div
 
     // El resto de la inicialización UI (dark mode, hamburger, scroll, parallax, fade-in) permanece aquí
-    const darkModeToggle = document.getElementById('dark-mode-toggle'); if (darkModeToggle) { const i=darkModeToggle.querySelector('i'); const a=d=>{body.classList.toggle('dark',d);if(i){i.classList.toggle('fa-sun',d);i.classList.toggle('fa-moon',!d);}localStorage.theme=d?'dark':'light';};const p=window.matchMedia('(prefers-color-scheme: dark)').matches;a(localStorage.theme==='dark'||(!localStorage.theme&&p));darkModeToggle.addEventListener('click',()=>a(!body.classList.contains('dark'))); }
-    const hamburgerBtn = document.getElementById('hamburger-menu'); const mobileMenu = document.getElementById('mobile-menu'); if (hamburgerBtn && mobileMenu) { const s=hamburgerBtn.querySelectorAll('span'); hamburgerBtn.addEventListener('click',()=>{mobileMenu.classList.toggle('hidden');const o=hamburgerBtn.classList.toggle('open');if(s.length===3){s[0].style.transform=o?'rotate(45deg) translate(5px, 5px)':'';s[1].style.opacity=o?'0':'1';s[2].style.transform=o?'rotate(-45deg) translate(5px, -5px)':'';}}); mobileMenu.querySelectorAll('a, button').forEach(l=>l.addEventListener('click',()=>{if(l.tagName==='A'||l.hasAttribute('data-target'))closeMobileMenu();}));} function closeMobileMenu(){if(mobileMenu)mobileMenu.classList.add('hidden');if(hamburgerBtn){hamburgerBtn.classList.remove('open');const s=hamburgerBtn.querySelectorAll('span');if(s.length===3){s[0].style.transform='';s[1].style.opacity='1';s[2].style.transform='';}}}
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){const h=this.getAttribute('href');if(h&&h.length>1&&h!=='#'){try{const t=document.querySelector(h);if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}}catch(err){console.error(`Scroll err: ${h}`,err);}}});});
-    const parallaxElems = document.querySelectorAll('.parallax, .parallax-doctors, .parallax-testimonials'); if(parallaxElems.length>0){window.addEventListener('scroll',()=>{let o=window.pageYOffset;parallaxElems.forEach(e=>{if(e.getBoundingClientRect){let s=0.5;e.style.backgroundPositionY=(o-e.offsetTop)*s+'px';}});},{passive:true});}
-    const fadeInElems = document.querySelectorAll('.fade-in'); if(fadeInElems.length > 0 && 'IntersectionObserver' in window){const obs=new IntersectionObserver((e)=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');obs.unobserve(i.target);}});},{threshold:0.1}); fadeInElems.forEach(el=>obs.observe(el));}
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    if (darkModeToggle) {
+        const icon = darkModeToggle.querySelector('i');
+        const applyDarkMode = (isDark) => {
+            body.classList.toggle('dark', isDark);
+            if (icon) {
+                icon.classList.toggle('fa-sun', isDark);
+                icon.classList.toggle('fa-moon', !isDark);
+            }
+            localStorage.theme = isDark ? 'dark' : 'light';
+        };
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyDarkMode(localStorage.theme === 'dark' || (!localStorage.theme && prefersDark));
+        darkModeToggle.addEventListener('click', () => applyDarkMode(!body.classList.contains('dark')));
+    }
+
+    const hamburgerBtn = document.getElementById('hamburger-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    function closeMobileMenu() {
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+        if (hamburgerBtn) {
+            hamburgerBtn.classList.remove('open');
+            const spans = hamburgerBtn.querySelectorAll('span');
+            if (spans.length === 3) {
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = '';
+            }
+        }
+    }
+
+    if (hamburgerBtn && mobileMenu) {
+        const spans = hamburgerBtn.querySelectorAll('span');
+        hamburgerBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const isOpen = hamburgerBtn.classList.toggle('open');
+            if (spans.length === 3) {
+                spans[0].style.transform = isOpen ? 'rotate(45deg) translate(5px, 5px)' : '';
+                spans[1].style.opacity = isOpen ? '0' : '1';
+                spans[2].style.transform = isOpen ? 'rotate(-45deg) translate(5px, -5px)' : '';
+            }
+        });
+        mobileMenu.querySelectorAll('a, button').forEach(link => {
+            link.addEventListener('click', () => {
+                // Cerrar menú si es un enlace de navegación o un botón que cambia la pestaña (si aplica)
+                if (link.tagName === 'A' || link.hasAttribute('data-target')) {
+                    closeMobileMenu();
+                }
+            });
+        });
+    } // Fin del if (hamburgerBtn && mobileMenu)
+
+    // Scroll suave para enlaces ancla (#...)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href && href.length > 1 && href !== '#') {
+                try {
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        e.preventDefault();
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                } catch (err) {
+                    console.error(`Error de scroll suave para ${href}:`, err);
+                }
+            }
+        });
+    });
+
+    // Efecto Parallax (sin cambios)
+    const parallaxElems = document.querySelectorAll('.parallax, .parallax-doctors, .parallax-testimonials');
+    if (parallaxElems.length > 0) {
+        window.addEventListener('scroll', () => {
+            let offset = window.pageYOffset;
+            parallaxElems.forEach(elem => {
+                if (elem.getBoundingClientRect) { // Asegurar que es un elemento válido
+                    let speed = 0.5; // Ajusta la velocidad del parallax
+                    elem.style.backgroundPositionY = (offset - elem.offsetTop) * speed + 'px';
+                }
+            });
+        }, { passive: true }); // Optimización del listener de scroll
+    }
+
+    // Efecto Fade-in (sin cambios)
+    const fadeInElems = document.querySelectorAll('.fade-in');
+    if (fadeInElems.length > 0 && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Dejar de observar una vez visible
+                }
+            });
+        }, { threshold: 0.1 }); // El elemento debe ser visible al 10%
+        fadeInElems.forEach(el => observer.observe(el));
+    }
 
     // --- Lógica para mostrar notificación de logout --- (Se ejecuta en todas las páginas)
     console.log("[Logout Check] Verificando parámetros de URL..."); // <-- LOG 1
@@ -143,11 +286,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- Lógica para: registro.php ---
     if (currentPath.includes('registro.php')) {
         console.log('[Routing] Ejecutando lógica para registro.php');
-        const tabs = document.querySelectorAll('.tab-button'); const tabContents = document.querySelectorAll('.tab-content'); if (tabs.length > 0 && tabContents.length > 0) { let showTab=(id)=>{let f=0;tabContents.forEach(c=>c.style.display=(c.id===id)?(f=1,'block'):'none');tabs.forEach(b=>{const a=b.getAttribute('data-target')===id;b.classList.toggle('text-blue-600',a);b.classList.toggle('dark:text-blue-400',a);b.classList.toggle('border-blue-500',a);b.classList.toggle('text-gray-600',!a);b.classList.toggle('dark:text-gray-400',!a);b.classList.toggle('border-transparent',!a);});return f;}; tabs.forEach(b=>{b.addEventListener('click',(e)=>{e.preventDefault();const t=b.getAttribute('data-target');if(t&&typeof showTab==='function')showTab(t);if(mobileMenu&&!mobileMenu.classList.contains('hidden')&&mobileMenu.contains(b))closeMobileMenu();});});let iT='login';if(window.location.hash&&document.getElementById(window.location.hash.substring(1)))iT=window.location.hash.substring(1);if(typeof showTab==='function'&&!showTab(iT)&&tabContents.length>0)showTab(tabContents[0].id);}
-        handleFormSubmit('#patient-register-form', 'registrar_paciente.php', (d,f)=>{if(typeof showTab==='function')showTab('login');f.reset();showNotification(d.message||"Registro exitoso.",'success');});
-        handleFormSubmit('#doctor-register-form', 'registrar_medico.php', (d,f)=>{if(typeof showTab==='function')showTab('login');f.reset();showNotification(d.message||"Registro exitoso.",'success');});
-        handleFormSubmit('#login-form', 'login.php', (d)=>{
-            if(d.success && d.rol){
+        const tabs = document.querySelectorAll('.tab-button'); const tabContents = document.querySelectorAll('.tab-content'); if (tabs.length > 0 && tabContents.length > 0) { let showTab = (id) => { let f = 0; tabContents.forEach(c => c.style.display = (c.id === id) ? (f = 1, 'block') : 'none'); tabs.forEach(b => { const a = b.getAttribute('data-target') === id; b.classList.toggle('text-blue-600', a); b.classList.toggle('dark:text-blue-400', a); b.classList.toggle('border-blue-500', a); b.classList.toggle('text-gray-600', !a); b.classList.toggle('dark:text-gray-400', !a); b.classList.toggle('border-transparent', !a); }); return f; }; tabs.forEach(b => { b.addEventListener('click', (e) => { e.preventDefault(); const t = b.getAttribute('data-target'); if (t && typeof showTab === 'function') showTab(t); if (mobileMenu && !mobileMenu.classList.contains('hidden') && mobileMenu.contains(b)) closeMobileMenu(); }); }); let iT = 'login'; if (window.location.hash && document.getElementById(window.location.hash.substring(1))) iT = window.location.hash.substring(1); if (typeof showTab === 'function' && !showTab(iT) && tabContents.length > 0) showTab(tabContents[0].id); }
+        handleFormSubmit('#patient-register-form', 'registrar_paciente.php', (d, f) => { if (typeof showTab === 'function') showTab('login'); f.reset(); showNotification(d.message || "Registro exitoso.", 'success'); });
+        handleFormSubmit('#doctor-register-form', 'registrar_medico.php', (d, f) => { if (typeof showTab === 'function') showTab('login'); f.reset(); showNotification(d.message || "Registro exitoso.", 'success'); });
+        handleFormSubmit('#login-form', 'login.php', (d) => {
+            if (d.success && d.rol) {
                 const r = {
                     'paciente': 'perfil-usuario.php',
                     'medico': 'perfil-doctores.php',
@@ -155,9 +298,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     'administrador': 'panel-admin-sistema.php'
                 };
                 const u = r[d.rol.toLowerCase()] || 'index.php';
-                if(!r[d.rol.toLowerCase()]){
-                    showNotification("Rol desconocido. Redirigiendo al inicio.",'warning');
-                    setTimeout(()=>window.location.href=u, 1500);
+                if (!r[d.rol.toLowerCase()]) {
+                    showNotification("Rol desconocido. Redirigiendo al inicio.", 'warning');
+                    setTimeout(() => window.location.href = u, 1500);
                 } else {
                     window.location.href = u;
                 }
@@ -202,28 +345,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 
-    // --- Lógica para: perfil-usuario.html ---
-    else if (currentPath.includes('perfil-usuario.html')) {
-        console.log('[Routing] Ejecutando lógica para perfil-usuario.html');
-        cargarDatosPerfilUsuario(); cargarCitasUsuario(); cargarListaMedicos(); // cargarHistorialUsuario(); // <- Implementar
-        handleFormSubmit('#update-profile-form', 'actualizar_perfil.php', (d)=>{showNotification(d.message||"Perfil actualizado.",'success');});
-        handleFormSubmit('#schedule-appointment-form','programar_cita.php',(d,f)=>{f.reset();const s=f.querySelector('#schedule-medico');if(s)s.selectedIndex=0;cargarCitasUsuario();showNotification(d.message||"Cita programada.",'success');});
+    // --- Lógica para: perfil-usuario.php ---
+    else if (currentPath.includes('perfil-usuario.php')) {
+        console.log('[Routing] Ejecutando lógica para perfil-usuario.php');
+        cargarDatosPerfilUsuario();
+        cargarCitasUsuario();
+        cargarListaMedicos();
+        // cargarHistorialUsuario(); // <-- Descomentar si la función está implementada
+        handleFormSubmit('#update-profile-form', 'actualizar_perfil.php', (d) => { showNotification(d.message || "Perfil actualizado.", 'success'); });
+        handleFormSubmit('#schedule-appointment-form', 'programar_cita.php', (d, f) => { f.reset(); const s = f.querySelector('#schedule-medico'); if (s) s.selectedIndex = 0; cargarCitasUsuario(); showNotification(d.message || "Cita programada.", 'success'); });
         attachCitaActionListeners('#appointments-list');
     }
 
-    // --- Lógica para: perfil-doctores.html ---
-    else if (currentPath.includes('perfil-doctores.html')) {
-        console.log('[Routing] Ejecutando lógica para perfil-doctores.html');
-        cargarDatosPerfilMedico(); cargarCitasMedico(); // cargarPacientesHoy(); // <- Implementar
-        handleFormSubmit('#doctor-profile-form', 'actualizar_perfil.php', (d) => { showNotification(d.message || "Perfil actualizado.", 'success'); });
-        // handleFormSubmit('#consulta-notes-form', 'guardar_notas_consulta.php', (d,f)=>{...}); // <- Implementar
+    // --- Lógica para: perfil-doctores.php ---
+    else if (currentPath.includes('perfil-doctores.php')) {
+        console.log('[Routing] Ejecutando lógica para perfil-doctores.php');
+        cargarDatosPerfilMedico();
+        cargarCitasMedico();
+        // cargarPacientesHoy(); // <-- Descomentar si la función está implementada
+        // handleFormSubmit('#consulta-notes-form', 'guardar_notas_consulta.php', (d,f)=>{...}); // <-- Descomentar si está implementado
         attachCitaActionListeners('#appointments-list-doctor');
-        // attachCitaActionListeners('#patients-list-doctor'); // <- Implementar
+        // attachCitaActionListeners('#patients-list-doctor'); // <-- Descomentar si está implementado
     }
 
     // --- Lógica para Paneles Admin (Futuro) ---
-    // else if (currentPath.includes('panel-admin-sistema.html')) { ... }
-    else { console.log('[Routing] Sin lógica específica para esta página en scripts.js.'); }
+    // else if (currentPath.includes('panel-admin-sistema.php')) { ... } // <-- CORREGIDO .php
+    else {
+        console.log('[Routing] Sin lógica específica para esta página en scripts.js.');
+    }
 
     // ========================================================================
     // == 6. DEFINICIÓN DE FUNCIONES ESPECÍFICAS DE PANELES ===================
@@ -235,19 +384,40 @@ document.addEventListener('DOMContentLoaded', function () {
      */
     function crearElementoCitaPaciente(c) {
         const li = document.createElement('li');
-        li.className = 'mb-4 p-3 border rounded-md dark:border-gray-700 bg-gray-50 dark:bg-gray-800';
+        // Añadir un borde izquierdo coloreado según el estado
+        const estadoClasses = {
+            'Programada': 'border-l-4 border-blue-500',
+            'Confirmada': 'border-l-4 border-green-500',
+            'Cancelada Paciente': 'border-l-4 border-red-500',
+            'Cancelada Doctor': 'border-l-4 border-red-500',
+            'Completada': 'border-l-4 border-gray-500',
+            'No Asistió': 'border-l-4 border-yellow-500'
+        };
+        const estadoBorde = estadoClasses[c.estado] || 'border-l-4 border-gray-300';
+        li.className = `mb-4 p-3 border rounded-md dark:border-gray-700 bg-gray-50 dark:bg-gray-800 ${estadoBorde} shadow-sm`;
         li.dataset.citaId = c.idCita;
-        const eC = getEstadoClass(c.estado);
+        const estadoBadgeClasses = { // Clases específicas para la insignia de estado
+            'Programada': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+            'Confirmada': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+            'Cancelada Paciente': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+            'Cancelada Doctor': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+            'Completada': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+            'No Asistió': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
+        };
+        const eC = estadoBadgeClasses[c.estado] || 'bg-gray-200 text-gray-800 dark:bg-gray-600 dark:text-gray-200'; // Insignia por defecto más visible
         const hF = formatTime(c.hora);
-        li.innerHTML = `<div class="flex justify-between items-start mb-1 flex-wrap gap-x-2"><strong class="text-blue-600 dark:text-blue-400">Dr. 
-        ${c.nombreMedico || 'N/A'}</strong><span class="text-xs font-semibold px-2 py-0.5 rounded 
-        ${eC}">${c.estado || '?'}</span></div><div class="text-sm..."><i class="bi bi-tag"></i> 
-        ${c.especialidadMedico || 'Gral.'}</div><div class="text-sm..."><i class="bi bi-calendar-event"></i> 
-        ${formatDate(c.fecha)} <i class="bi bi-clock"></i> 
-        ${hF}</div>${c.motivo ? `<div class="text-sm mt-2 pt-2 border-t..."><stron>Motivo:</stron> 
-            ${c.motivo}</div>` : ''}<div class="mt-3 flex gap-2">
-            ${(c.estado === 'Programada' || c.estado === 'Confirmada') ? `<button data-action="cancelar-paciente" data-id="${c.idCita}" class="btn-cita-accion btn-cancelar">Cancelar</button>` : ''
-            }</div>`; return li;
+        li.innerHTML = `
+            <div class="flex justify-between items-center mb-2 flex-wrap gap-x-2">
+                <strong class="text-blue-600 dark:text-blue-400 text-lg"><i class="bi bi-person-badge mr-1"></i> Dr. ${c.nombreMedico || 'N/A'}</strong>
+                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full ${eC}">${c.estado || '?'}</span>
+            </div>
+            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1"><i class="bi bi-tag mr-1"></i> ${c.especialidadMedico || 'General'}</div>
+            <div class="text-sm text-gray-600 dark:text-gray-400 mb-2"><i class="bi bi-calendar-event mr-1"></i> ${formatDate(c.fecha)} <span class="ml-2"><i class="bi bi-clock mr-1"></i> ${hF}</span></div>
+            ${c.motivo ? `<div class="text-sm mt-2 pt-2 border-t border-gray-200 dark:border-gray-700"><strong class="text-gray-700 dark:text-gray-300">Motivo:</strong><p class="mt-1 text-gray-600 dark:text-gray-400">${c.motivo}</p></div>` : ''}
+            <div class="mt-3 flex gap-2">
+                ${(c.estado === 'Programada' || c.estado === 'Confirmada') ? `<button data-action="cancelar-paciente" data-id="${c.idCita}" class="text-xs bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-3 rounded-md transition duration-150 appointment-action-button"><i class="bi bi-x-circle mr-1"></i> Cancelar</button>` : ''}
+            </div>`;
+        return li;
     }
     function crearElementoCitaMedico(c) {
         const li = document.createElement('li');
@@ -481,15 +651,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // ========================================================================
 
     async function cambiarEstadoCita(idCita, nuevoEstado) {
-         console.log(`%c[Acción Cita] Solicitando: ${nuevoEstado} para cita ${idCita}`, 'color: teal;');
-         // TODO: Reemplazar confirm con Swal.fire
-         if (!confirm(`¿Cambiar estado a "${nuevoEstado}"?`)) return;
-         try {
-             const fd = new FormData(); fd.append('idCita', idCita); fd.append('nuevoEstado', nuevoEstado);
-             const data = await fetchData('cambiar_estado_cita.php', { method: 'POST', body: fd });
-             if (data?.success) { showNotification(data.message || "Estado actualizado.", 'success'); if (currentPath.includes('perfil-doctores.html')) cargarCitasMedico(); if (currentPath.includes('perfil-usuario.html')) cargarCitasUsuario(); }
-         } catch (error) { /* Handled */ }
-     }
+        console.log(`%c[Acción Cita] Solicitando: ${nuevoEstado} para cita ${idCita}`, 'color: teal;');
+        // TODO: Reemplazar confirm con Swal.fire
+        if (!confirm(`¿Cambiar estado a "${nuevoEstado}"?`)) return;
+        try {
+            const fd = new FormData(); fd.append('idCita', idCita); fd.append('nuevoEstado', nuevoEstado);
+            const data = await fetchData('cambiar_estado_cita.php', { method: 'POST', body: fd });
+            if (data?.success) { showNotification(data.message || "Estado actualizado.", 'success'); if (currentPath.includes('perfil-doctores.php')) cargarCitasMedico(); if (currentPath.includes('perfil-usuario.php')) cargarCitasUsuario(); }
+        } catch (error) { /* Handled */ }
+    }
 
     function attachCitaActionListeners(containerSelector) {
         const container = document.querySelector(containerSelector); if (!container) return;

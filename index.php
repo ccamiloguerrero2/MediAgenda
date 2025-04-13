@@ -121,7 +121,7 @@ if ($loggedIn) {
                     <!-- Submenú Noticias y Blog -->
                     <li>
                         <a href="blog.html"
-                           class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">
+                            class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">
                            Blog
                         </a>
                     </li>
@@ -159,22 +159,22 @@ if ($loggedIn) {
                     <!-- Botón de agendar cita (oculto para admin) -->
                     <?php if (!$loggedIn || $rolUsuario !== 'admin'): ?>
                         <li><a href="<?php echo $agendarCitaLink; ?>"
-                                class="text-white font-bold bg-blue-700 hover:bg-white hover:text-blue-700 hover:border-blue-700 border-2 px-6 py-2 rounded-md">Agendar
-                                Cita</a></li>
+                            class="text-white font-bold bg-blue-700 hover:bg-white hover:text-blue-700 hover:border-blue-700 border-2 px-6 py-2 rounded-md">Agendar
+                            Cita</a></li>
                     <?php endif; ?>
                 </ul>
             </nav>
 
             <!-- Contenedor para botones derechos (modo oscuro y hamburguesa) -->
             <div class="flex items-center gap-4">
-                 <button id="dark-mode-toggle" class="cta-button text-blue-600">
-                    <i class="fas fa-moon text-2xl"></i>
-                 </button>
-                 <div class="hamburger-menu lg:hidden flex flex-col gap-1 cursor-pointer" id="hamburger-menu">
-                    <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
-                    <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
-                    <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
-                 </div>
+            <button id="dark-mode-toggle" class="cta-button text-blue-600">
+                <i class="fas fa-moon text-2xl"></i>
+            </button>
+            <div class="hamburger-menu lg:hidden flex flex-col gap-1 cursor-pointer" id="hamburger-menu">
+                <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
+                <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
+                <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
+            </div>
             </div>
 
         </div>
@@ -356,8 +356,8 @@ if ($loggedIn) {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="scripts.js"></script>
 
-    <!-- Área para mostrar notificaciones -->
-    <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
+ <!-- Área para mostrar notificaciones -->
+ <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
 
 </body>
 </html>

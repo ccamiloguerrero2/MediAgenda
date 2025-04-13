@@ -16,7 +16,7 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
 <html lang="es" class="dark:bg-gray-800">
 
 <head>
-    {/* ... resto del head ... */}
+    <!-- ... resto del head ... -->
      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediAgenda - Panel de Pacientes</title>
@@ -47,9 +47,9 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
 <body class="font-sans antialiased transition-colors duration-300 dark:bg-gray-800 dark:text-white bg-gray-100 flex flex-col min-h-screen">
 
     <!-- Header -->
-    {/* El header ahora SÍ debe mostrar siempre "Cerrar Sesión", porque solo usuarios logueados verán esta página */}
+    <!-- El header ahora SÍ debe mostrar siempre "Cerrar Sesión", porque solo usuarios logueados verán esta página -->
     <header class="bg-white bg-opacity-90 shadow-md sticky top-0 z-50 dark:bg-gray-800 dark:bg-opacity-90 backdrop-blur-sm">
-       {/* ... resto del header ... */}
+       <!-- ... resto del header ... -->
         <div class="container mx-auto flex justify-between items-center py-4 px-6">
             <div class="flex items-center gap-2">
                  <!-- CORREGIDO: Enlace a index.php -->
@@ -76,127 +76,106 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
                  <button id="dark-mode-toggle" class="text-blue-600 dark:text-yellow-400 ml-2 text-xl">
                     <i class="fas fa-moon"></i>
                 </button>
-                 <!-- Menú Hamburguesa (si aplica diseño móvil) -->
-                 <!-- <div id="hamburger-menu" class="lg:hidden ..."> ... </div> -->
+                 <!-- Botón Hamburguesa (Visible en < lg) -->
+                 <button id="hamburger-menu" class="lg:hidden text-gray-700 dark:text-gray-300 focus:outline-none ml-2">
+                     <span class="block w-6 h-0.5 bg-current transform transition duration-300 ease-in-out"></span>
+                     <span class="block w-6 h-0.5 bg-current mt-1.5 transform transition duration-300 ease-in-out"></span>
+                     <span class="block w-6 h-0.5 bg-current mt-1.5 transform transition duration-300 ease-in-out"></span>
+                 </button>
             </nav>
-             <!-- Menú Móvil Desplegable -->
-             <!-- <div id="mobile-menu" class="lg:hidden hidden ..."> ... </div> -->
+             <!-- Menú Móvil Desplegable (Oculto por defecto y en >= lg) -->
+             <div id="mobile-menu" class="lg:hidden hidden absolute top-full left-0 w-full bg-white dark:bg-gray-800 shadow-lg border-t border-gray-200 dark:border-gray-700">
+                 <ul class="flex flex-col p-4 gap-3">
+                     <li><a href="#profile" class="block py-2 px-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Perfil</a></li>
+                     <li><a href="#appointments" class="block py-2 px-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Citas</a></li>
+                     <li><a href="#schedule" class="block py-2 px-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Agendar</a></li>
+                     <li><a href="#medical-history" class="block py-2 px-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Historial</a></li>
+                     <li class="pt-2 border-t border-gray-200 dark:border-gray-700"><a href="mediagenda-backend/logout.php" class="block text-center bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-3 rounded-md transition duration-200">Cerrar Sesión</a></li>
+                 </ul>
+             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    {/* ... resto del body ... */}
     <main class="dark:bg-gray-800 flex-grow w-full">
         <div class="container mx-auto py-10 px-6">
 
-            <!-- Sección Perfil del Paciente -->
-            <section id="profile" class="mb-12 scroll-mt-20">
-                <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Perfil del Paciente</h2>
-                <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
-                    <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Tus datos personales</h3>
-                    <form id="update-profile-form">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                            <div>
-                                <label for="profile-nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre completo</label>
-                                <input type="text" id="profile-nombre" name="nombre_completo" placeholder="Tu nombre y apellido" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                            <div>
-                                <label for="profile-telefono" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Teléfono</label>
-                                <input type="tel" id="profile-telefono" name="telefono" placeholder="+57 3001234567" class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                            <div>
-                                <label for="profile-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo Electrónico</label>
-                                <input type="email" id="profile-email" name="email" placeholder="tu@correo.com" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                            <div>
-                                <label for="profile-direccion" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Dirección</label>
-                                <input type="text" id="profile-direccion" name="direccion" placeholder="Tu dirección de residencia" class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                        </div>
-                        <div class="text-right mt-4">
-                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-md transition duration-200">
-                                Actualizar Datos
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </section>
+            <!-- Envoltura del Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8"> 
 
-            <!-- Sección Gestión de Citas -->
-            <section id="appointments" class="mb-12 scroll-mt-20">
-                <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Tus Citas Programadas</h2>
-                <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
-                    <ul id="appointments-list" class="space-y-4">
-                        <li class="placeholder text-gray-500 dark:text-gray-400 italic">Cargando citas...</li>
-                    </ul>
-                    <div class="mt-6 border-t pt-4 dark:border-gray-700 flex flex-wrap gap-4">
-                        <a href="#schedule" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-200">
-                           <i class="bi bi-calendar-plus mr-1"></i> Agendar Nueva Cita
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Sección Agendar Cita -->
-            <section id="schedule" class="mb-12 scroll-mt-20">
-                <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Agendar Nueva Cita</h2>
-                <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
-                    <form id="schedule-appointment-form">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
-                            <div>
-                                <label for="schedule-medico" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Médico</label>
-                                <select id="schedule-medico" name="idMedico" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="" disabled selected>Seleccione un médico...</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="schedule-fecha" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha</label>
-                                <input type="date" id="schedule-fecha" name="fecha" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500" min="<?php echo date('Y-m-d'); // Previene fechas pasadas ?>">
-                            </div>
-                            <div>
-                                <label for="schedule-hora" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Hora</label>
-                                <input type="time" id="schedule-hora" name="hora" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
-                            </div>
+                <!-- Columna 1: Citas -->
+                <div class="lg:col-span-1 flex flex-col gap-8"> 
+                    <section id="appointments" class="scroll-mt-20"> 
+                        <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Tus Citas Programadas</h2>
+                        <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800 h-full"> 
+                            <ul id="appointments-list" class="space-y-4"><li class="placeholder text-gray-500 dark:text-gray-400 italic">Cargando citas...</li></ul>
+                            <div class="mt-6 border-t pt-4 dark:border-gray-700"><a href="#schedule" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-200"><i class="bi bi-calendar-plus mr-1"></i> Agendar Nueva Cita</a></div>
                         </div>
-                        <div class="mb-4">
-                            <label for="schedule-motivo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Motivo de la consulta (Opcional)</label>
-                            <textarea id="schedule-motivo" name="motivo" rows="3" placeholder="Describa brevemente el motivo..." class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"></textarea>
-                        </div>
-                        <div class="text-right mt-4">
-                            <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-5 rounded-md transition duration-200">
-                            Confirmar Cita
-                            </button>
-                        </div>
-                    </form>
+                    </section>
                 </div>
-            </section>
 
-            <!-- Sección Historial Médico -->
-            <section id="medical-history" class="mb-12 scroll-mt-20">
-                <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Tu Historial Médico</h2>
-                <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
-                    <h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-100">Diagnósticos y Tratamientos Anteriores</h3>
-                    <ul id="history-list" class="space-y-3">
-                        <li class="placeholder text-gray-500 dark:text-gray-400 italic">Cargando historial...</li>
-                    </ul>
-                    <div class="mt-6 border-t pt-4 dark:border-gray-700">
-                        <p class="text-sm text-gray-500 dark:text-gray-400">La descarga de documentos estará disponible próximamente.</p>
-                    </div>
-                </div>
-            </section>
+                <!-- Columna 2: Agendar e Historial -->
+                <div class="lg:col-span-1 flex flex-col gap-8"> 
+                    <section id="schedule" class="scroll-mt-20"> 
+                        <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Agendar Nueva Cita</h2>
+                        <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
+                            <form id="schedule-appointment-form" novalidate> 
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                                    <div>
+                                        <label for="schedule-medico" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Médico <span class="text-red-500">*</span></label>
+                                        <select id="schedule-medico" name="idMedico" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"><option value="" disabled selected>Seleccione un médico...</option></select>
+                                        <p class="text-xs text-red-600 mt-1 hidden error-message" id="schedule-medico-error"></p>
+                                    </div>
+                                    <div>
+                                        <label for="schedule-fecha" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha <span class="text-red-500">*</span></label>
+                                        <input type="date" id="schedule-fecha" name="fecha" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500" min="<?php echo date('Y-m-d'); ?>">
+                                        <p class="text-xs text-red-600 mt-1 hidden error-message" id="schedule-fecha-error"></p>
+                                    </div>
+                                    <div>
+                                        <label for="schedule-hora" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Hora <span class="text-red-500">*</span></label>
+                                        <input type="time" id="schedule-hora" name="hora" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"><p class="text-xs text-red-600 mt-1 hidden error-message" id="schedule-hora-error"></p>
+                                    </div>
+                                </div>
+                                <div class="mb-4"><label for="schedule-motivo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Motivo (Opcional)</label><textarea id="schedule-motivo" name="motivo" rows="3" placeholder="Describa brevemente el motivo..." class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"></textarea></div>
+                                <div class="text-right mt-4"><button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-5 rounded-md transition duration-200">Confirmar Cita</button></div>
+                            </form>
+                        </div>
+                    </section>
 
-            <!-- Sección Consultas en Línea -->
-            <section id="consultations" class="scroll-mt-20">
-                <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Consultas en Línea</h2>
-                <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">Próximamente podrás realizar consultas virtuales y subir documentos.</p>
-                    <button class="bg-blue-500 text-white py-2 px-4 rounded-md opacity-50 cursor-not-allowed">Iniciar Consulta</button>
-                    <div class="mt-6">
-                        <h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-100">Subida de documentos médicos</h3>
-                        <input type="file" class="border rounded-md p-2 w-full dark:bg-gray-700 opacity-50 cursor-not-allowed" disabled>
-                    </div>
+                    <section id="medical-history" class="scroll-mt-20"> 
+                        <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Tu Historial Médico</h2>
+                        <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
+                            <h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-100">Diagnósticos y Tratamientos</h3>
+                            <ul id="history-list" class="space-y-3"><li class="placeholder text-gray-500 dark:text-gray-400 italic">Cargando historial...</li></ul>
+                            <div class="mt-6 border-t pt-4 dark:border-gray-700"><p class="text-sm text-gray-500 dark:text-gray-400">La descarga estará disponible próximamente.</p></div>
+                        </div>
+                    </section>
                 </div>
-            </section>
+
+                <!-- Columna 3: Perfil -->
+                <div class="lg:col-span-1 flex flex-col gap-8"> 
+                    <section id="profile" class="scroll-mt-20"> 
+                        <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Perfil del Paciente</h2>
+                        <div class="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800">
+                            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Tus datos personales</h3>
+                            <form id="update-profile-form" novalidate> 
+                                <div class="grid grid-cols-1 gap-6 mb-4"> 
+                                    <div><label for="profile-nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre <span class="text-red-500">*</span></label><input type="text" id="profile-nombre" name="nombre" placeholder="Tu nombre" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"><p class="text-xs text-red-600 mt-1 hidden error-message" id="profile-nombre-error"></p></div>
+                                    <div><label for="profile-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo <span class="text-red-500">*</span></label><input type="email" id="profile-email" name="email" placeholder="tu@correo.com" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"><p class="text-xs text-red-600 mt-1 hidden error-message" id="profile-email-error"></p></div>
+                                    <div><label for="profile-telefono" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Teléfono</label><input type="tel" id="profile-telefono" name="telefono" placeholder="+57..." class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"><p class="text-xs text-red-600 mt-1 hidden error-message" id="profile-telefono-error"></p></div>
+                                    <div><label for="profile-direccion" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Dirección</label><input type="text" id="profile-direccion" name="direccion" placeholder="Tu dirección" class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"><p class="text-xs text-red-600 mt-1 hidden error-message" id="profile-direccion-error"></p></div>
+                                </div>
+                                <div class="text-right mt-4"><button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-md transition duration-200">Actualizar Datos</button></div>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Mover la sección Consultas fuera del grid principal o al final -->
+                <section id="consultations" class="scroll-mt-20 lg:col-span-3"> 
+                    <!-- ... Contenido consultas ... -->
+                </section>
+            </div> <!-- Fin Envoltura del Grid -->
 
         </div> <!-- Cierre del div container -->
     </main>
@@ -204,11 +183,13 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
     <!-- Footer -->
     <footer class="bg-white dark:bg-gray-800 py-6 mt-auto border-t dark:border-gray-700 border-gray-200">
         <div class="container mx-auto text-center text-sm text-gray-600 dark:text-gray-400">
-            © <?php /* Puedes quitar el tag php si no lo necesitas aqui */ date("Y"); ?> MediAgenda. Todos los derechos reservados.
+            © <?php echo date("Y"); ?> MediAgenda. Todos los derechos reservados.
         </div>
     </footer>
 
-    {/* Scripts */}
+    <!-- Scripts -->
+    <!-- Incluir SweetAlert2 JS (DESDE CDN) ANTES de tu script -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="scripts.js"></script>
 
 </body>
