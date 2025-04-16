@@ -1,0 +1,117 @@
+/* resources/css/input.css */
+
+/* --- Directivas Principales de Tailwind CSS --- */
+
+/*
+ * @tailwind base;
+ *
+ * Incluye los estilos base de Tailwind (reset CSS/Preflight) y cualquier
+ * estilo base definido en la configuración del tema.
+ * Preflight es un conjunto de estilos base (similar a normalize.css)
+ * que suaviza las inconsistencias entre navegadores y facilita el uso
+ * de las clases de utilidad.
+ */
+ @tailwind base;
+
+ /*
+  * @tailwind components;
+  *
+  * Incluye las clases de componentes de Tailwind (ej. `container`) y cualquier
+  * clase de componente personalizada registrada a través de plugins o definida
+  * en la configuración.
+  */
+ @tailwind components;
+ 
+ /*
+  * @tailwind utilities;
+  *
+  * Incluye todas las clases de utilidad de Tailwind (ej. `pt-4`, `text-center`,
+  * `bg-blue-500`, `hover:bg-blue-700`, `md:flex`, etc.). Esta es la capa
+  * más grande y la que da a Tailwind su poder principal.
+  */
+ @tailwind utilities;
+ 
+ /* --- Estilos Personalizados (Opcional) --- */
+ 
+ /*
+  * Puedes añadir tus propias reglas CSS personalizadas aquí si es necesario.
+  * Sin embargo, la filosofía de Tailwind fomenta el uso de clases de utilidad
+  * siempre que sea posible.
+  *
+  * Si necesitas estilos base personalizados o componentes complejos, es
+  * a menudo mejor definirlos usando las capacidades de configuración y
+  * plugins de Tailwind en `tailwind.config.js` o usando la directiva
+  * `@layer` para organizarlos dentro de las capas de Tailwind.
+  */
+ 
+ /* Ejemplo de uso de @layer para añadir estilos base personalizados: */
+ /*
+ @layer base {
+   h1 {
+     @apply text-2xl font-bold mb-4; // Aplicar utilidades existentes
+   }
+   a {
+     @apply text-blue-600 hover:text-blue-800;
+   }
+ }
+ */
+ 
+ /* Ejemplo de componente personalizado: */
+ /*
+ @layer components {
+   .btn-mediagenda {
+     @apply py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+   }
+ }
+ */
+ 
+ /* --- Animación FadeIn (Ejemplo de @layer utilities) --- */
+ /*
+  * Define una animación personalizada y una clase de utilidad para aplicarla.
+  * Usar @layer utilities asegura que esta clase tenga la precedencia adecuada
+  * y pueda ser sobrescrita por otras utilidades si es necesario.
+  */
+ @layer utilities {
+     /* Define la animación 'fadeIn' */
+     @keyframes fadeIn {
+       from { opacity: 0; }
+       to { opacity: 1; }
+     }
+     /* Crea la clase de utilidad '.animate-fade-in' */
+     .animate-fade-in {
+       animation: fadeIn 0.5s ease-out;
+     }
+   }
+ 
+ /* --- Estilos de Compatibilidad (Ejemplo de estilos base sin @layer) --- */
+ /*
+  * Estilos que no encajan bien como utilidades o componentes base,
+  * como los necesarios para compatibilidad con navegadores específicos
+  * o para sobrescribir estilos de librerías externas.
+  */
+ 
+ /* Compatibilidad para 'appearance' en botones y campos de búsqueda */
+ /* Asegura que los botones y campos de búsqueda se vean más consistentes */
+ button,
+ input[type='button'],
+ input[type='reset'],
+ input[type='submit'] {
+   -webkit-appearance: button; /* Para navegadores basados en WebKit (Chrome, Safari) */
+   appearance: button;         /* Estándar */
+ }
+ 
+ [type='search'] {
+   -webkit-appearance: textfield; /* Para navegadores basados en WebKit */
+   appearance: textfield;          /* Estándar */
+   outline-offset: -2px;          /* Mejora visual del outline en algunos navegadores */
+ }
+ 
+ /* Ocultar spinners en inputs numéricos (opcional, preferencia visual) */
+ /* input[type='number']::-webkit-inner-spin-button,
+ input[type='number']::-webkit-outer-spin-button {
+   -webkit-appearance: none;
+   margin: 0;
+ }
+ input[type='number'] {
+   -moz-appearance: textfield; // Para Firefox
+ } */

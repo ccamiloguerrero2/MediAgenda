@@ -1,0 +1,20 @@
+/* --- START OF FILE bitnami.css --- */
+
+/* Oculta elementos con estas clases (probablemente banners o módulos de info de Bitnami) */
+.module_top, .module_bottom{
+  visibility: hidden;
+}
+
+/* Forza que las tablas no tengan borde (podría entrar en conflicto con Tailwind) */
+table {
+  border: 0px !important;
+}
+
+/* Estilos específicos para imágenes y H2 dentro de un .module_content (de Bitnami) */
+.module_content img{
+  min-width: 70px;
+}
+
+.module_content h2{
+  font-size: 30px;
+}

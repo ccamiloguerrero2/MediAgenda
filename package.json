@@ -1,15 +1,18 @@
 {
+  "name": "mediagenda",
+  "version": "1.0.0",
+  "description": "Sistema web para la gestión de citas médicas online.",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i ./resources/css/input.css -o ./public/dist/output.css",
+    "dev": "tailwindcss -i ./resources/css/input.css -o ./public/dist/output.css --watch",
+    "format": "prettier --write \"./**/*.{php,html,js,json,md,css}\""
+  },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
     "prettier": "3.5.3",
     "tailwindcss": "^3.4.14"
   },
-  "scripts": {
-    "build": "tailwindcss -i ./input.css -o ./dist/output.css",
-    "dev": "tailwindcss -i ./input.css -o ./dist/output.css --watch"
-  },
-  "dependencies": {
-    "sweetalert2": "^11.17.2"
-  }
+  "dependencies": {}
 }
