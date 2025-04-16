@@ -43,7 +43,7 @@ function renderMenuLinks(
     ob_start();
     ?>
     <!-- Menú de navegación de ESCRITORIO con submenús -->
-    {/* Nota: La visibilidad (hidden lg:flex) se controla en el <nav> que llama a esta función en header.php */}
+    <!-- Nota: La visibilidad (hidden lg:flex) se controla en el <nav> que llama a esta función en header.php -->
     <ul id="nav-links-desktop" class="flex gap-x-1 items-center font-medium tracking-wide text-gray-700 dark:text-gray-200 transition-colors duration-200">
 
         <?php // --- Enlace: Inicio (Opcional, el logo ya enlaza a index) --- ?>
@@ -58,12 +58,12 @@ function renderMenuLinks(
         <?php // --- Enlace/Submenú: Panel (Solo si está logueado) --- ?>
         <?php if ($loggedIn): ?>
             <li class="relative group">
-                {/* Enlace principal del submenú */}
+                <!-- Enlace principal del submenú -->
                 <a href="<?php echo htmlspecialchars($panelLink); ?>" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-3 py-2 rounded-md transition text-sm flex items-center">
                     <i class="bi bi-speedometer2 mr-1"></i> Mi Panel
-                    <i class="bi bi-chevron-down text-xs ml-1 group-hover:rotate-180 transition-transform"></i> {/* Icono flecha opcional */}
+                    <i class="bi bi-chevron-down text-xs ml-1 group-hover:rotate-180 transition-transform"></i> <!-- Icono flecha opcional -->
                 </a>
-                {/* Contenido del submenú (aparece al hacer hover) */}
+                <!-- Contenido del submenú (aparece al hacer hover) -->
                 <ul class="absolute left-0 mt-1 hidden group-hover:block bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-opacity duration-200 ease-in-out min-w-[160px] border dark:border-gray-700">
                     <li>
                         <a href="<?php echo htmlspecialchars($panelLink); ?>" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-gray-700 font-semibold">
@@ -81,7 +81,7 @@ function renderMenuLinks(
                         }
                         */
                     ?>
-                     <li class="border-t dark:border-gray-700"></li> {/* Separador */}
+                     <li class="border-t dark:border-gray-700"></li> <!-- Separador -->
                      <li>
                          <a href="/api/Auth/logout.php" class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700 font-medium">
                            <i class="bi bi-box-arrow-right mr-2"></i> Cerrar Sesión
@@ -147,4 +147,4 @@ function renderMenuLinks(
     return ob_get_clean();
 } // Fin de la función renderMenuLinks
 
-// No añadir ?> al final de archivos que solo contienen código PHP.
+// No añadir ?>

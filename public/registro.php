@@ -232,7 +232,6 @@ $mostrarFormularios = !$loggedIn; // $loggedIn viene de session_utils.php
     <!-- SweetAlert2 JS (antes de scripts.js) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <!-- Scripts principales de la aplicación (apuntando a la nueva ubicación) -->
-    <script src="/js/scripts.js"></script> <!-- Ruta absoluta desde la raíz pública -->
     <!-- Nota: panel-admin.js no se necesita en esta página -->
 
     <!-- Script específico para animar la modal (opcional pero mejora UX) -->

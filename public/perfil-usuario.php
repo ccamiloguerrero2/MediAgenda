@@ -265,7 +265,6 @@ if (!is_authenticated() || get_user_role() !== 'paciente') {
 
     <!-- --- JavaScript --- -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-    <script src="/js/scripts.js"></script>
     <!-- Script local para animación del modal -->
     <script>
        // Reutilizar la lógica de animación del modal de registro.php

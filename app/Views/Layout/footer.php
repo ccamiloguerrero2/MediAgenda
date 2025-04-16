@@ -17,7 +17,7 @@
 // require_once __DIR__ . '/../../Core/session_utils.php'; // <-- Generalmente no necesario aquí
 
 ?>
-<footer class="bg-gray-900 text-gray-300 dark:bg-gray-800 mt-auto"> {/* mt-auto ayuda a empujar el footer hacia abajo en páginas cortas si el body es flex-col min-h-screen */}
+<footer class="bg-gray-900 text-gray-300 dark:bg-gray-800 mt-auto"> <!-- mt-auto ayuda a empujar el footer hacia abajo en páginas cortas si el body es flex-col min-h-screen -->
     <div class="container mx-auto px-4 md:px-6 py-12">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
@@ -25,7 +25,7 @@
             <div class="md:col-span-1">
                 <div class="flex items-center gap-2 mb-4">
                     <img src="/img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain">
-                    {/* Asegurar que la clase CSS 'logo-pacifico' esté definida globalmente o en los estilos de esta página */}
+                    <!-- Asegurar que la clase CSS 'logo-pacifico' esté definida globalmente o en los estilos de esta página -->
                     <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
                 </div>
                 <p class="text-sm text-gray-400">Facilitando el acceso a la salud, conectando pacientes y profesionales.</p>
@@ -58,7 +58,7 @@
             <div>
                 <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Síguenos</h3>
                 <div class="flex space-x-4 mb-6">
-                    {/* Reemplazar '#' con enlaces reales a redes sociales */}
+                    <!-- Reemplazar '#' con enlaces reales a redes sociales -->
                     <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300" aria-label="Facebook"><i class="fab fa-facebook-f fa-lg"></i></a>
                     <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300" aria-label="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
                     <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300" aria-label="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
@@ -67,11 +67,11 @@
                 <h3 class="text-base font-semibold text-white mb-3 uppercase tracking-wider">Contacto Directo</h3>
                 <p class="text-sm text-gray-400 flex items-center gap-2 mb-1">
                     <i class="bi bi-envelope-fill text-blue-400"></i>
-                    <a href="mailto:info@mediagenda.local" class="hover:text-white">info@mediagenda.local</a> {/* Cambiar email */}
+                    <a href="mailto:info@mediagenda.local" class="hover:text-white">info@mediagenda.local</a> <!-- Cambiar email -->
                 </p>
                 <p class="text-sm text-gray-400 flex items-center gap-2">
                      <i class="bi bi-telephone-fill text-blue-400"></i>
-                     <span>+57 315 288 5138</span> {/* Cambiar teléfono */}
+                     <span>+57 315 288 5138</span> <!-- Cambiar teléfono -->
                 </p>
             </div>
 

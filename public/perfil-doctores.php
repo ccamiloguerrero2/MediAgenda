@@ -203,7 +203,6 @@ if (!is_authenticated() || get_user_role() !== 'medico') {
     <!-- SweetAlert2 JS (antes de scripts.js) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <!-- Scripts principales de la aplicación -->
-    <script src="/js/scripts.js"></script> <!-- Ruta absoluta desde la raíz pública -->
     <!-- panel-admin.js NO se necesita aquí -->
 
 </body>

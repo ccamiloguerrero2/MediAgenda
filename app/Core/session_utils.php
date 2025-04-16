@@ -163,4 +163,4 @@ function get_user_role(): string
     return isset($_SESSION['rolUsuario']) ? strtolower($_SESSION['rolUsuario']) : '';
 }
 
-// No añadir ?> al final si este archivo solo contiene código PHP.
+// No añadir ?>

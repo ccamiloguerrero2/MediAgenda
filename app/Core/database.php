@@ -85,4 +85,4 @@ if (!mysqli_set_charset($conexion, $db_charset)) {
 // La variable $conexion está ahora lista para ser usada por el script
 // que incluyó este archivo.
 
-// NO añadir ?> al final si este archivo solo contiene código PHP.
+// NO añadir ?> 

@@ -18,15 +18,15 @@ require_once __DIR__ . '/../../Core/session_utils.php'; // $loggedIn, $rolUsuari
 require_once __DIR__ . '/menu.php'; // Contiene la función renderMenuLinks()
 
 ?>
-<header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50 dark:bg-opacity-90 backdrop-blur-sm"> {/* Añadidos efectos visuales */}
+<header class="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50 dark:bg-opacity-90 backdrop-blur-sm"> <!-- Añadidos efectos visuales -->
     <div class="container mx-auto flex justify-between items-center py-3 px-4 md:px-6">
 
         <!-- Logo y Nombre de la Aplicación -->
-        <div class="flex items-center gap-2 flex-shrink-0"> {/* flex-shrink-0 evita que se encoja */}
+        <div class="flex items-center gap-2 flex-shrink-0"> <!-- flex-shrink-0 evita que se encoja -->
             <a href="/index.php" aria-label="Página de inicio de MediAgenda">
                 <img src="/img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain">
             </a>
-            <span class="logo-pacifico text-blue-600 dark:text-blue-400 text-2xl hidden sm:inline">MediAgenda</span> {/* Ocultar texto en pantallas muy pequeñas */}
+            <span class="logo-pacifico text-blue-600 dark:text-blue-400 text-2xl hidden sm:inline">MediAgenda</span> <!-- Ocultar texto en pantallas muy pequeñas -->
         </div>
 
         <!-- Menú de Navegación Principal (Renderizado por PHP) -->
@@ -42,13 +42,13 @@ require_once __DIR__ . '/menu.php'; // Contiene la función renderMenuLinks()
             <button id="dark-mode-toggle" type="button"
                 class="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-800 focus:ring-blue-500 dark:focus:ring-yellow-400 transition-colors duration-200"
                 aria-label="Alternar modo claro/oscuro">
-                {/* El icono se actualiza mediante JavaScript (scripts.js) */}
+                <!-- El icono se actualiza mediante JavaScript (scripts.js) -->
                 <i id="dark-mode-icon" class="fas fa-moon text-xl"></i>
             </button>
 
             <!-- Botón Menú Hamburguesa (Visible solo en pantallas pequeñas, definido por clases de menú) -->
             <button class="hamburger-menu lg:hidden flex flex-col gap-1 cursor-pointer p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700" id="hamburger-menu" aria-label="Abrir menú móvil" aria-expanded="false">
-                 {/* Las clases dark:bg-blue-300 estaban bien, pero usar text color puede ser más flexible */}
+                <!-- Las clases dark:bg-blue-300 estaban bien, pero usar text color puede ser más flexible -->
                 <span class="w-6 h-0.5 bg-gray-700 dark:bg-gray-300 rounded-full"></span>
                 <span class="w-6 h-0.5 bg-gray-700 dark:bg-gray-300 rounded-full"></span>
                 <span class="w-6 h-0.5 bg-gray-700 dark:bg-gray-300 rounded-full"></span>

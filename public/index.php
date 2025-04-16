@@ -104,7 +104,7 @@ require_once __DIR__ . '/../app/Core/session_utils.php'; // Carga sesión y defi
         <div class="container mx-auto px-6 sm:px-10 md:px-16 lg:px-24 py-16 parallax-content">
             <div class="max-w-2xl">
                 <h1 class="text-4xl md:text-5xl font-bold mb-4">Programe su cita médica con facilidad</h1>
-                <p class="text-xl md:text-2xl mt-4 opacity-90"> {/* Ligera opacidad para integrarse mejor */}
+                <p class="text-xl md:text-2xl mt-4 opacity-90"> <!-- Ligera opacidad para integrarse mejor -->
                     Agendamiento rápido, cómodo y seguro de sus consultas médicas.
                 </p>
                 <!-- El botón de acción depende si el usuario está logueado o no -->
@@ -236,7 +236,7 @@ require_once __DIR__ . '/../app/Core/session_utils.php'; // Carga sesión y defi
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Doctor 1 -->
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden text-center transition-transform transform hover:-translate-y-2 duration-200">
-                    <img src="/img/doctor_placeholder_1.jpg" alt="Dr. Juan Pérez" class="w-full h-56 object-cover object-center">
+                    <img src="https://readdy.ai/api/search-image?query=professional%20female%20doctor%20with%20glasses%2C%20mid%2030s%2C%20wearing%20white%20coat%2C%20friendly%20smile%2C%20neutral%20medical%20office%20background%2C%20professional%20headshot%2C%20high%20quality%20portrait&width=300&height=300&seq=123457&orientation=squarish" alt="Dr. Juan Pérez" class="w-full h-56 object-cover object-center">
                     <div class="p-6">
                         <h3 class="text-xl font-semibold dark:text-white mb-1">Dr. Juan Pérez</h3>
                         <p class="text-blue-600 dark:text-blue-400 font-medium mb-3">Cardiólogo</p>
@@ -245,7 +245,7 @@ require_once __DIR__ . '/../app/Core/session_utils.php'; // Carga sesión y defi
                 </div>
                  <!-- Doctor 2 -->
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden text-center transition-transform transform hover:-translate-y-2 duration-200">
-                    <img src="/img/doctor_placeholder_2.jpg" alt="Dra. Ana Martínez" class="w-full h-56 object-cover object-center">
+                    <img src="https://readdy.ai/api/search-image?query=professional%20female%20doctor%20with%20glasses%2C%20mid%2030s%2C%20wearing%20white%20coat%2C%20friendly%20smile%2C%20neutral%20medical%20office%20background%2C%20professional%20headshot%2C%20high%20quality%20portrait&width=300&height=300&seq=123457&orientation=squarish" alt="Dra. Ana Martínez" class="w-full h-56 object-cover object-center">
                      <div class="p-6">
                         <h3 class="text-xl font-semibold dark:text-white mb-1">Dra. Ana Martínez</h3>
                         <p class="text-blue-600 dark:text-blue-400 font-medium mb-3">Dermatóloga</p>
@@ -254,7 +254,7 @@ require_once __DIR__ . '/../app/Core/session_utils.php'; // Carga sesión y defi
                 </div>
                  <!-- Doctor 3 -->
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden text-center transition-transform transform hover:-translate-y-2 duration-200">
-                    <img src="/img/doctor_placeholder_3.jpg" alt="Dr. Carlos López" class="w-full h-56 object-cover object-center">
+                    <img src="https://readdy.ai/api/search-image?query=professional%20female%20doctor%20with%20glasses%2C%20mid%2030s%2C%20wearing%20white%20coat%2C%20friendly%20smile%2C%20neutral%20medical%20office%20background%2C%20professional%20headshot%2C%20high%20quality%20portrait&width=300&height=300&seq=123457&orientation=squarish" alt="Dr. Carlos López" class="w-full h-56 object-cover object-center">
                      <div class="p-6">
                         <h3 class="text-xl font-semibold dark:text-white mb-1">Dr. Carlos López</h3>
                         <p class="text-blue-600 dark:text-blue-400 font-medium mb-3">Pediatra</p>
@@ -301,7 +301,6 @@ require_once __DIR__ . '/../app/Core/session_utils.php'; // Carga sesión y defi
 
     <!-- --- JavaScript --- -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-    <script src="/js/scripts.js"></script>
     <!-- No se necesita panel-admin.js aquí -->
 
 </body>

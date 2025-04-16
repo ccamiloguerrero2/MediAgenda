@@ -76,4 +76,4 @@ if (!isset($_SESSION['rolUsuario']) || strtolower($_SESSION['rolUsuario']) !== '
 // Opcional: Loguear acceso permitido para auditoría
 // error_log("Acceso de administrador permitido para Usuario ID: {$_SESSION['idUsuario']}");
 
-// No añadir ?> al final si este archivo solo contiene código PHP.
+// No añadir ?>
