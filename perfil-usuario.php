@@ -1,24 +1,8 @@
 <?php
-session_start(); // Iniciar/reanudar la sesión
-
-// Verificar si el usuario está logueado. Si no, redirigir a registro.php
-if (!isset($_SESSION['idUsuario']) || empty($_SESSION['idUsuario'])) {
-    // Puedes añadir un parámetro para mostrar un mensaje en registro.php si quieres
-    header('Location: registro.php#login'); // Redirige a la pestaña de login
-    exit; // Detiene la ejecución del script para evitar que se cargue el resto del HTML
-}
-
-// Verificar si el usuario tiene el rol correcto (paciente)
-if (!isset($_SESSION['rolUsuario']) || strtolower($_SESSION['rolUsuario']) !== 'paciente') {
-    // El usuario está logueado pero no es paciente, redirigir a index con mensaje de error
-    header('Location: index.php?error=unauthorized_role');
-    exit;
-}
-
-// Si llegamos aquí, el usuario está logueado y es paciente. Podemos obtener su nombre si es necesario.
-$nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
-
+// =================== INCLUDES DE LÓGICA Y COMPONENTES ===================
+include_once __DIR__ . '/includes/session_utils.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="es" class="dark:bg-gray-800">
 

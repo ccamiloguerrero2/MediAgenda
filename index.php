@@ -1,41 +1,9 @@
 <?php
-session_start();
-$loggedIn = isset($_SESSION['idUsuario']) && !empty($_SESSION['idUsuario']);
-$nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : '';
-// Obtener el rol del usuario si está logueado, en minúsculas para comparación
-$rolUsuario = $loggedIn ? strtolower($_SESSION['rolUsuario'] ?? '') : '';
-
-// Determinar el enlace del panel correcto
-$panelLink = 'index.php'; // Fallback
-if ($loggedIn) {
-    switch ($rolUsuario) {
-        case 'paciente':
-            $panelLink = 'perfil-usuario.php';
-            break;
-        case 'medico':
-            $panelLink = 'perfil-doctores.php';
-            break;
-        case 'admin':
-            $panelLink = 'panel-admin-sistema.php';
-            break;
-            // No hay caso para recepcionista
-    }
-}
-
-// Determinar el enlace para "Agendar Cita"
-$agendarCitaLink = 'registro.php'; // Por defecto, llevar al registro si no está logueado
-if ($loggedIn) {
-    if ($rolUsuario === 'paciente') {
-        $agendarCitaLink = 'perfil-usuario.php'; // Paciente va a su panel para agendar
-    } else {
-        // Médico o Admin van a su propio panel (aunque el botón dice "Agendar Cita")
-        $agendarCitaLink = $panelLink;
-    }
-}
+// =================== INCLUDES DE LÓGICA Y COMPONENTES ===================
+include_once __DIR__ . '/includes/session_utils.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -107,7 +75,7 @@ if ($loggedIn) {
 
 <body class="antialiased transition-colors duration-300 dark:bg-gray-900 dark:text-white">
 
-    <!-- Encabezado con logo, navegación y modo oscuro -->
+    <!-- =================== ENCABEZADO: Logo, navegación y modo oscuro =================== -->
     <header class="bg-white shadow-md sticky top-0 z-50 dark:bg-gray-800">
         <div class="container mx-auto flex justify-between items-center py-3 px-4">
 
@@ -203,6 +171,7 @@ if ($loggedIn) {
         </div>
     </header>
 
+    <!-- =================== MENÚ MÓVIL =================== -->
     <!-- Contenedor del MENÚ MÓVIL -->
     <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-gray-800 shadow-lg py-4">
         <ul class="flex flex-col items-center gap-4 font-medium tracking-wide text-gray-700 dark:text-gray-200 transition-colors duration-200" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
@@ -234,6 +203,7 @@ if ($loggedIn) {
         </ul>
     </div>
 
+    <!-- =================== HERO: Portada con efecto Parallax =================== -->
     <!-- Sección Hero con efecto Parallax -->
     <section class="parallax">
         <div class="absolute inset-0 bg-gray-800 bg-opacity-0 dark:bg-opacity-50"></div>
@@ -246,6 +216,7 @@ if ($loggedIn) {
         </div>
     </section>
 
+    <!-- =================== MENSAJE DE ERROR (acceso no autorizado) =================== -->
     <!-- Mensaje de Error para acceso no autorizado -->
     <?php if (isset($_GET['error']) && $_GET['error'] === 'unauthorized_role'): ?>
         <div id="error-message" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-auto my-4 max-w-4xl">
@@ -270,6 +241,7 @@ if ($loggedIn) {
         </script>
     <?php endif; ?>
 
+    <!-- =================== CÓMO FUNCIONA: Características del sistema =================== -->
     <!-- Sección de Características del Sistema -->
     <section class="bg-gray-100 py-20 text-center dark:bg-gray-800">
         <h2 class="text-3xl font-semibold mb-4 dark:text-white">Cómo funciona MediAgenda</h2>
@@ -306,6 +278,7 @@ if ($loggedIn) {
         </div>
     </section>
 
+    <!-- =================== SERVICIOS =================== -->
     <!-- Sección de Servicios -->
     <section id="services" class="bg-gray-100 py-20 dark:bg-gray-800">
         <h2 class="text-3xl font-semibold mb-4 text-center dark:text-white">Nuestros Servicios</h2>
@@ -351,6 +324,7 @@ if ($loggedIn) {
         </div>
     </section>
 
+    <!-- =================== TESTIMONIOS =================== -->
     <!-- Sección de Testimonios -->
     <section id="testimonials" class="parallax-testimonials bg-white py-20 dark:bg-gray-800">
         <div class="relative container mx-auto">
@@ -367,74 +341,18 @@ if ($loggedIn) {
                     <p class="text-lg italic dark:text-white">"Los doctores son muy profesionales y el sistema de notificaciones
                         me ayudó a no perder ninguna cita."</p>
                     <p class="mt-4 text-gray-600 dark:text-gray-300">- Pedro Martínez</p>
-                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Pie de Página Mejorado -->
-    <footer class="bg-gray-900 text-gray-300 dark:bg-gray-800">
-        <div class="container mx-auto px-6 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <!-- Columna 1: Logo y Descripción -->
-                <div class="md:col-span-1">
-                    <div class="flex items-center gap-2 mb-4">
-                        <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain">
-                        <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
-                    </div>
-                    <p class="text-sm text-gray-400">Facilitando el acceso a la salud.</p>
-                </div>
+<!-- =================== FOOTER =================== -->
+<?php include_once __DIR__ . '/includes/footer.php'; ?>
 
-                <!-- Columna 2: Enlaces Rápidos -->
-                <div>
-                    <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Navegación</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#about" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Acerca de</a></li>
-                        <li><a href="#services" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Servicios</a></li>
-                        <li><a href="blog.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Blog</a></li>
-                        <li><a href="registro.php" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Acceso / Registro</a></li>
-                    </ul>
-                </div>
-
-                <!-- Columna 3: Legal y Soporte -->
-                <div>
-                    <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Soporte</h3>
-                    <ul class="space-y-2">
-                        <li><a href="contacto.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Contacto</a></li>
-                        <li><a href="politicas.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Políticas de Privacidad</a></li>
-                        <li><a href="#terms" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Términos de Servicio</a></li>
-                        <li><a href="#faq" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Preguntas Frecuentes</a></li>
-                    </ul>
-                </div>
-
-                <!-- Columna 4: Redes Sociales y Contacto -->
-                <div>
-                    <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Síguenos</h3>
-                    <div class="flex space-x-4 mb-6">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-facebook-f fa-lg"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-twitter fa-lg"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-instagram fa-lg"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-linkedin-in fa-lg"></i></a>
-                    </div>
-                    <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Contacto Directo</h3>
-                    <p class="text-sm text-gray-400">Email: info@mediagenda.com</p>
-                    <p class="text-sm text-gray-400">Teléfono: 315 2885138</p>
-                </div>
-            </div>
-        </div>
-        <!-- Línea de Copyright -->
-        <div class="border-t border-gray-700 mt-8 py-6">
-            <div class="container mx-auto px-6 text-center text-sm text-gray-500">
-                © <?php echo date("Y"); ?> MediAgenda. Todos los derechos reservados.
-            </div>
-        </div>
-    </footer>
-
-    <!-- Enlace al archivo de JavaScript para manejar las interacciones -->
-    <!-- Añadir SweetAlert2 ANTES de scripts.js -->
+    <!-- =================== SCRIPTS Y NOTIFICACIONES =================== -->
+    <!-- SweetAlert2 y scripts principales -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="scripts.js"></script>
-
     <!-- Área para mostrar notificaciones -->
     <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
 

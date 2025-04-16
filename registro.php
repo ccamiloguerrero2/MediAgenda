@@ -1,32 +1,6 @@
 <?php
-// --- registro.php ---
-session_start(); // Iniciar sesión para verificar si el usuario ya está logueado
-
-// Verificar si el usuario ya inició sesión
-$loggedIn = isset($_SESSION['idUsuario']) && !empty($_SESSION['idUsuario']);
-$nombreUsuario = $loggedIn ? ($_SESSION['nombreUsuario'] ?? 'Usuario') : ''; // Obtener nombre si está logueado
-$idUsuario = $loggedIn ? $_SESSION['idUsuario'] : null; // Obtener ID si es necesario
-
-// MODIFICADO: Calcular $panelLink apuntando a .php
-$panelLink = 'index.php'; // Default fallback
-if ($loggedIn && isset($_SESSION['rolUsuario'])) {
-    switch (strtolower($_SESSION['rolUsuario'])) {
-        case 'paciente':
-            $panelLink = 'perfil-usuario.php'; // Cambiado a .php
-            break;
-        case 'medico':
-            $panelLink = 'perfil-doctores.php'; // Cambiado a .php
-            break;
-        case 'admin':
-        case 'administrador':
-            $panelLink = 'panel-admin-sistema.php';
-            break;
-        case 'recepcionista':
-            $panelLink = 'panel-admin-recepcionista.html'; // Mantener .html si no se ha renombrado
-            break;
-    }
-}
-
+// =================== INCLUDES DE LÓGICA Y COMPONENTES ===================
+include_once __DIR__ . '/includes/session_utils.php';
 ?>
 <!DOCTYPE html>
 <html lang="es" class="dark:bg-gray-800">
@@ -85,76 +59,7 @@ if ($loggedIn && isset($_SESSION['rolUsuario'])) {
 
 <body class="font-sans antialiased transition-colors duration-300 dark:bg-gray-800 dark:text-white bg-gray-100 flex flex-col min-h-screen">
 
-    <!-- Header Mejorado -->
-    <header class="bg-white bg-opacity-90 shadow-md sticky top-0 z-50 dark:bg-gray-800 dark:bg-opacity-90 backdrop-blur-sm">
-        <div class="container mx-auto flex justify-between items-center py-3 px-6">
-            <!-- Logo y Título -->
-            <a href="index.php" class="flex items-center gap-2">
-                <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain">
-                <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
-                    <span class="border-l border-blue-400 h-8 mx-4"></span>
-                    <span class="text-base font-semibold text-blue-600 dark:text-blue-300 align-middle">Registro y Acceso</span>
-            </a>
-
-            <!-- Navegación Principal / Acciones -->
-            <nav class="flex items-center gap-4" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
-                <!-- Links para Desktop -->
-                <ul id="nav-links-desktop" class="hidden lg:flex items-center gap-4 md:gap-6 font-medium tracking-wide text-gray-700 dark:text-gray-200 transition-colors duration-200" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
-                    <!-- Eliminado enlace a Inicio -->
-                    <?php /* <li><a href="index.php" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Inicio</a></li> */ ?>
-
-                    <?php if ($loggedIn): ?>
-                        <!-- Mostrar nombre y botón de cerrar sesión si está logueado -->
-                        <li class="text-gray-700 dark:text-gray-300">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></li>
-                        <li>
-                            <a href="mediagenda-backend/logout.php"
-                                class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-md transition duration-200">
-                                Cerrar Sesión
-                            </a>
-                        </li>
-                    <?php else: ?>
-                        <!-- Mostrar botones/enlaces de Login/Registro si no está logueado -->
-                        <!-- Restaurando clase tab-button para funcionalidad JS -->
-                        <li><button data-target="login" class="tab-button bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600 dark:text-white font-semibold py-2 px-4 rounded-md transition duration-200 text-sm">Iniciar Sesión</button></li>
-                        <li><button data-target="register-patient" class="tab-button bg-green-600 hover:bg-green-700 text-white dark:text-white dark:bg-green-500 dark:hover:bg-green-600 font-semibold py-2 px-4 rounded-md transition duration-200 text-sm">Registro Paciente</button></li>
-                        <li><button data-target="register-doctor" class="tab-button bg-purple-600 hover:bg-purple-700 text-white dark:text-white dark:bg-purple-500 dark:hover:bg-purple-600 font-semibold py-2 px-4 rounded-md transition duration-200 text-sm">Registro Médico</button></li>
-                    <?php endif; ?>
-                </ul>
-
-                <!-- Botón Modo Oscuro -->
-                <button id="dark-mode-toggle" type="button"
-                    class="ml-2 p-2 rounded-full bg-gray-100 dark:bg-gray-700 shadow-sm hover:bg-blue-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-yellow-400 transition-colors duration-300 text-xl"
-                    aria-label="Toggle dark mode">
-                    <i id="dark-mode-icon" class="fas fa-moon text-blue-600 dark:fa-sun dark:text-yellow-400 transition-colors duration-300"></i>
-                </button>
-
-                <!-- Menu Hamburguesa (para móvil) -->
-                <div class="hamburger-menu lg:hidden flex flex-col gap-1 cursor-pointer ml-3" id="hamburger-menu">
-                    <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
-                    <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
-                    <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
-                </div>
-            </nav>
-
-        </div>
-        <!-- Menú Móvil Desplegable -->
-        <div id="mobile-menu" class="lg:hidden hidden group flex-col bg-white dark:bg-gray-800 absolute w-full shadow-lg pb-4">
-            <ul class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-all duration-700 ease-in-out min-w-max">
-                <a href="index.php" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 rounded-t-lg" hover:bg-blue-100 dark:hover:bg-gray-700">Inicio</a>
-                <?php if (!$loggedIn): ?>
-                    <!-- Restaurados botones específicos de registro paciente/médico -->
-                    <button data-target="login" class="tab-button block w-full text-left px-6 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-700">Iniciar Sesión</button>
-                    <button data-target="register-patient" class="tab-button block w-full text-left px-6 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-700">Registro Paciente</button>
-                    <button data-target="register-doctor" class="tab-button block w-full text-left px-6 py-2 text-gray-700 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-gray-700">Registro Médico</button>
-                <?php else: ?>
-                    <span class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 rounded-t-lg">Hola, <?php echo htmlspecialchars($nombreUsuario); ?></span>
-                    <a href="mediagenda-backend/logout.php" class="block px-6 py-2 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-gray-700">Cerrar Sesión</a>
-                    <a href="<?php echo $panelLink; ?>" class="block px-6 py-2 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-gray-700 rounded-b-lg">Mi Panel</a>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </header>
-
+    <?php include_once __DIR__ . '/includes/header.php'; ?>
     <!-- Contenedor Principal -->
     <main class="dark:bg-gray-800 flex-grow w-full">
         <div class="container mx-auto py-10 px-4 md:px-6 h-full">
@@ -299,55 +204,7 @@ if ($loggedIn && isset($_SESSION['rolUsuario'])) {
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300 dark:bg-gray-800">
-    <div class="container mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <!-- Columna 1: Logo y Descripción -->
-            <div class="md:col-span-1">
-                <div class="flex items-center gap-2 mb-4">
-                    <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain">
-                    <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
-                </div>
-                <p class="text-sm text-gray-400">Facilitando el acceso a la salud.</p>
-            </div>
-            <!-- Columna 2: Enlaces Rápidos -->
-            <div>
-                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Navegación</h3>
-                <ul class="space-y-2">
-                    <li><a href="#about" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Acerca de</a></li>
-                    <li><a href="#services" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Servicios</a></li>
-                    <li><a href="blog.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Blog</a></li>
-                    <li><a href="registro.php" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Acceso / Registro</a></li>
-                </ul>
-            </div>
-            <!-- Columna 3: Legal y Soporte -->
-            <div>
-                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Soporte</h3>
-                <ul class="space-y-2">
-                    <li><a href="contacto.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Contacto</a></li>
-                    <li><a href="politicas.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Políticas de Privacidad</a></li>
-                    <li><a href="#terms" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Términos de Servicio</a></li>
-                    <li><a href="#faq" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Preguntas Frecuentes</a></li>
-                </ul>
-            </div>
-            <!-- Columna 4: Redes Sociales y Contacto -->
-            <div>
-                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Síguenos</h3>
-                <div class="flex space-x-4 mb-6">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-facebook-f fa-lg"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-twitter fa-lg"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-instagram fa-lg"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-linkedin-in fa-lg"></i></a>
-                </div>
-                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Contacto Directo</h3>
-                <p class="text-sm text-gray-400">Email: info@mediagenda.com</p>
-                <p class="text-sm text-gray-400">Teléfono: 315 2885138</p>
-            </div>
-        </div>
-    </div>
-
-
+    <?php include_once __DIR__ . '/includes/footer.php'; ?>
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="scripts.js"></script>

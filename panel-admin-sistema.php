@@ -1,19 +1,20 @@
 <?php
-session_start();
+// =================== INCLUDES DE LÓGICA Y COMPONENTES ===================
+include_once __DIR__ . '/includes/session_utils.php';
 
 // Verificar si el usuario está autenticado y es administrador
-if (!isset($_SESSION['idUsuario']) || strtolower($_SESSION['rolUsuario'] ?? '') !== 'admin') {
+if (!is_authenticated() || !is_admin()) {
     // Si no está autenticado o no es admin, redirigir a la página de inicio
     header('Location: index.php?error=unauthorized');
     exit();
 }
 
 // Obtener datos del usuario desde la sesión
-$user_id = $_SESSION['idUsuario'];
-$nombre_usuario = $_SESSION['nombreUsuario'] ?? 'Admin';
-$rol_usuario = $_SESSION['rolUsuario'];
-
+$user_id = get_user_id();
+$nombre_usuario = get_user_name();
+$rol_usuario = get_user_role();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -107,8 +108,8 @@ $rol_usuario = $_SESSION['rolUsuario'];
             <section id="users" class="mb-12 scroll-mt-20">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-2xl font-bold dark:text-gray-200">Gestión de Usuarios</h2>
-                    <button id="btn-mostrar-crear-usuario" class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-all duration-700 ease-in-out min-w-max">
-                        <i class="bi bi-plus-lg mr-1"></i> Crear Nuevo Usuario
+                    <button id="btn-mostrar-crear-usuario" type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow transition duration-200 flex items-center gap-2">
+                        <i class="bi bi-plus-lg"></i> Crear Nuevo Usuario
                     </button>
                 </div>
 
