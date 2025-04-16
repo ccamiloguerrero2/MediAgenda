@@ -50,12 +50,14 @@ if ($loggedIn) {
     <!-- Añadir CSS de SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-    <!-- Google Fonts (Roboto y Montserrat) -->
+    <!-- Google Fonts (Roboto, Montserrat y Pacifico) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
+        /* Fuente Pacifico personalizada solo para el logo */
+        .logo-pacifico { font-family: 'Pacifico', cursive; }
         /* Aplicar fuentes base */
         body {
             font-family: 'Roboto', sans-serif;
@@ -112,9 +114,9 @@ if ($loggedIn) {
             <!-- Logo de MediAgenda -->
             <div class="flex items-center gap-2">
                 <a href="index.php">
-                    <img src="img/logo.png" alt="MediAgenda Logo" class="w-10 h-10">
+                    <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain">
                 </a>
-                <span class="text-xl font-bold text-blue-600 dark:text-blue-300 tracking-wide uppercase drop-shadow-sm" style="font-family: 'Montserrat', Arial, sans-serif;">MediAgenda</span>
+                <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
             </div>
 
             <!-- Menú de navegación de ESCRITORIO con submenús -->
@@ -130,9 +132,9 @@ if ($loggedIn) {
                             <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">
                                 Panel
                             </a>
-                            <ul class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg mt-2 transition-all duration-700 ease-in-out min-w-max">
+                            <ul class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-all duration-700 ease-in-out min-w-max">
                                 <!-- Mantenemos solo el enlace genérico 'Ir a mi Panel' -->
-                                <li><a href="<?php echo $panelLink; ?>" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 font-semibold">Ir a mi Panel</a></li>
+                                <li><a href="<?php echo $panelLink; ?>" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 font-semibold rounded-t-lg">Ir a mi Panel</a></li>
                             </ul>
                         </li>
                     <?php endif; ?>
@@ -151,13 +153,12 @@ if ($loggedIn) {
                             class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">
                             Ayuda
                         </a>
-                        <ul
-                            class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg mt-2 transition-all duration-700 ease-in-out">
+                        <ul class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-all duration-700 ease-in-out">
                             <li><a href="politicas.html"
-                                    class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Políticas</a>
+                                    class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 rounded-t-lg">Políticas</a>
                             </li>
                             <li><a href="contacto.html"
-                                    class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300">Contacto</a>
+                                    class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 rounded-b-lg">Contacto</a>
                             </li>
                         </ul>
                     </li>
@@ -378,8 +379,8 @@ if ($loggedIn) {
                 <!-- Columna 1: Logo y Descripción -->
                 <div class="md:col-span-1">
                     <div class="flex items-center gap-2 mb-4">
-                        <img src="img/logo.png" alt="MediAgenda Logo" class="w-8 h-8">
-                        <span class="text-xl font-bold text-white">MediAgenda</span>
+                        <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain">
+                        <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
                     </div>
                     <p class="text-sm text-gray-400">Facilitando el acceso a la salud.</p>
                 </div>

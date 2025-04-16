@@ -24,11 +24,16 @@ $rol_usuario = $_SESSION['rolUsuario'];
 
     <!-- Enlaces a Tailwind CSS y bibliotecas de íconos -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="dist/output.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <!-- Añadir CSS de SweetAlert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        .logo-pacifico { font-family: 'Pacifico', cursive; }
+    </style>
 </head>
 
 <body class="font-sans antialiased transition-colors duration-300 dark:bg-gray-900 dark:text-white">
@@ -38,8 +43,10 @@ $rol_usuario = $_SESSION['rolUsuario'];
         <div class="container mx-auto flex justify-between items-center py-3 px-6">
             <div class="flex items-center gap-2">
                 <a href="index.php">
-                    <img src="img/logo.png" alt="MediAgenda Logo" class="w-10 h-10">
+                    <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain">
                 </a>
+                <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
+                <span class="border-l border-blue-400 h-8 mx-4"></span>
                 <h1 class="text-xl font-bold text-blue-600 dark:text-blue-300 tracking-wide uppercase drop-shadow-sm" style="font-family: 'Montserrat', Arial, sans-serif;">Panel de Administración</h1>
             </div>
             <nav style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
@@ -100,7 +107,7 @@ $rol_usuario = $_SESSION['rolUsuario'];
             <section id="users" class="mb-12 scroll-mt-20">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-2xl font-bold dark:text-gray-200">Gestión de Usuarios</h2>
-                    <button id="btn-mostrar-crear-usuario" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-200 text-sm">
+                    <button id="btn-mostrar-crear-usuario" class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-all duration-700 ease-in-out min-w-max">
                         <i class="bi bi-plus-lg mr-1"></i> Crear Nuevo Usuario
                     </button>
                 </div>
@@ -174,30 +181,59 @@ $rol_usuario = $_SESSION['rolUsuario'];
     <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-10 dark:bg-gray-800 mt-auto">
-        <div class="container mx-auto flex flex-wrap justify-between gap-8 px-6"> <!-- Añadido px-6 para consistencia -->
-            <div>
-                <h3 class="text-lg font-semibold mb-4">MediAgenda Admin</h3>
-                <p class="text-gray-400">Panel de Administración del Sistema.</p>
+    <footer class="bg-gray-900 text-gray-300 dark:bg-gray-800">
+    <div class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Columna 1: Logo y Descripción -->
+            <div class="md:col-span-1">
+                <div class="flex items-center gap-2 mb-4">
+                    <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain">
+                    <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
+                </div>
+                <p class="text-sm text-gray-400">Facilitando el acceso a la salud.</p>
             </div>
+            <!-- Columna 2: Enlaces Rápidos -->
             <div>
-                <h3 class="text-lg font-semibold mb-4">Enlaces Rápidos</h3>
-                <ul>
-                    <li><a href="index.php" class="text-gray-400 hover:text-white">Página Principal</a></li>
-                    <li><a href="contacto.html" class="text-gray-400 hover:text-white">Soporte Técnico</a></li>
-                    <!-- Añadir más enlaces relevantes para el admin si es necesario -->
+                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Navegación</h3>
+                <ul class="space-y-2">
+                    <li><a href="#about" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Acerca de</a></li>
+                    <li><a href="#services" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Servicios</a></li>
+                    <li><a href="blog.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Blog</a></li>
+                    <li><a href="registro.php" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Acceso / Registro</a></li>
                 </ul>
             </div>
+            <!-- Columna 3: Legal y Soporte -->
             <div>
-                <h3 class="text-lg font-semibold mb-4">Recursos</h3>
-                <p class="text-gray-400">Documentación Interna</p>
-                <p class="text-gray-400">Guías de Usuario</p>
+                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Soporte</h3>
+                <ul class="space-y-2">
+                    <li><a href="contacto.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Contacto</a></li>
+                    <li><a href="politicas.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Políticas de Privacidad</a></li>
+                    <li><a href="#terms" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Términos de Servicio</a></li>
+                    <li><a href="#faq" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Preguntas Frecuentes</a></li>
+                </ul>
+            </div>
+            <!-- Columna 4: Redes Sociales y Contacto -->
+            <div>
+                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Síguenos</h3>
+                <div class="flex space-x-4 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-facebook-f fa-lg"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                </div>
+                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Contacto Directo</h3>
+                <p class="text-sm text-gray-400">Email: info@mediagenda.com</p>
+                <p class="text-sm text-gray-400">Teléfono: 315 2885138</p>
             </div>
         </div>
-        <div class="text-center text-gray-500 text-sm mt-8 border-t border-gray-700 pt-6">
-            © <?php echo date("Y"); ?> MediAgenda. Todos los derechos reservados.
+    </div>
+    <!-- Línea de Copyright -->
+    <div class="border-t border-gray-700 mt-8 py-6">
+        <div class="container mx-auto px-6 text-center text-sm text-gray-500">
+            &copy; <?php echo date("Y"); ?> MediAgenda. Todos los derechos reservados.
         </div>
-    </footer>
+    </div>
+</footer>
 
     <!-- Enlaces a JavaScript -->
     <!-- Añadir SweetAlert2 ANTES de los otros scripts -->

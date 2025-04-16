@@ -29,6 +29,8 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
     <title>MediAgenda - Panel de Pacientes</title>
 
     <!-- Enlaces CSS -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="dist/output.css"> <!-- Tailwind Compilado -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -58,6 +60,11 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
             opacity: 0.5;
             cursor: not-allowed;
         }
+
+        .logo-pacifico { font-family: 'Pacifico', cursive; }
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
     </style>
 </head>
 
@@ -71,9 +78,11 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
             <div class="flex items-center gap-2">
                 <!-- CORREGIDO: Enlace a index.php -->
                 <a href="index.php">
-                    <img src="img/logo.png" alt="MediAgenda Logo" class="w-10 h-10">
+                    <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain">
                 </a>
-                <span class="text-xl font-bold text-blue-600 dark:text-blue-300 tracking-wide uppercase drop-shadow-sm" style="font-family: 'Montserrat', Arial, sans-serif;">MediAgenda - Panel de Pacientes</span>
+                <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
+                    <span class="border-l border-blue-400 h-8 mx-4"></span>
+                    <span class="text-base font-semibold text-blue-600 dark:text-blue-300 align-middle">Panel de Pacientes</span>
             </div>
             <nav class="flex items-center gap-4" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
                 <!-- Navegación Panel Paciente -->
@@ -103,13 +112,13 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
                 </div>
             </nav>
             <!-- Menú Móvil Desplegable (Oculto por defecto y en >= lg) -->
-            <div id="mobile-menu" class="lg:hidden hidden absolute top-full left-0 w-full bg-white dark:bg-gray-800 shadow-lg border-t border-gray-200 dark:border-gray-700">
-                <ul class="flex flex-col items-center gap-4 font-medium tracking-wide text-gray-700 dark:text-gray-200 transition-colors duration-200" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
-                    <li><a href="#profile" class="block py-2 px-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Perfil</a></li>
-                    <li><a href="#appointments" class="block py-2 px-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Citas</a></li>
-                    <li><a href="#schedule" class="block py-2 px-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Agendar</a></li>
-                    <li><a href="#medical-history" class="block py-2 px-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Historial</a></li>
-                    <li class="pt-2 border-t border-gray-200 dark:border-gray-700"><a href="mediagenda-backend/logout.php" class="block text-center bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-3 rounded-md transition duration-200">Cerrar Sesión</a></li>
+            <div id="mobile-menu" class="lg:hidden hidden absolute left-0 w-full bg-white dark:bg-gray-800 shadow-lg border-t border-gray-200 dark:border-gray-700">
+                <ul class="absolute left-0 hidden group-hover:flex flex-col bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-all duration-700 ease-in-out min-w-max">
+                    <li><a href="#profile" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 rounded-t-lg" hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Perfil</a></li>
+                    <li><a href="#appointments" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300" hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Citas</a></li>
+                    <li><a href="#schedule" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300" hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Agendar</a></li>
+                    <li><a href="#medical-history" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 rounded-b-lg" hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Historial</a></li>
+                    <li class="pt-2 border-t border-gray-200 dark:border-gray-700"><a href="mediagenda-backend/logout.php" class="block px-4 py-2 hover:bg-blue-600 hover:text-white dark:text-gray-300 font-semibold rounded-b-lg" py-2 px-3 rounded-md transition duration-200">Cerrar Sesión</a></li>
                 </ul>
             </div>
         </div>
@@ -255,6 +264,141 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="scripts.js"></script>
 
-</body>
+<!-- Pie de Página Mejorado -->
+<footer class="bg-gray-900 text-gray-300 dark:bg-gray-800">
+    <div class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Columna 1: Logo y Descripción -->
+            <div class="md:col-span-1">
+                <div class="flex items-center gap-2 mb-4">
+                    <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain">
+                    <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
+                </div>
+                <p class="text-sm text-gray-400">Facilitando el acceso a la salud.</p>
+            </div>
+            <!-- Columna 2: Enlaces Rápidos -->
+            <div>
+                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Navegación</h3>
+                <ul class="space-y-2">
+                    <li><a href="#about" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Acerca de</a></li>
+                    <li><a href="#services" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Servicios</a></li>
+                    <li><a href="blog.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Blog</a></li>
+                    <li><a href="registro.php" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Acceso / Registro</a></li>
+                </ul>
+            </div>
+            <!-- Columna 3: Legal y Soporte -->
+            <div>
+                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Soporte</h3>
+                <ul class="space-y-2">
+                    <li><a href="contacto.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Contacto</a></li>
+                    <li><a href="politicas.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Políticas de Privacidad</a></li>
+                    <li><a href="#terms" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Términos de Servicio</a></li>
+                    <li><a href="#faq" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Preguntas Frecuentes</a></li>
+                </ul>
+            </div>
+            <!-- Columna 4: Redes Sociales y Contacto -->
+            <div>
+                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Síguenos</h3>
+                <div class="flex space-x-4 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-facebook-f fa-lg"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                </div>
+                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Contacto Directo</h3>
+                <p class="text-sm text-gray-400">Email: info@mediagenda.com</p>
+                <p class="text-sm text-gray-400">Teléfono: 315 2885138</p>
+            </div>
+        </div>
+    </div>
+        <div class="w-full lg:w-1/4 xl:w-1/4 p-6 text-center lg:text-left xl:text-left">
+            <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain mb-4">
+            <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
+            <p class="text-gray-400">Facilitando el acceso a la salud.</p>
+        </div>
+        <div class="w-full lg:w-1/4 xl:w-1/4 p-6 text-center lg:text-left xl:text-left">
+            <h3 class="text-lg font-semibold mb-4">Enlaces Rápidos</h3>
+            <ul>
+                <li><a href="index.php#about" class="text-gray-400 hover:text-white">Acerca de</a></li>
+                <li><a href="index.php#services" class="text-gray-400 hover:text-white">Servicios</a></li>
+                <li><a href="blog.html" class="text-gray-400 hover:text-white">Blog</a></li>
+                <li><a href="registro.php" class="text-gray-400 hover:text-white">Acceso / Registro</a></li>
+            </ul>
+        </div>
+        <div class="w-full lg:w-1/4 xl:w-1/4 p-6 text-center lg:text-left xl:text-left">
+            <h3 class="text-lg font-semibold mb-4">Soporte</h3>
+            <ul>
+                <li><a href="contacto.html" class="text-gray-400 hover:text-white">Contacto</a></li>
+                <li><a href="politicas.html" class="text-gray-400 hover:text-white">Políticas de Privacidad</a></li>
+                <li><a href="#terms" class="text-gray-400 hover:text-white">Términos de Servicio</a></li>
+                <li><a href="#faq" class="text-gray-400 hover:text-white">Preguntas Frecuentes</a></li>
+            </ul>
+        </div>
+        <div class="w-full lg:w-1/4 xl:w-1/4 p-6 text-center lg:text-left xl:text-left">
+            <h3 class="text-lg font-semibold mb-4">Redes Sociales</h3>
+            <div class="flex space-x-4 mb-6 justify-center lg:justify-start xl:justify-start">
+                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter fa-lg"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram fa-lg"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in fa-lg"></i></a>
+            </div>
+            <h3 class="text-lg font-semibold mb-4">Contacto Directo</h3>
+            <p class="text-gray-400">Email: info@mediagenda.com</p>
+            <p class="text-gray-400">Teléfono: 315 2885138</p>
+        </div>
+    </div>
+    <div class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Columna 1: Logo y Descripción -->
+            <div class="md:col-span-1">
+                <div class="flex items-center gap-2 mb-4">
+                    <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain">
+                    <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
+                </div>
+                <p class="text-sm text-gray-400">Facilitando el acceso a la salud.</p>
+            </div>
+            <!-- Columna 2: Enlaces Rápidos -->
+            <div>
+                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Navegación</h3>
+                <ul class="space-y-2">
+                    <li><a href="#about" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Acerca de</a></li>
+                    <li><a href="#services" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Servicios</a></li>
+                    <li><a href="blog.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Blog</a></li>
+                    <li><a href="registro.php" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Acceso / Registro</a></li>
+                </ul>
+            </div>
+            <!-- Columna 3: Legal y Soporte -->
+            <div>
+                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Soporte</h3>
+                <ul class="space-y-2">
+                    <li><a href="contacto.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Contacto</a></li>
+                    <li><a href="politicas.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Políticas de Privacidad</a></li>
+                    <li><a href="#terms" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Términos de Servicio</a></li>
+                    <li><a href="#faq" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Preguntas Frecuentes</a></li>
+                </ul>
+            </div>
+            <!-- Columna 4: Redes Sociales y Contacto -->
+            <div>
+                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Síguenos</h3>
+                <div class="flex space-x-4 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-facebook-f fa-lg"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                </div>
+                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Contacto Directo</h3>
+                <p class="text-sm text-gray-400">Email: info@mediagenda.com</p>
+                <p class="text-sm text-gray-400">Teléfono: 315 2885138</p>
+            </div>
+        </div>
+    </div>
+    <!-- Línea de Copyright -->
+    <div class="border-t border-gray-700 mt-8 py-6">
+        <div class="container mx-auto px-6 text-center text-sm text-gray-500">
+            &copy; <?php echo date("Y"); ?> MediAgenda. Todos los derechos reservados.
+        </div>
+    </div>
+</footer>
 
+</body>
 </html>
