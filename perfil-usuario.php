@@ -67,13 +67,13 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
     <!-- El header ahora SÍ debe mostrar siempre "Cerrar Sesión", porque solo usuarios logueados verán esta página -->
     <header class="bg-white bg-opacity-90 shadow-md sticky top-0 z-50 dark:bg-gray-800 dark:bg-opacity-90 backdrop-blur-sm">
         <!-- ... resto del header ... -->
-        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+        <div class="container mx-auto flex justify-between items-center py-3 px-6">
             <div class="flex items-center gap-2">
                 <!-- CORREGIDO: Enlace a index.php -->
                 <a href="index.php">
                     <img src="img/logo.png" alt="MediAgenda Logo" class="w-10 h-10">
                 </a>
-                <span class="text-xl font-bold text-blue-600 dark:text-blue-300">MediAgenda - Panel de Pacientes</span>
+                <span class="text-xl font-bold text-blue-600 dark:text-blue-300 tracking-wide uppercase drop-shadow-sm" style="font-family: 'Montserrat', Arial, sans-serif;">MediAgenda - Panel de Pacientes</span>
             </div>
             <nav class="flex items-center gap-4" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
                 <!-- Navegación Panel Paciente -->
@@ -90,8 +90,10 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
                     </li>
                 </ul>
                 <!-- Botón Modo Oscuro -->
-                <button id="dark-mode-toggle" class="text-blue-600 dark:text-yellow-400 ml-2 text-xl">
-                    <i class="fas fa-moon"></i>
+                <button id="dark-mode-toggle" type="button"
+                    class="ml-2 p-2 rounded-full bg-gray-100 dark:bg-gray-700 shadow-sm hover:bg-blue-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-yellow-400 transition-colors duration-300 text-xl"
+                    aria-label="Toggle dark mode">
+                    <i id="dark-mode-icon" class="fas fa-moon text-blue-600 dark:fa-sun dark:text-yellow-400 transition-colors duration-300"></i>
                 </button>
                 <!-- Botón Hamburguesa (Visible en < lg) -->
                 <div class="hamburger-menu lg:hidden flex flex-col gap-1 cursor-pointer" id="hamburger-menu">

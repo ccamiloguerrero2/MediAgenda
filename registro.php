@@ -86,8 +86,8 @@ if ($loggedIn && isset($_SESSION['rolUsuario'])) {
         <div class="container mx-auto flex justify-between items-center py-3 px-6">
             <!-- Logo y Título -->
             <a href="index.php" class="flex items-center gap-2">
-                <img src="img/logo.png" alt="MediAgenda Logo" class="w-10 h-10 md:w-12 md:h-12">
-                <span class="text-xl md:text-2xl font-semibold text-blue-600 dark:text-blue-300">MediAgenda</span>
+                <img src="img/logo.png" alt="MediAgenda Logo" class="w-10 h-10">
+                <span class="text-xl font-bold text-blue-600 dark:text-blue-300 tracking-wide uppercase drop-shadow-sm" style="font-family: 'Montserrat', Arial, sans-serif;">MediAgenda</span>
             </a>
 
             <!-- Navegación Principal / Acciones -->
@@ -116,8 +116,10 @@ if ($loggedIn && isset($_SESSION['rolUsuario'])) {
                 </ul>
 
                 <!-- Botón Modo Oscuro -->
-                <button id="dark-mode-toggle" class="text-blue-600 dark:text-yellow-400 ml-2 text-xl">
-                    <i class="fas fa-moon"></i> <!-- JS cambiará a fa-sun -->
+                <button id="dark-mode-toggle" type="button"
+                    class="ml-2 p-2 rounded-full bg-gray-100 dark:bg-gray-700 shadow-sm hover:bg-blue-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-yellow-400 transition-colors duration-300 text-xl"
+                    aria-label="Toggle dark mode">
+                    <i id="dark-mode-icon" class="fas fa-moon text-blue-600 dark:fa-sun dark:text-yellow-400 transition-colors duration-300"></i>
                 </button>
 
                 <!-- Menu Hamburguesa (para móvil) -->

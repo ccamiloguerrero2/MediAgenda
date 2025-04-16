@@ -114,12 +114,12 @@ if ($loggedIn) {
                 <a href="index.php">
                     <img src="img/logo.png" alt="MediAgenda Logo" class="w-10 h-10">
                 </a>
-                <span class="text-xl font-bold text-blue-600 dark:text-blue-300">MediAgenda</span>
+                <span class="text-xl font-bold text-blue-600 dark:text-blue-300 tracking-wide uppercase drop-shadow-sm" style="font-family: 'Montserrat', Arial, sans-serif;">MediAgenda</span>
             </div>
 
             <!-- Menú de navegación de ESCRITORIO con submenús -->
             <nav style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
-                <ul id="nav-links" class="hidden lg:flex space-x-8 items-center font-medium tracking-wide text-gray-700 dark:text-gray-200 transition-colors duration-200" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
+                <ul id="nav-links" class="hidden lg:flex gap-x-4 items-center font-medium tracking-wide text-gray-700 dark:text-gray-200 transition-colors duration-200 bg-white/70 dark:bg-gray-900/70 rounded-xl px-2 py-1 shadow-sm border border-gray-200 dark:border-gray-700" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
                     <?php /* <li><a href="index.php"
                             class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">Inicio</a>
                     </li> */ ?>
@@ -187,9 +187,11 @@ if ($loggedIn) {
 
             <!-- Contenedor para botones derechos (modo oscuro y hamburguesa) -->
             <div class="flex items-center gap-4">
-                <button id="dark-mode-toggle" class="cta-button text-blue-600">
-                    <i class="fas fa-moon text-2xl"></i>
-                </button>
+                <button id="dark-mode-toggle" type="button"
+    class="ml-2 p-2 rounded-full bg-gray-100 dark:bg-gray-700 shadow-sm hover:bg-blue-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-yellow-400 transition-colors duration-300 text-xl"
+    aria-label="Toggle dark mode">
+    <i id="dark-mode-icon" class="fas fa-moon text-blue-600 dark:fa-sun dark:text-yellow-400 transition-colors duration-300"></i>
+</button>
                 <div class="hamburger-menu lg:hidden flex flex-col gap-1 cursor-pointer" id="hamburger-menu">
                     <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>
                     <span class="w-6 h-0.5 bg-blue-600 dark:bg-blue-300"></span>

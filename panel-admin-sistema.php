@@ -35,12 +35,12 @@ $rol_usuario = $_SESSION['rolUsuario'];
 
     <!-- Header con logo y navegación -->
     <header class="bg-white bg-opacity-80 shadow-md sticky top-0 z-50 dark:bg-gray-800">
-        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+        <div class="container mx-auto flex justify-between items-center py-3 px-6">
             <div class="flex items-center gap-2">
                 <a href="index.php">
                     <img src="img/logo.png" alt="MediAgenda Logo" class="w-10 h-10">
                 </a>
-                <h1 class="text-xl font-bold text-blue-600 dark:text-blue-300">Panel de Administración</h1>
+                <h1 class="text-xl font-bold text-blue-600 dark:text-blue-300 tracking-wide uppercase drop-shadow-sm" style="font-family: 'Montserrat', Arial, sans-serif;">Panel de Administración</h1>
             </div>
             <nav style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
                 <!-- Navegación entre secciones del panel administrativo -->
