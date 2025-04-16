@@ -197,33 +197,6 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
         </div> <!-- Cierre del div container -->
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-10 dark:bg-gray-800 mt-auto">
-        <div class="container mx-auto flex flex-wrap justify-between gap-8 px-6"> <!-- Añadido px-6 para consistencia -->
-            <div>
-                <h3 class="text-lg font-semibold mb-4">MediAgenda</h3>
-                <p class="text-gray-400">Facilitar la programación de la asistencia médica.</p>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Enlaces Rápidos</h3>
-                <ul>
-                    <li><a href="index.php#about" class="text-gray-400 hover:text-white">Acerca de</a></li>
-                    <li><a href="index.php#services" class="text-gray-400 hover:text-white">Servicios</a></li>
-                    <li><a href="contacto.html" class="text-gray-400 hover:text-white">Contacto</a></li>
-                    <li><a href="politicas.html" class="text-gray-400 hover:text-white">Políticas</a></li>
-                    <!-- Podrías añadir enlace a Términos si existe -->
-                </ul>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Contáctenos</h3>
-                <p class="text-gray-400">Email: info@mediagenda.com</p>
-                <p class="text-gray-400">Teléfono: 315 2885138</p>
-            </div>
-        </div>
-        <div class="text-center text-gray-500 text-sm mt-8 border-t border-gray-700 pt-6">
-            © <?php echo date("Y"); ?> MediAgenda. Todos los derechos reservados.
-        </div>
-    </footer>
 
     <!-- Modal para Agendar Cita -->
     <div id="schedule-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-[60] p-4">
@@ -311,87 +284,7 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
             </div>
         </div>
     </div>
-        <div class="w-full lg:w-1/4 xl:w-1/4 p-6 text-center lg:text-left xl:text-left">
-            <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain mb-4">
-            <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
-            <p class="text-gray-400">Facilitando el acceso a la salud.</p>
-        </div>
-        <div class="w-full lg:w-1/4 xl:w-1/4 p-6 text-center lg:text-left xl:text-left">
-            <h3 class="text-lg font-semibold mb-4">Enlaces Rápidos</h3>
-            <ul>
-                <li><a href="index.php#about" class="text-gray-400 hover:text-white">Acerca de</a></li>
-                <li><a href="index.php#services" class="text-gray-400 hover:text-white">Servicios</a></li>
-                <li><a href="blog.html" class="text-gray-400 hover:text-white">Blog</a></li>
-                <li><a href="registro.php" class="text-gray-400 hover:text-white">Acceso / Registro</a></li>
-            </ul>
-        </div>
-        <div class="w-full lg:w-1/4 xl:w-1/4 p-6 text-center lg:text-left xl:text-left">
-            <h3 class="text-lg font-semibold mb-4">Soporte</h3>
-            <ul>
-                <li><a href="contacto.html" class="text-gray-400 hover:text-white">Contacto</a></li>
-                <li><a href="politicas.html" class="text-gray-400 hover:text-white">Políticas de Privacidad</a></li>
-                <li><a href="#terms" class="text-gray-400 hover:text-white">Términos de Servicio</a></li>
-                <li><a href="#faq" class="text-gray-400 hover:text-white">Preguntas Frecuentes</a></li>
-            </ul>
-        </div>
-        <div class="w-full lg:w-1/4 xl:w-1/4 p-6 text-center lg:text-left xl:text-left">
-            <h3 class="text-lg font-semibold mb-4">Redes Sociales</h3>
-            <div class="flex space-x-4 mb-6 justify-center lg:justify-start xl:justify-start">
-                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter fa-lg"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram fa-lg"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in fa-lg"></i></a>
-            </div>
-            <h3 class="text-lg font-semibold mb-4">Contacto Directo</h3>
-            <p class="text-gray-400">Email: info@mediagenda.com</p>
-            <p class="text-gray-400">Teléfono: 315 2885138</p>
-        </div>
-    </div>
-    <div class="container mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <!-- Columna 1: Logo y Descripción -->
-            <div class="md:col-span-1">
-                <div class="flex items-center gap-2 mb-4">
-                    <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain">
-                    <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
-                </div>
-                <p class="text-sm text-gray-400">Facilitando el acceso a la salud.</p>
-            </div>
-            <!-- Columna 2: Enlaces Rápidos -->
-            <div>
-                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Navegación</h3>
-                <ul class="space-y-2">
-                    <li><a href="#about" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Acerca de</a></li>
-                    <li><a href="#services" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Servicios</a></li>
-                    <li><a href="blog.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Blog</a></li>
-                    <li><a href="registro.php" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Acceso / Registro</a></li>
-                </ul>
-            </div>
-            <!-- Columna 3: Legal y Soporte -->
-            <div>
-                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Soporte</h3>
-                <ul class="space-y-2">
-                    <li><a href="contacto.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Contacto</a></li>
-                    <li><a href="politicas.html" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Políticas de Privacidad</a></li>
-                    <li><a href="#terms" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Términos de Servicio</a></li>
-                    <li><a href="#faq" class="text-sm text-gray-400 hover:text-white transition-colors duration-300">Preguntas Frecuentes</a></li>
-                </ul>
-            </div>
-            <!-- Columna 4: Redes Sociales y Contacto -->
-            <div>
-                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Síguenos</h3>
-                <div class="flex space-x-4 mb-6">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-facebook-f fa-lg"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-twitter fa-lg"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-instagram fa-lg"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-linkedin-in fa-lg"></i></a>
-                </div>
-                <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Contacto Directo</h3>
-                <p class="text-sm text-gray-400">Email: info@mediagenda.com</p>
-                <p class="text-sm text-gray-400">Teléfono: 315 2885138</p>
-            </div>
-        </div>
-    </div>
+
     <!-- Línea de Copyright -->
     <div class="border-t border-gray-700 mt-8 py-6">
         <div class="container mx-auto px-6 text-center text-sm text-gray-500">

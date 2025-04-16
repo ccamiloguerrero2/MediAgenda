@@ -320,76 +320,14 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
                     <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-linkedin-in fa-lg"></i></a>
                 </div>
                 <h3 class="text-base font-semibold text-white mb-4 uppercase tracking-wider">Contacto Directo</h3>
-                <p class="text-sm text-gray-400">Email: info@mediagenda.com</p>
-                <p class="text-sm text-gray-400">Teléfono: 315 2885138</p>
             </div>
         </div>
-    </div>
-        <div class="w-full lg:w-1/4 xl:w-1/4 p-6 text-center lg:text-left xl:text-left">
-            <img src="img/logo.png" alt="MediAgenda Logo" class="h-10 w-auto object-contain mb-4">
-            <span class="logo-pacifico text-blue-600 text-2xl">MediAgenda</span>
-            <p class="text-gray-400">Facilitando el acceso a la salud.</p>
-        </div>
-        <div class="w-full lg:w-1/4 xl:w-1/4 p-6 text-center lg:text-left xl:text-left">
-            <h3 class="text-lg font-semibold mb-4">Enlaces Rápidos</h3>
-            <ul>
-                <li><a href="index.php#about" class="text-gray-400 hover:text-white">Acerca de</a></li>
-                <li><a href="index.php#services" class="text-gray-400 hover:text-white">Servicios</a></li>
-                <li><a href="blog.html" class="text-gray-400 hover:text-white">Blog</a></li>
-                <li><a href="registro.php" class="text-gray-400 hover:text-white">Acceso / Registro</a></li>
-            </ul>
-        </div>
-        <div class="w-full lg:w-1/4 xl:w-1/4 p-6 text-center lg:text-left xl:text-left">
-            <h3 class="text-lg font-semibold mb-4">Soporte</h3>
-            <ul>
-                <li><a href="contacto.html" class="text-gray-400 hover:text-white">Contacto</a></li>
-                <li><a href="politicas.html" class="text-gray-400 hover:text-white">Políticas de Privacidad</a></li>
-                <li><a href="#terms" class="text-gray-400 hover:text-white">Términos de Servicio</a></li>
-                <li><a href="#faq" class="text-gray-400 hover:text-white">Preguntas Frecuentes</a></li>
-            </ul>
-        </div>
-        <div class="w-full lg:w-1/4 xl:w-1/4 p-6 text-center lg:text-left xl:text-left">
-            <h3 class="text-lg font-semibold mb-4">Redes Sociales</h3>
-            <div class="flex space-x-4 mb-6 justify-center lg:justify-start xl:justify-start">
-                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter fa-lg"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram fa-lg"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in fa-lg"></i></a>
-            </div>
-            <h3 class="text-lg font-semibold mb-4">Contacto Directo</h3>
-            <p class="text-gray-400">Email: info@mediagenda.com</p>
-            <p class="text-gray-400">Teléfono: 315 2885138</p>
-        </div>
-    </div>
-        <div class="container mx-auto flex flex-wrap justify-between gap-8 px-6"> <!-- Añadido px-6 para consistencia -->
-            <div>
-                <h3 class="text-lg font-semibold mb-4">MediAgenda</h3>
-                <p class="text-gray-400">Facilitar la programación de la asistencia médica.</p>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Enlaces Rápidos</h3>
-                <ul>
-                    <li><a href="index.php#about" class="text-gray-400 hover:text-white">Acerca de</a></li>
-                    <li><a href="index.php#services" class="text-gray-400 hover:text-white">Servicios</a></li>
-                    <li><a href="contacto.html" class="text-gray-400 hover:text-white">Contacto</a></li>
-                    <li><a href="politicas.html" class="text-gray-400 hover:text-white">Políticas</a></li>
-                    <!-- Podrías añadir enlace a Términos si existe -->
-                </ul>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Contáctenos</h3>
-                <p class="text-gray-400">Email: info@mediagenda.com</p>
-                <p class="text-gray-400">Teléfono: 315 2885138</p>
+        <div class="border-t border-gray-700 mt-8 py-6">
+            <div class="container mx-auto px-6 text-center text-sm text-gray-500">
+                &copy; <?php echo date("Y"); ?> MediAgenda. Todos los derechos reservados.
             </div>
         </div>
-    </div>
-    <!-- Línea de Copyright -->
-    <div class="border-t border-gray-700 mt-8 py-6">
-        <div class="container mx-auto px-6 text-center text-sm text-gray-500">
-            © <?php echo date("Y"); ?> MediAgenda. Todos los derechos reservados.
-        </div>
-    </div>
-</footer>
+    </footer>
 
     <!-- Área para mostrar notificaciones -->
     <div id="notification-area" class="fixed top-5 right-5 z-[100] space-y-2 w-full max-w-xs sm:max-w-sm"></div>
