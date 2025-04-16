@@ -118,8 +118,8 @@ if ($loggedIn) {
             </div>
 
             <!-- Menú de navegación de ESCRITORIO con submenús -->
-            <nav>
-                <ul id="nav-links" class="hidden lg:flex space-x-8 items-center">
+            <nav style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
+                <ul id="nav-links" class="hidden lg:flex space-x-8 items-center font-medium tracking-wide text-gray-700 dark:text-gray-200 transition-colors duration-200" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
                     <?php /* <li><a href="index.php"
                             class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md">Inicio</a>
                     </li> */ ?>
@@ -178,8 +178,9 @@ if ($loggedIn) {
                     <!-- Botón de agendar cita (oculto para admin) -->
                     <?php if (!$loggedIn || $rolUsuario !== 'admin'): ?>
                         <li><a href="<?php echo $agendarCitaLink; ?>"
-                                class="text-white font-bold bg-blue-700 hover:bg-white hover:text-blue-700 hover:border-blue-700 border-2 px-6 py-2 rounded-md">Agendar
-                                Cita</a></li>
+   class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition duration-200">
+   Agendar Cita
+</a></li>
                     <?php endif; ?>
                 </ul>
             </nav>
@@ -201,7 +202,7 @@ if ($loggedIn) {
 
     <!-- Contenedor del MENÚ MÓVIL -->
     <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-gray-800 shadow-lg py-4">
-        <ul class="flex flex-col items-center gap-4">
+        <ul class="flex flex-col items-center gap-4 font-medium tracking-wide text-gray-700 dark:text-gray-200 transition-colors duration-200" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
             <li><a href="index.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Inicio</a></li>
             <!-- Quitar enlaces directos a paneles específicos, se usa 'Mi Panel' condicional -->
             <!-- <li><a href="perfil-usuario.php" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Panel Pacientes</a></li> -->
