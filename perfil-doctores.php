@@ -96,6 +96,11 @@ include_once __DIR__ . '/includes/session_utils.php';
         }
 
         .logo-pacifico { font-family: 'Pacifico', cursive; }
+        /* Forzar modo oscuro en cards con bg-white solo en esta página */
+        .dark .bg-white {
+            background-color: #1f2937 !important; /* gray-800 */
+            color: #f3f4f6 !important; /* gray-100 */
+        }
     </style>
 </head>
 
@@ -153,7 +158,8 @@ include_once __DIR__ . '/includes/session_utils.php';
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto py-10 px-6">
+    <main class="w-full min-h-screen py-10 px-0 bg-white dark:bg-gray-900">
+        <div class="container mx-auto px-6">
 
         <!-- Sección Perfil del Doctor -->
         <section id="profile" class="mb-12 scroll-mt-20">
@@ -165,20 +171,20 @@ include_once __DIR__ . '/includes/session_utils.php';
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                         <div>
                             <label for="doc-profile-nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre completo</label>
-                            <input type="text" id="doc-profile-nombre" name="nombre" placeholder="Tu nombre" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
+                            <input type="text" id="doc-profile-nombre" name="nombre" placeholder="Tu nombre" required class="border rounded-md p-2 w-full bg-white dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
                             <label for="doc-profile-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo Electrónico</label>
-                            <input type="email" id="doc-profile-email" name="email" placeholder="tu@correo.com" required class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
+                            <input type="email" id="doc-profile-email" name="email" placeholder="tu@correo.com" required class="border rounded-md p-2 w-full bg-white dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
                             <label for="doc-profile-especialidad" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Especialidad</label>
-                            <input type="text" id="doc-profile-especialidad" name="especialidad" placeholder="Ej: Cardiología" class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500">
+                            <input type="text" id="doc-profile-especialidad" name="especialidad" placeholder="Ej: Cardiología" class="border rounded-md p-2 w-full bg-white dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <div>
                             <label for="doc-profile-horario" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Horario (Texto descriptivo)</label>
                             <!-- CORREGIDO: Cambiado a textarea para horario flexible, añadido name -->
-                            <textarea id="doc-profile-horario" name="horario" rows="3" placeholder="Ej: Lunes y Miércoles 9am-1pm, Viernes 2pm-5pm" class="border rounded-md p-2 w-full dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                            <textarea id="doc-profile-horario" name="horario" rows="3" placeholder="Ej: Lunes y Miércoles 9am-1pm, Viernes 2pm-5pm" class="border rounded-md p-2 w-full bg-white dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500"></textarea>
                         </div>
                     </div>
                     <!-- Añadir campos para contraseña si se permite cambiar -->
@@ -260,6 +266,7 @@ include_once __DIR__ . '/includes/session_utils.php';
             </div>
         </section>
 
+        </div>
     </main>
 
     <!-- Footer -->

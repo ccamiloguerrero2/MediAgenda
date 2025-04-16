@@ -3,9 +3,12 @@
 module.exports = {
   darkMode: 'class',
   content: [
+    './*.php',
+    './**/*.php',
+    './*.html',
     './**/*.html',
+    './*.js',
     './**/*.js',
-    './**/*.php', // Asegúrate que esto sigue aquí
     '!./node_modules/**/*',
   ],
   safelist: [ // <<< AÑADIR ESTA SECCIÓN >>>
