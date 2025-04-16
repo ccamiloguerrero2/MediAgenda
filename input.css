@@ -11,3 +11,17 @@
       animation: fadeIn 0.5s ease-out;
     }
   }
+
+/* Compatibilidad para appearance en botones y campos de búsqueda */
+button,
+input[type='button'],
+input[type='reset'],
+input[type='submit'] {
+  -webkit-appearance: button;
+  appearance: button;
+}
+
+[type='search'] {
+  -webkit-appearance: textfield;
+  appearance: textfield;
+}

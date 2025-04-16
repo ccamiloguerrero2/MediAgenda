@@ -1944,6 +1944,23 @@ video {
   }
 }
 
+/* Compatibilidad para appearance en botones y campos de búsqueda */
+
+button,
+input[type='button'],
+input[type='reset'],
+input[type='submit'] {
+  -webkit-appearance: button;
+  -moz-appearance: button;
+       appearance: button;
+}
+
+[type='search'] {
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+       appearance: textfield;
+}
+
 .hover\:scale-105:hover {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
