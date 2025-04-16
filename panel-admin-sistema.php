@@ -42,9 +42,9 @@ $rol_usuario = $_SESSION['rolUsuario'];
                 </a>
                 <h1 class="text-xl font-bold text-blue-600 dark:text-blue-300">Panel de Administración</h1>
             </div>
-            <nav>
+            <nav style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
                 <!-- Navegación entre secciones del panel administrativo -->
-                <ul id="nav-links" class="hidden lg:flex gap-6 items-center">
+                <ul id="nav-links" class="hidden lg:flex gap-6 items-center font-medium tracking-wide text-gray-700 dark:text-gray-200 transition-colors duration-200" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
                     <li><a href="#users" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Usuarios</a></li>
                     <li><a href="#doctors" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Doctores</a></li>
                     <li><a href="#reports" class="text-gray-600 dark:text-gray-300 hover:text-white hover:bg-blue-600 px-4 py-2 rounded-md transition">Reportes</a></li>
@@ -78,7 +78,7 @@ $rol_usuario = $_SESSION['rolUsuario'];
 
     <!-- Contenedor del MENÚ MÓVIL (copiado y adaptado de index.php) -->
     <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-gray-800 shadow-lg py-4">
-        <ul class="flex flex-col items-center gap-4">
+        <ul class="flex flex-col items-center gap-4 font-medium tracking-wide text-gray-700 dark:text-gray-200 transition-colors duration-200" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
             <!-- Enlaces a secciones del panel admin -->
             <li><a href="#users" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Usuarios</a></li>
             <li><a href="#doctors" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2">Doctores</a></li>

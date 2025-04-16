@@ -75,9 +75,9 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
                 </a>
                 <span class="text-xl font-bold text-blue-600 dark:text-blue-300">MediAgenda - Panel de Pacientes</span>
             </div>
-            <nav class="flex items-center gap-4">
+            <nav class="flex items-center gap-4" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
                 <!-- Navegación Panel Paciente -->
-                <ul id="nav-links-desktop" class="hidden lg:flex items-center gap-4 md:gap-6">
+                <ul id="nav-links-desktop" class="hidden lg:flex items-center gap-4 md:gap-6 font-medium tracking-wide text-gray-700 dark:text-gray-200 transition-colors duration-200" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
                     <li><a href="#profile" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Perfil</a></li>
                     <li><a href="#appointments" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Citas</a></li>
                     <li><a href="#schedule" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Agendar</a></li>
@@ -102,7 +102,7 @@ $nombreUsuario = $_SESSION['nombreUsuario'] ?? 'Usuario';
             </nav>
             <!-- Menú Móvil Desplegable (Oculto por defecto y en >= lg) -->
             <div id="mobile-menu" class="lg:hidden hidden absolute top-full left-0 w-full bg-white dark:bg-gray-800 shadow-lg border-t border-gray-200 dark:border-gray-700">
-                <ul class="flex flex-col p-4 gap-3">
+                <ul class="flex flex-col items-center gap-4 font-medium tracking-wide text-gray-700 dark:text-gray-200 transition-colors duration-200" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
                     <li><a href="#profile" class="block py-2 px-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Perfil</a></li>
                     <li><a href="#appointments" class="block py-2 px-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Citas</a></li>
                     <li><a href="#schedule" class="block py-2 px-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Agendar</a></li>

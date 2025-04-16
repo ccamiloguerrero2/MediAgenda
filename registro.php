@@ -91,9 +91,9 @@ if ($loggedIn && isset($_SESSION['rolUsuario'])) {
             </a>
 
             <!-- Navegación Principal / Acciones -->
-            <nav class="flex items-center gap-4">
+            <nav class="flex items-center gap-4" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
                 <!-- Links para Desktop -->
-                <ul id="nav-links-desktop" class="hidden lg:flex items-center gap-4 md:gap-6">
+                <ul id="nav-links-desktop" class="hidden lg:flex items-center gap-4 md:gap-6 font-medium tracking-wide text-gray-700 dark:text-gray-200 transition-colors duration-200" style="font-family: 'Roboto', 'Montserrat', Arial, sans-serif;">
                     <!-- Eliminado enlace a Inicio -->
                     <?php /* <li><a href="index.php" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Inicio</a></li> */ ?>
 
