@@ -1,0 +1,17 @@
+# /public/.htaccess
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # --- Regla Principal para la API (COMENTADA O ELIMINADA) ---
+    # RewriteCond %{REQUEST_FILENAME} !-f
+    # RewriteCond %{REQUEST_FILENAME} !-d
+    # RewriteRule ^api/(.*)$ "C:/xampp/htdocs/MediAgenda/app/Api/$1" [L] # <-- Comentar o eliminar
+
+    # --- Reglas para Archivos/Directorios Existentes en /public/ ---
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # ... (otras reglas) ...
+</IfModule>

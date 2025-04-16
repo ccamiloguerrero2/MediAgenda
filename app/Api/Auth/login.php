@@ -24,13 +24,22 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // --- Encabezado de Respuesta ---
 header('Content-Type: application/json');
-
+// --- DEBUGGING TEMPORAL ---
+$debug_data = [
+    'timestamp' => date('Y-m-d H:i:s'),
+    'request_method' => $_SERVER['REQUEST_METHOD'],
+    'post_data' => $_POST,
+    'get_data' => $_GET,
+    'php_input' => file_get_contents('php://input') // Captura el cuerpo raw
+];
+// Escribir a un archivo de log (asegúrate que Apache tenga permisos de escritura aquí)
+file_put_contents('login_debug_log.txt', print_r($debug_data, true) . "\n---\n", FILE_APPEND);
+// --- FIN DEBUGGING ---
 // --- Definir Ruta Raíz ---
-define('PROJECT_ROOT', dirname(__DIR__, 3));
+define('APP_ROOT', dirname(__DIR__, 2)); // Define la raíz de 'app'
+define('PROJECT_ROOT', dirname(APP_ROOT)); // Define la raíz del proyecto
+require_once APP_ROOT . '/Core/database.php'; // Usa APP_ROOT para includes
 
-// --- Dependencias Core ---
-// No necesitamos auth_middleware aquí, ya que es un punto de entrada público.
-require_once PROJECT_ROOT . '/app/Core/database.php'; // Conexión a la BD ($conexion)
 
 // --- Verificar Método HTTP ---
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

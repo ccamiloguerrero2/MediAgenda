@@ -212,7 +212,6 @@ $nombre_usuario = get_user_name(); // Usa helper
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <!-- Scripts principales de la aplicación (contiene helpers globales) -->
     <!-- Scripts específicos del panel de administración -->
-    <script src="/js/panel-admin.js"></script>
 
 </body>
 </html>
