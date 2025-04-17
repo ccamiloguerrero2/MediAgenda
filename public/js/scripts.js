@@ -593,7 +593,7 @@ function crearElementoCitaPaciente(cita) {
         ${cita.motivo ? `
             <div class="text-sm mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                 <strong class="text-gray-700 dark:text-gray-300 font-medium">Motivo:</strong>
-                <p class="mt-1 text-gray-600 dark:text-gray-400 whitespace-pre-wrap">${cita.motivo}</p> {/* Usar pre-wrap para saltos de línea */}
+                <p class="mt-1 text-gray-600 dark:text-gray-400 whitespace-pre-wrap">${cita.motivo}</p> 
             </div>` : ''}
         <div class="mt-4 flex gap-2 justify-end">
             ${(cita.estado === 'Programada' || cita.estado === 'Confirmada') ? `

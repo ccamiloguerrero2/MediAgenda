@@ -91,25 +91,24 @@ if (!is_authenticated() || get_user_role() !== 'paciente') {
     <?php require_once __DIR__ . '/../app/Views/Layout/header.php'; ?>
 
     <!-- Contenido Principal -->
-    <main class="dark:bg-gray-900 flex-grow w-full"> {/* Fondo oscuro aquí también */}
+    <main class="dark:bg-gray-900 flex-grow w-full"> 
         <div class="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
 
-            {/* <!-- Título del Panel (Opcional, puede estar en el header) --> */}
-            {/* <h1 class="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Panel del Paciente</h1> */}
-
+            <!-- Título del Panel (Opcional, puede estar en el header) --> 
+            <h1 class="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Panel del Paciente</h1> 
             <!-- Grid Layout para las secciones -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8"> {/* Cambiado a 3 columnas */}
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8"> <!-- Cambiado a 3 columnas -->
 
                 <!-- Columna 1: Perfil -->
                 <div class="lg:col-span-1 flex flex-col gap-8">
                     <!-- Sección: Perfil del Paciente -->
-                    <section id="profile" class="scroll-mt-20 bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden h-full"> {/* h-full para intentar igualar altura */}
+                    <section id="profile" class="scroll-mt-20 bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden h-full"> <!-- h-full para intentar igualar altura -->
                          <header class="bg-gray-50 dark:bg-gray-700 p-4 sm:p-5 border-b dark:border-gray-600 flex items-center gap-3">
                             <i class="bi bi-person-circle text-xl text-blue-600 dark:text-blue-400"></i>
                             <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Tu Perfil</h2>
                         </header>
                         <div class="p-4 sm:p-6">
-                            {/* Formulario manejado por scripts.js -> actualizar_perfil.php */}
+                            <!-- Formulario manejado por scripts.js -> actualizar_perfil.php -->
                             <form id="update-profile-form" novalidate>
                                 <div class="space-y-4 mb-6">
                                     <div>
@@ -136,13 +135,13 @@ if (!is_authenticated() || get_user_role() !== 'paciente') {
                                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500 dark:focus:border-blue-500 text-sm">
                                         <p class="text-xs text-red-600 mt-1 error-message" id="profile-direccion-error"></p>
                                     </div>
-                                    {/* Futuro: Opción para cambiar contraseña */}
+                                    <!-- Futuro: Opción para cambiar contraseña -->
                                 </div>
                                 <div class="text-right border-t dark:border-gray-600 pt-4">
                                     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-md transition duration-200 text-sm flex items-center justify-center gap-1 ml-auto">
                                         <i class="bi bi-save"></i>
                                         <span class="button-text">Actualizar Datos</span>
-                                        {/* Spinner (opcional) */}
+                                        <!-- Spinner (opcional) -->
                                     </button>
                                 </div>
                             </form>
@@ -166,7 +165,7 @@ if (!is_authenticated() || get_user_role() !== 'paciente') {
                             </button>
                         </header>
                         <div class="p-4 sm:p-6">
-                            {/* Lista poblada por JS -> cargarCitasUsuario */}
+                            <!-- Lista poblada por JS -> cargarCitasUsuario -->
                             <ul id="appointments-list" class="space-y-5">
                                 <li class="placeholder">Cargando citas...</li>
                             </ul>
@@ -180,16 +179,15 @@ if (!is_authenticated() || get_user_role() !== 'paciente') {
                             <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Historial Médico</h2>
                         </header>
                         <div class="p-4 sm:p-6">
-                            {/* Lista poblada por JS -> cargarHistorialUsuario */}
+                            <!-- Lista poblada por JS -> cargarHistorialUsuario -->
                             <ul id="history-list" class="space-y-4">
                                 <li class="placeholder">Cargando historial...</li>
-                                {/* Ejemplo de item (generado por JS):
+                                <!-- Ejemplo de item (generado por JS): -->
                                 <li class="mb-3 pb-3 border-b border-gray-200 dark:border-gray-700 text-sm">
                                     <div><strong>Fecha:</strong> 15 de mayo de 2024</div>
                                     <div><strong>Médico:</strong> Dr. Juan Pérez</div>
                                     <div><strong>Diagnóstico/Notas:</strong><p class="mt-1 whitespace-pre-wrap">Presión arterial ligeramente elevada. Se recomienda monitorizar.</p></div>
                                 </li>
-                                */}
                             </ul>
                             <div class="mt-4 pt-4 border-t dark:border-gray-600 text-center">
                                 <p class="text-xs text-gray-500 dark:text-gray-400 italic">
@@ -206,11 +204,11 @@ if (!is_authenticated() || get_user_role() !== 'paciente') {
     </main>
 
     <!-- --- Modal: Agendar Nueva Cita --- -->
-    {/* Incluir el mismo HTML de modal que en registro.php (o mover a un include si se usa en más sitios) */}
+    <!-- Incluir el mismo HTML de modal que en registro.php (o mover a un include si se usa en más sitios) -->
     <div id="schedule-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-gray-900 bg-opacity-75 backdrop-blur-sm p-4 transition-opacity duration-300">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl transform transition-all scale-95 opacity-0"
              id="schedule-modal-content">
-            {/* Encabezado del Modal */}
+            <!-- Encabezado del Modal -->
             <div class="flex justify-between items-center p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     Agendar Nueva Cita Médica
@@ -220,7 +218,7 @@ if (!is_authenticated() || get_user_role() !== 'paciente') {
                     <span class="sr-only">Cerrar modal</span>
                 </button>
             </div>
-            {/* Cuerpo del Modal (Formulario) */}
+            <!-- Cuerpo del Modal (Formulario) -->
             <form id="schedule-appointment-form" class="p-4 md:p-5" novalidate>
                 <div class="grid gap-4 mb-4 grid-cols-1 sm:grid-cols-2">
                     <div>
@@ -252,7 +250,7 @@ if (!is_authenticated() || get_user_role() !== 'paciente') {
                     <button type="submit" class="text-white inline-flex items-center bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800">
                         <i class="bi bi-calendar-plus mr-1"></i>
                         <span class="button-text">Confirmar Cita</span>
-                        {/* <!-- Spinner (opcional) --> */}
+                        <!-- Spinner (opcional) -->
                     </button>
                  </div>
             </form>
