@@ -23,7 +23,6 @@ header('Content-Type: application/json');
 define('PROJECT_ROOT', dirname(__DIR__, 3));
 
 // --- Dependencias Core ---
-// No se requiere sesión para registrarse.
 require_once PROJECT_ROOT . '/app/Core/database.php'; // Conexión a la BD ($conexion)
 
 // --- Verificar Método HTTP ---
@@ -52,7 +51,8 @@ if (empty($email)) {
 if (empty($telefono)) {
     // Considerar si el teléfono es realmente obligatorio en el registro inicial.
     $errors[] = "El teléfono es obligatorio.";
-    // Podrías añadir validación de formato de teléfono aquí si es necesario.
+} elseif (!preg_match('/^\+?[0-9]{7,15}$/', $telefono)) {
+    $errors[] = "Formato de teléfono inválido. Debe contener entre 7 y 15 dígitos.";
 }
 if (empty($password)) {
     $errors[] = "La contraseña es obligatoria.";

@@ -23,7 +23,6 @@ header('Content-Type: application/json');
 define('PROJECT_ROOT', dirname(__DIR__, 3));
 
 // --- Dependencias Core ---
-// No se requiere sesión para registrarse.
 require_once PROJECT_ROOT . '/app/Core/database.php'; // Conexión a la BD ($conexion)
 
 // --- Verificar Método HTTP ---
@@ -84,7 +83,6 @@ try {
         mysqli_stmt_close($stmt_check);
         http_response_code(409); // Conflict
         echo json_encode(['success' => false, 'message' => 'El correo electrónico ya está registrado.']);
-        // No hace falta rollback aquí.
         if (isset($conexion) && $conexion) mysqli_close($conexion);
         exit;
     }

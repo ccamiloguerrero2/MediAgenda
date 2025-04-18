@@ -271,7 +271,7 @@ require_once __DIR__ . '/../app/Core/session_utils.php'; // Carga sesión y defi
     </section>
 
     <!-- --- Sección: Testimonios (Contenido Estático) --- -->
-    <section id="testimonials" class="bg-gray-100 py-16 md:py-20 dark:bg-gray-800">
+    <section id="testimonials" class="bg-white py-16 md:py-20 dark:bg-gray-800">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-semibold mb-4 text-center dark:text-white">Testimonios de Usuarios</h2>
             <p class="text-gray-600 mb-12 text-center dark:text-gray-300 max-w-3xl mx-auto">Escucha lo que nuestros pacientes y doctores opinan sobre MediAgenda.</p>

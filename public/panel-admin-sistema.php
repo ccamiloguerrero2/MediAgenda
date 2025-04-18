@@ -67,7 +67,7 @@ $nombre_usuario = get_user_name(); // Usa helper
     </style>
 </head>
 
-<body class="font-sans antialiased transition-colors duration-300 dark:bg-gray-900 dark:text-white bg-gray-100 flex flex-col min-h-screen">
+<body class="font-sans antialiased transition-colors duration-300 dark:bg-gray-900 dark:text-white bg-white flex flex-col min-h-screen">
 
     <!-- Incluir Cabecera (Usa la versión estándar que carga el menú dinámico) -->
     <?php require_once __DIR__ . '/../app/Views/Layout/header.php'; ?>

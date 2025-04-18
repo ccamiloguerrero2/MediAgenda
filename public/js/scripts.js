@@ -5,7 +5,6 @@
 // Maneja la lógica común de UI, llamadas AJAX, manejo de formularios
 // y funcionalidades específicas de los paneles de Paciente y Médico.
 
-// --- Modo Estricto ---
 "use strict";
 
 // ========================================================================
@@ -14,11 +13,9 @@
 
 /**
  * URL base para los endpoints de la API del backend.
- * Asume que el servidor está configurado para mapear /api/ a app/Api/
- * o que existe un router en /api/ que dirige las solicitudes.
  * @type {string}
  */
-const backendUrl = '/api/'; // ¡Actualizado para la nueva estructura!
+const backendUrl = '/api/';
 
 /**
  * Muestra una notificación modal usando SweetAlert2.
@@ -46,10 +43,10 @@ function showNotification(message, type = 'info', title = null) {
         text: message,
         confirmButtonText: 'Aceptar',
         customClass: { // Clases opcionales para compatibilidad con Tailwind dark mode
-            // popup: 'dark:bg-gray-800 dark:text-white',
-            // title: 'dark:text-white',
-            // htmlContainer: 'dark:text-gray-300',
-            // confirmButton: '...', // Aplicar clases Tailwind si se personaliza
+            popup: 'bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200',
+            title: 'text-lg font-semibold',
+            content: 'text-sm',
+            confirmButton: 'bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400',
         },
     });
     console.log(`[Notification] Type: ${type}, Title: ${titleText}, Message: ${message}`);
@@ -139,7 +136,7 @@ function populateForm(form, data) {
                     field.value = data[key] ?? ''; // Usar ?? para manejar null/undefined
                 }
             } else {
-                // console.warn(`[PopulateForm] Campo no encontrado en el formulario ${form.id} para la clave: ${key}`);
+                console.warn(`[PopulateForm] Campo no encontrado en el formulario ${form.id} para la clave: ${key}`);
             }
         }
     }
@@ -247,7 +244,7 @@ function getEstadoBordeClasses(estado) {
 }
 
 // ========================================================================
-// == 2. MANEJO DE FORMULARIOS GENÉRICO =================================
+// == 2. MANEJO DE FORMULARIOS ============================================
 // ========================================================================
 
 /**
@@ -344,7 +341,6 @@ function handleFormSubmit(formSelector, phpScriptEndpoint, successCallback) {
         } catch (error) {
             console.error(`[Submit] Error capturado en el manejador de ${formSelector}:`, error);
             // La notificación de error ya debería haberse mostrado por fetchData
-            // pero podrías añadir lógica específica aquí si es necesario.
         } finally {
             setLoadingState(form, false); // Restaurar estado del botón
             // Restaurar el texto original explícitamente si se usa .button-text
@@ -388,7 +384,6 @@ function initializeCommonUI() {
             console.log(`[UI] Modo oscuro ${isDark ? 'activado' : 'desactivado'}.`);
         };
 
-        // Aplicar tema al cargar la página basado en cookie o preferencia del sistema
         // La clase 'dark' ya se aplica en el body server-side leyendo la cookie,
         // aquí solo sincronizamos el icono.
         const currentThemeIsDark = body.classList.contains('dark');
@@ -446,11 +441,11 @@ function initializeCommonUI() {
         });
 
         // Cerrar menú si se hace clic fuera de él (opcional)
-        // document.addEventListener('click', (e) => {
-        //     if (!mobileMenu.classList.contains('hidden') && !mobileMenu.contains(e.target) && e.target !== hamburgerBtn && !hamburgerBtn.contains(e.target)) {
-        //         closeMobileMenu();
-        //     }
-        // });
+        document.addEventListener('click', (e) => {
+             if (!mobileMenu.classList.contains('hidden') && !mobileMenu.contains(e.target) && e.target !== hamburgerBtn && !hamburgerBtn.contains(e.target)) {
+                 closeMobileMenu();
+             }
+         });
 
     } else { console.warn('[UI] Botón hamburguesa o menú móvil no encontrados.'); }
 
@@ -480,7 +475,6 @@ function initializeCommonUI() {
 
     // --- Efecto Parallax (Simple con background-attachment) ---
     // No requiere JS si se usa `background-attachment: fixed;` en el CSS
-    // Si se necesita parallax más complejo, el código JS iría aquí.
     console.log('[UI] Parallax manejado por CSS (background-attachment: fixed).');
 
     // --- Efecto Fade-in al Scroll (Intersection Observer) ---
@@ -551,11 +545,9 @@ async function cargarDatosPerfilUsuario() {
             populateForm(form, data.perfil); // Rellena el form
         } else {
             // Error o sesión inválida (ya notificado por fetchData o backend)
-            // Opcional: deshabilitar formulario o mostrar mensaje aquí
         }
     } catch (error) {
         // Error de comunicación (ya notificado por fetchData)
-        // Opcional: deshabilitar formulario o mostrar mensaje
     } finally {
         setLoadingState(form, false); // Restaurar botón (usa texto original guardado)
     }
@@ -1295,7 +1287,6 @@ document.addEventListener('DOMContentLoaded', function () {
             form.reset();
              // Cerrar la modal (si la lógica de cierre está aquí y no localmente)
              // closeForgotModal(); // O closeForgotModalAnimate();
-             // Nota: Si la lógica de cierre animado está en registro.php, no se necesita nada aquí.
         });
 
     }
