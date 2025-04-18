@@ -18,29 +18,12 @@
 // --- Modo Estricto ---
 declare(strict_types=1);
 
-// --- Inicio Seguro de Sesión ---
-// Configurar parámetros de cookie ANTES de session_start() para mayor seguridad (opcional pero recomendado)
-/* // Descomentar y ajustar en producción si se usa HTTPS
-session_set_cookie_params([
-    'lifetime' => 0, // Expira al cerrar navegador
-    'path' => '/',
-    'domain' => '', // Ajustar a tu dominio si es necesario
-    'secure' => isset($_SERVER['HTTPS']), // Solo enviar sobre HTTPS
-    'httponly' => true, // Prevenir acceso vía JavaScript (mitiga XSS)
-    'samesite' => 'Lax' // Mitiga CSRF (Strict o Lax son buenas opciones)
-]);
-*/
-
 // Iniciar (o reanudar) la sesión
 if (session_status() === PHP_SESSION_NONE) {
     if (!session_start()) {
         // Fallo crítico al iniciar sesión
         error_log("Error Crítico: session_start() falló en session_utils.php");
         // Evitar mostrar error directo, podría fallar en API endpoints que esperan JSON
-        // Considerar una página de error genérica o detener ejecución silenciosamente aquí
-        // en un escenario real. Para depuración, podrías dejar un die().
-        // die("Error fatal al iniciar la sesión.");
-        // Por ahora, simplemente detenemos para evitar errores posteriores
         exit;
     }
 }
@@ -55,7 +38,6 @@ $loggedIn = isset($_SESSION['idUsuario']) && !empty($_SESSION['idUsuario']);
 
 /**
  * Nombre del usuario autenticado (o string vacío si no está logueado).
- * Sanitizado para prevenir XSS simple al mostrarlo directamente.
  * @var string $nombreUsuario
  */
 $nombreUsuario = $loggedIn ? htmlspecialchars($_SESSION['nombreUsuario'] ?? 'Usuario', ENT_QUOTES, 'UTF-8') : '';
@@ -163,4 +145,4 @@ function get_user_role(): string
     return isset($_SESSION['rolUsuario']) ? strtolower($_SESSION['rolUsuario']) : '';
 }
 
-// No añadir ?>
+?>
