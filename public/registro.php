@@ -232,8 +232,6 @@ $mostrarFormularios = !$loggedIn; // $loggedIn viene de session_utils.php
     <!-- SweetAlert2 JS (antes de scripts.js) -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <!-- Scripts principales de la aplicación (apuntando a la nueva ubicación) -->
-    <!-- Nota: panel-admin.js no se necesita en esta página -->
-
     <!-- Script específico para animar la modal (opcional pero mejora UX) -->
     <script>
         const forgotModal = document.getElementById('forgot-password-modal');
@@ -280,12 +278,6 @@ $mostrarFormularios = !$loggedIn; // $loggedIn viene de session_utils.php
                 }
             });
         }
-
-        // Asegúrate de que la función global en scripts.js también llame a estas funciones animadas si existe
-        // (Necesitarías ajustar scripts.js para llamar a openForgotModalAnimate/closeForgotModalAnimate
-        // en lugar de modificar directamente las clases 'hidden'/'flex' si quieres la animación)
-        // O, simplemente, elimina las funciones openForgotModal/closeForgotModal de scripts.js
-        // y usa solo esta lógica local aquí.
     </script>
 
 </body>

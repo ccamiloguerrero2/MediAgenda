@@ -10,7 +10,8 @@
  * ejecución del script que lo incluyó, envía una respuesta JSON de error
  * con el código HTTP apropiado (401 o 403), y termina.
  *
- * Si la verificación es exitosa, el script que lo incluyó continúa su ejecución normal.
+ * Si la verificación es exitosa, el script que lo incluyó continúa su ejecución
+ * normal.
  *
  * Depende de que `session_start()` ya haya sido llamado y que las variables
  * de sesión `$_SESSION['idUsuario']` y `$_SESSION['rolUsuario']` estén definidas
