@@ -82,7 +82,9 @@ require_once __DIR__ . '/../app/Core/session_utils.php'; // Carga sesión y defi
         /* Estilo específico para el texto dentro del parallax en modo claro */
         .parallax-section .parallax-content { color: #1f2937; /* gray-800 */ }
         /* Estilo específico para el texto dentro del parallax en modo oscuro */
-        .dark .parallax-section .parallax-content { color: #f9fafb; /* gray-50 */ }
+        .dark .parallax-section .parallax-content {
+             color: #1f2937; /* gray-800 - CAMBIADO a color oscuro para contraste */
+        }
 
 
         /* --- Animación Icono Hamburguesa --- */
@@ -298,10 +300,6 @@ require_once __DIR__ . '/../app/Core/session_utils.php'; // Carga sesión y defi
 
     <!-- Incluir Pie de Página -->
     <?php require_once __DIR__ . '/../app/Views/Layout/footer.php'; ?>
-
-    <!-- --- JavaScript --- -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-    <!-- No se necesita panel-admin.js aquí -->
 
 </body>
 </html>
