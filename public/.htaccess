@@ -3,15 +3,14 @@
     RewriteEngine On
     RewriteBase /
 
-    # --- Regla Principal para la API (COMENTADA O ELIMINADA) ---
-    # RewriteCond %{REQUEST_FILENAME} !-f
-    # RewriteCond %{REQUEST_FILENAME} !-d
-    # RewriteRule ^api/(.*)$ "C:/xampp/htdocs/MediAgenda/app/Api/$1" [L] # <-- Comentar o eliminar
-
-    # --- Reglas para Archivos/Directorios Existentes en /public/ ---
+    # Sirve archivos o directorios si existen físicamente
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # ... (otras reglas) ...
+    # (Opcional) Si quieres que URLs como /registro (sin .php) funcionen,
+    # podrías añadir una regla para enrutar todo lo demás a index.php
+    # RewriteRule ^ index.php [L]
+    # Pero para la API, esto no es necesario gracias al Alias.
+
 </IfModule>
